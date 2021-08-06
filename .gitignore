@@ -1,0 +1,7 @@
+node_modules
+dist
+ormconfig.json
+src/config/auth.ts
+tmp/*
+tmp/.gitkeep
+.env
