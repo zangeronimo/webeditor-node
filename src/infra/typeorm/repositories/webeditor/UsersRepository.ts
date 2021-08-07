@@ -9,11 +9,11 @@ class UsersRepository implements IUsersRepository {
     this.ormRepository = getRepository(User);
   }
 
-  public async findAll(company_id: string): Promise<User[]> {
+  public async findAll(companyId: string): Promise<User[]> {
     const findUsers = await this.ormRepository.find({
       where: {
-        webeditor_companies_id: company_id,
-        deleted_at: null
+        companyId,
+        deletedAt: null
       },
       relations: ['company']
     });
@@ -24,6 +24,7 @@ class UsersRepository implements IUsersRepository {
     const findUser = await this.ormRepository.findOne({
       where: {
         id,
+        deletedAt: null,
       },
     });
     return findUser;
@@ -33,6 +34,7 @@ class UsersRepository implements IUsersRepository {
     const findUser = await this.ormRepository.findOne({
       where: {
         email,
+        deletedAt: null,
       },
     });
     return findUser;
