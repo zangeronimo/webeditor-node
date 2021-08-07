@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
-import authConfig from '@infra/config/auth';
+import authConfig from '@api/config/auth';
 import AppError from '@infra/errors/AppError';
 
 interface ITokenPayload {
@@ -26,10 +26,7 @@ export default function ensureAuthenticated(
 
   try {
     const decoded = verify(token, authConfig.jwt.secret);
-    console.log(authConfig.jwt.secret);
-
     const { sub, company } = decoded as ITokenPayload;
-
     request.user = { id: sub, company };
 
     return next();

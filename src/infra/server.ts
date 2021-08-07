@@ -5,7 +5,7 @@ import { errors } from 'celebrate';
 import 'express-async-errors';
 
 import AppError from './errors/AppError';
-import routes from './routes';
+import routes from '@api/routes';
 
 import './typeorm';
 import './container';
