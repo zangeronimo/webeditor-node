@@ -8,7 +8,7 @@
     "password": "virtual",
     "database": "webeditor_node",
     "entities": [
-      "./src/domain/models/**/*.ts"
+      "./src/infra/typeorm/entities/**/*.ts"
     ],
     "migrations": [
       "./src/infra/typeorm/migrations/*.ts"
