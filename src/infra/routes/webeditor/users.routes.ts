@@ -1,6 +1,7 @@
-import ensureAuthenticated from '@infra/middlewares/ensureAuthenticated';
 import { Router } from 'express';
-import UsersController from '../../api/controllers/webeditor/UsersController';
+
+import ensureAuthenticated from '@infra/middlewares/ensureAuthenticated';
+import UsersController from '@api/controllers/webeditor/UsersController';
 
 
 const usersController = new UsersController();

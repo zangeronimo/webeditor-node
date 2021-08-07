@@ -26,11 +26,11 @@ export default function ensureAuthenticated(
   const [, token] = authHeader.split(' ');
 
   try {
-    const decoded = verify(token, authConfig.jwt.secret ?? '');
+    const decoded = verify(token, authConfig.jwt.secret);
 
     const { sub, company } = decoded as ITokenPayload;
 
-    request.user = { id: sub, company: 'bb836305-c785-4f72-b49a-690c2ec6f7c3' };
+    request.user = { id: sub, company };
 
     return next();
   } catch {
