@@ -16,7 +16,6 @@ export default function ensureAuthenticated(
   next: NextFunction,
 ): void {
   // token JWT Validation
-
   const authHeader = request.headers.authorization;
 
   if (!authHeader) {
@@ -27,6 +26,7 @@ export default function ensureAuthenticated(
 
   try {
     const decoded = verify(token, authConfig.jwt.secret);
+    console.log(authConfig.jwt.secret);
 
     const { sub, company } = decoded as ITokenPayload;
 
