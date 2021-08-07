@@ -1,6 +1,16 @@
-import { Exclude } from "class-transformer";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import Company from "./Company";
+import { Exclude } from 'class-transformer';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import Company from './Company';
 
 @Entity('webeditor_users')
 class User {
@@ -17,23 +27,23 @@ class User {
   @Exclude()
   password: string;
 
-  @Column()
+  @Column({ name: 'webeditor_companies_id' })
   @Exclude()
-  webeditor_companies_id: string;
+  companyId: string;
 
   @ManyToOne(() => Company)
   @JoinColumn({ name: 'webeditor_companies_id' })
   company: Company;
 
-  @CreateDateColumn()
-  created_at: Date;
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
 
-  @UpdateDateColumn()
-  updated_at: Date;
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({ name: 'deleted_at' })
   @Exclude()
-  deleted_at: Date;
+  deletedAt: Date;
 }
 
 export default User;

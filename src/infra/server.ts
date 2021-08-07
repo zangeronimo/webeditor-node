@@ -4,12 +4,11 @@ import cors from 'cors';
 import { errors } from 'celebrate';
 import 'express-async-errors';
 
-import AppError from './errors/AppError';
 import routes from '@api/routes';
+import AppError from './errors/AppError';
 
 import './typeorm';
 import './container';
-
 
 const app = express();
 
@@ -37,5 +36,6 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
 
 const defaultPort = 3333;
 app.listen(defaultPort, () => {
+  // eslint-disable-next-line no-console
   console.log(`Server running on http://localhost:${defaultPort}`);
-})
+});
