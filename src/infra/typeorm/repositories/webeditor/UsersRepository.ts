@@ -15,7 +15,7 @@ class UsersRepository implements IUsersRepository {
         companyId,
         deletedAt: null
       },
-      relations: ['company']
+      relations: ['company', 'roles'],
     });
     return findUsers;
   }

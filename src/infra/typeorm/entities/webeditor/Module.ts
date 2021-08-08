@@ -8,8 +8,8 @@ import {
   DeleteDateColumn,
 } from 'typeorm';
 
-@Entity('webeditor_companies')
-class Company {
+@Entity('webeditor_modules')
+class Module {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -29,4 +29,4 @@ class Company {
   deletedAt: Date;
 }
 
-export default Company;
+export default Module;

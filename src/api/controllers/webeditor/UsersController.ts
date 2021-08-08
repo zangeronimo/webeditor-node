@@ -13,4 +13,16 @@ export default class UsersController {
 
     return response.json(classToClass(users));
   }
+
+  public async create(request: Request, response: Response): Promise<Response> {
+    return response.json({ msg: 'create' });
+  }
+
+  public async update(request: Request, response: Response): Promise<Response> {
+    return response.json({ msg: 'create' });
+  }
+
+  public async delete(request: Request, response: Response): Promise<Response> {
+    return response.json({ msg: 'create' });
+  }
 }

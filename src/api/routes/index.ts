@@ -4,6 +4,6 @@ import usersRouter from './webeditor/users.routes';
 
 const routes = Router();
 routes.use('/users', usersRouter);
-routes.use('/sessions', sessionsRouter);
+routes.use('/session', sessionsRouter);
 
 export default routes;

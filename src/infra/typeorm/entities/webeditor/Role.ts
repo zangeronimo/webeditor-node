@@ -11,11 +11,11 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import Company from './Company';
-import Role from './Role';
+import Module from './Module';
+import User from './User';
 
-@Entity('webeditor_users')
-class User {
+@Entity('webeditor_roles')
+class Role {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -23,23 +23,19 @@ class User {
   name: string;
 
   @Column()
-  email: string;
+  label: string;
 
-  @Column()
+  @Column({ name: 'webeditor_modules_id' })
   @Exclude()
-  password: string;
+  moduleId: string;
 
-  @Column({ name: 'webeditor_companies_id' })
-  @Exclude()
-  companyId: string;
+  @ManyToOne(() => Module)
+  @JoinColumn({ name: 'webeditor_modules_id' })
+  module: Module;
 
-  @ManyToOne(() => Company)
-  @JoinColumn({ name: 'webeditor_companies_id' })
-  company: Company;
-
-  @ManyToMany(() => Role, (role: Role) => role.users)
+  @ManyToMany(() => User, (user: User) => user.roles)
   @JoinTable({ name: 'webeditor_users_has_webeditor_roles', joinColumn: { name: 'webeditor_users_id' }, inverseJoinColumn: { name: 'webeditor_roles_id' } })
-  roles: Role[];
+  users: User[];
 
   @CreateDateColumn({ name: 'created_at' })
   @Exclude()
@@ -54,4 +50,4 @@ class User {
   deletedAt: Date;
 }
 
-export default User;
+export default Role;
