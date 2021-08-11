@@ -1,8 +1,10 @@
 import CreateUserService from "@domain/services/webeditor/CreateUserService";
 import ShowUsersService from "@domain/services/webeditor/ShowUserService";
+import UpdateUserService from "@domain/services/webeditor/UpdateUserService";
 import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
+import { UpdateValuesMissingError } from "typeorm";
 
 export default class UsersController {
   public async getAll(request: Request, response: Response): Promise<Response> {
@@ -27,7 +29,14 @@ export default class UsersController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    return response.json({ msg: 'create' });
+    const { company } = request.user;
+    const { id, name, email, password, old_password, roles } = request.body;
+
+    const updateUser = container.resolve(UpdateUserService);
+
+    const user = await updateUser.execute({ id, name, email, password, old_password, company, roles });
+
+    return response.json(classToClass(user));
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
