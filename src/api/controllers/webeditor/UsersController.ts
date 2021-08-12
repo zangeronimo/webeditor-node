@@ -1,4 +1,5 @@
 import CreateUserService from "@domain/services/webeditor/CreateUserService";
+import DeleteUserService from "@domain/services/webeditor/DeleteUserService";
 import ShowUsersService from "@domain/services/webeditor/ShowUserService";
 import UpdateUserService from "@domain/services/webeditor/UpdateUserService";
 import { classToClass } from "class-transformer";
@@ -40,6 +41,13 @@ export default class UsersController {
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
-    return response.json({ msg: 'create' });
+    const { company } = request.user;
+    const { id } = request.params;
+
+    const deleteUser = container.resolve(DeleteUserService);
+
+    const user = await deleteUser.execute({ id, company });
+
+    return response.json(classToClass(user));
   }
 }
