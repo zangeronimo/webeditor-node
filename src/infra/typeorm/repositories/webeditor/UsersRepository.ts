@@ -21,12 +21,14 @@ class UsersRepository implements IUsersRepository {
     return findUsers;
   }
 
-  public async findById(id: string): Promise<User | undefined> {
+  public async findById(id: string, companyId: string): Promise<User | undefined> {
     const findUser = await this.ormRepository.findOne({
       where: {
         id,
+        companyId,
         deletedAt: null,
       },
+      relations: ['roles'],
     });
     return findUser;
   }
@@ -37,6 +39,7 @@ class UsersRepository implements IUsersRepository {
         email,
         deletedAt: null,
       },
+      relations: ['roles'],
     });
     return findUser;
   }

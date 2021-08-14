@@ -2,10 +2,10 @@ import CreateUserService from "@domain/services/webeditor/CreateUserService";
 import DeleteUserService from "@domain/services/webeditor/DeleteUserService";
 import ShowUsersService from "@domain/services/webeditor/ShowUserService";
 import UpdateUserService from "@domain/services/webeditor/UpdateUserService";
+import AppError from "@infra/errors/AppError";
 import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
-import { UpdateValuesMissingError } from "typeorm";
 
 export default class UsersController {
   public async getAll(request: Request, response: Response): Promise<Response> {
@@ -41,8 +41,12 @@ export default class UsersController {
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
-    const { company } = request.user;
+    const { id: userId, company } = request.user;
     const { id } = request.params;
+
+    if (id === userId) {
+      throw new AppError("You don't have permission to delete yourself");
+    }
 
     const deleteUser = container.resolve(DeleteUserService);
 

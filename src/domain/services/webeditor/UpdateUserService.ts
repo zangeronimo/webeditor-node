@@ -26,7 +26,7 @@ class UpdateUserService {
   ) { }
 
   public async execute(model: IRequest): Promise<User> {
-    const user = await this.usersRepository.findById(model.id);
+    const user = await this.usersRepository.findById(model.id, model.company);
 
     if (!user || user.companyId !== model.company) {
       throw new AppError('User not found');
