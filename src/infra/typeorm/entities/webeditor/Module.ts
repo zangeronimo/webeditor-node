@@ -6,7 +6,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
+import Company from './Company';
 
 @Entity('webeditor_modules')
 class Module {
@@ -15,6 +18,10 @@ class Module {
 
   @Column()
   name: string;
+
+  @ManyToMany(() => Company, (company: Company) => company.modules)
+  @JoinTable({ name: 'webeditor_companies_has_webeditor_modules', joinColumn: { name: 'webeditor_companies_id' }, inverseJoinColumn: { name: 'webeditor_modules_id' } })
+  companies: Company[];
 
   @CreateDateColumn({ name: 'created_at' })
   @Exclude()

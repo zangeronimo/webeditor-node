@@ -1,6 +1,5 @@
 import IUsersRepository from '@domain/interfaces/webeditor/IUsersRepository';
 import AppError from '@infra/errors/AppError';
-import User from '@infra/typeorm/entities/webeditor/User';
 import { inject, injectable } from 'tsyringe';
 
 import authConfig from '@api/config/auth';

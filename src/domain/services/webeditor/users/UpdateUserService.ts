@@ -41,9 +41,7 @@ class UpdateUserService {
     user.name = model.name;
     user.email = model.email;
 
-    if (model.roles) {
-      user.roles = model.roles;
-    }
+    user.roles = model.roles ?? [];
 
     if (model.password && !model.old_password) {
       throw new AppError('You need to inform the old password to set a new password');

@@ -1,5 +1,4 @@
 import IUsersRepository from '@domain/interfaces/webeditor/IUsersRepository';
-import User from '@infra/typeorm/entities/webeditor/User';
 import { inject, injectable } from 'tsyringe';
 
 interface IRequest {

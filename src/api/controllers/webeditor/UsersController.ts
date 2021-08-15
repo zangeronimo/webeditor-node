@@ -1,7 +1,7 @@
-import CreateUserService from "@domain/services/webeditor/CreateUserService";
-import DeleteUserService from "@domain/services/webeditor/DeleteUserService";
-import ShowUsersService from "@domain/services/webeditor/ShowUserService";
-import UpdateUserService from "@domain/services/webeditor/UpdateUserService";
+import CreateUserService from "@domain/services/webeditor/users/CreateUserService";
+import DeleteUserService from "@domain/services/webeditor/users/DeleteUserService";
+import ShowUsersService from "@domain/services/webeditor/users/ShowUserService";
+import UpdateUserService from "@domain/services/webeditor/users/UpdateUserService";
 import AppError from "@infra/errors/AppError";
 import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
