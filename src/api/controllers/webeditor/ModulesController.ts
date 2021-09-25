@@ -1,12 +1,7 @@
-import CreateCompanyService from "@domain/services/webeditor/companies/CreateCompanyService";
-import DeleteCompanyService from "@domain/services/webeditor/companies/DeleteCompanyService";
-import ShowCompanyService from "@domain/services/webeditor/companies/ShowCompanyService";
-import UpdateCompanyService from "@domain/services/webeditor/companies/UpdateCompanyService";
 import CreateModuleService from "@domain/services/webeditor/modules/CreateModuleService";
 import DeleteModuleService from "@domain/services/webeditor/modules/DeleteModuleService";
 import ShowModuleService from "@domain/services/webeditor/modules/ShowModuleService";
 import UpdateModuleService from "@domain/services/webeditor/modules/UpdateModuleService";
-import AppError from "@infra/errors/AppError";
 import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
