@@ -1,8 +1,5 @@
-import ICreateCompanyDTO from "@domain/dtos/webeditor/ICreateCompanyDTO";
 import ICreateRoleDTO from "@domain/dtos/webeditor/ICreateRoleDTO";
-import ICompaniesRepository from "@domain/interfaces/webeditor/ICompaniesRepository";
 import IRolesRepository from "@domain/interfaces/webeditor/IRolesRepository";
-import Company from "@infra/typeorm/entities/webeditor/Company";
 import Role from "@infra/typeorm/entities/webeditor/Role";
 import { getRepository, Repository } from "typeorm";
 

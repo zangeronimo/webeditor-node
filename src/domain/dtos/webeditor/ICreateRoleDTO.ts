@@ -1,5 +1,5 @@
 export default interface ICreateRoleDTO {
   name: string;
   label: string;
-  moduleId: string;
+  module: { id: string };
 }

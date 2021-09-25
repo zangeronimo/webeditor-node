@@ -1,4 +1,3 @@
-import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
 
@@ -9,12 +8,8 @@ export default class SessionsController {
     const { email, password } = request.body;
     const authenticateUser = container.resolve(AuthenticateUserService);
 
-    const { user, token } = await authenticateUser.execute({ email, password });
+    const { token } = await authenticateUser.execute({ email, password });
 
-    return response.json({ user: classToClass(user), token });
+    return response.json({ token });
   }
-}
-
-function AuthenticateUserServer(AuthenticateUserServer: any) {
-  throw new Error("Function not implemented.");
 }

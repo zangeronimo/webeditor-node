@@ -6,7 +6,7 @@ import { inject, injectable } from "tsyringe";
 interface IRequest {
   name: string;
   label: string;
-  moduleId: string;
+  module: { id: string };
 }
 
 @injectable()
@@ -16,7 +16,7 @@ class CreateRoleService {
     private roleRepository: IRolesRepository,
   ) { }
 
-  public async execute({ name, label, moduleId }: IRequest): Promise<Role> {
+  public async execute({ name, label, module }: IRequest): Promise<Role> {
     const checkRoleExists = await this.roleRepository.findByName(name);
 
     if (checkRoleExists) {
@@ -26,7 +26,7 @@ class CreateRoleService {
     const role = await this.roleRepository.create({
       name,
       label,
-      moduleId,
+      module,
     });
 
     return role;

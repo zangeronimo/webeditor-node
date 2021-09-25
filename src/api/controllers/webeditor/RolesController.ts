@@ -16,11 +16,11 @@ export default class RolesController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    const { name, label, moduleId } = request.body;
+    const { name, label, module } = request.body;
 
     const createRole = container.resolve(CreateRoleService);
 
-    const role = await createRole.execute({ name, label, moduleId });
+    const role = await createRole.execute({ name, label, module });
 
     return response.status(201).json(classToClass(role));
   }
