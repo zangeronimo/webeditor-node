@@ -1,11 +1,12 @@
 import IPagesRepository from "@domain/interfaces/institutional/IPagesRepository";
 import AppError from "@infra/errors/AppError";
+import IStorageProvider from "@infra/providers/StorageProvider/models/IStorageProvider";
 import Page from "@infra/typeorm/entities/institutional/Page";
 import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   id: string;
-  banner: string;
+  file: string;
   title: string;
   content: string;
   active: 0 | 1;
@@ -17,6 +18,9 @@ class UpdatePageService {
   constructor(
     @inject('PagesRepository')
     private pagesRepository: IPagesRepository,
+
+    @inject('StorageProvider')
+    private storageProvider: IStorageProvider,
   ) { }
 
   public async execute(model: IRequest): Promise<Page> {
@@ -26,7 +30,12 @@ class UpdatePageService {
       throw new AppError('Page not found');
     }
 
-    page.banner = model.banner;
+    if (model.file) {
+      await this.storageProvider.deleteFile(page.banner, model.companyId);
+      const bannerUrl = await this.storageProvider.saveFile(model.file, model.companyId);
+      page.banner = bannerUrl;
+    }
+
     page.title = model.title;
     page.content = model.content;
     page.active = model.active;

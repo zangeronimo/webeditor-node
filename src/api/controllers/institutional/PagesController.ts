@@ -19,22 +19,22 @@ export default class PagesController {
 
   public async create(request: Request, response: Response): Promise<Response> {
     const { company } = request.user;
-    const { banner, title, content, active } = request.body;
+    const { file, title, content, active } = request.body;
 
     const createPage = container.resolve(CreatePageService);
 
-    const page = await createPage.execute({ banner, title, content, active: active ?? 1, companyId: company });
+    const page = await createPage.execute({ file, title, content, active: active ?? 1, companyId: company });
 
     return response.status(201).json(classToClass(page));
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { company } = request.user;
-    const { id, banner, title, content, active } = request.body;
+    const { id, file, title, content, active } = request.body;
 
     const updatePage = container.resolve(UpdatePageService);
 
-    const page = await updatePage.execute({ id, banner, title, content, active, companyId: company });
+    const page = await updatePage.execute({ id, file, title, content, active, companyId: company });
 
     return response.json(classToClass(page));
   }

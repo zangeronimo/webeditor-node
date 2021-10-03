@@ -2,7 +2,7 @@ node_modules
 dist
 ormconfig.json
 src/config/auth.ts
-tmp/*
-tmp/.gitkeep
+upload/*
+upload/.gitkeep
 .env
 src/api/config/auth.ts

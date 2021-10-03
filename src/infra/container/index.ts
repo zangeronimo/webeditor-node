@@ -5,6 +5,8 @@ import IRolesRepository from "@domain/interfaces/webeditor/IRolesRepository";
 import IUsersRepository from "@domain/interfaces/webeditor/IUsersRepository";
 import BCryptHashProvider from "@infra/providers/HashProvider/implementation/BCryptHashProvider";
 import IHashProvider from "@infra/providers/HashProvider/models/IHashProvider";
+import DiskStorageProvider from "@infra/providers/StorageProvider/models/implementations/DiskStorageProvider";
+import IStorageProvider from "@infra/providers/StorageProvider/models/IStorageProvider";
 import PagesRepository from "@infra/typeorm/repositories/institutional/PagesRepository";
 import CompaniesRepository from "@infra/typeorm/repositories/webeditor/CompaniesRepository";
 import ModulesRepository from "@infra/typeorm/repositories/webeditor/ModulesRepository";
@@ -37,4 +39,9 @@ container.registerSingleton<IRolesRepository>(
 container.registerSingleton<IHashProvider>(
   'HashProvider',
   BCryptHashProvider,
+)
+
+container.registerSingleton<IStorageProvider>(
+  'StorageProvider',
+  DiskStorageProvider,
 )
