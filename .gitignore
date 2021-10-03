@@ -3,6 +3,5 @@ dist
 ormconfig.json
 src/config/auth.ts
 upload/*
-upload/.gitkeep
 .env
 src/api/config/auth.ts

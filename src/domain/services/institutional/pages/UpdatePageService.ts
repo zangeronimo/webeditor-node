@@ -31,7 +31,7 @@ class UpdatePageService {
     }
 
     if (model.file) {
-      await this.storageProvider.deleteFile(page.banner, model.companyId);
+      await this.storageProvider.deleteFile(page.banner);
       const bannerUrl = await this.storageProvider.saveFile(model.file, model.companyId);
       page.banner = bannerUrl;
     }

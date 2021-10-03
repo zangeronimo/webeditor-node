@@ -12,7 +12,7 @@ export default class DiskStorageProvider implements IStorageProvider {
     this.createDir(dir);
     fs.writeFile(`${dir}/${name}`, base64Data, 'base64', (err) => console.log(err));
 
-    return name;
+    return `/files/${company}/${name}`;
   }
 
   private createDir(dir: string) {
@@ -21,15 +21,14 @@ export default class DiskStorageProvider implements IStorageProvider {
     }
   }
 
-  public async deleteFile(file: string, company: string): Promise<void> {
-    const dir = path.resolve('upload', company);
-    console.log(`${dir}/${file}`);
+  public async deleteFile(file: string): Promise<void> {
+    const dir = path.resolve(file);
     try {
-      await fs.promises.stat(`${dir}/${file}`);
+      await fs.promises.stat(dir);
     } catch {
       return;
     }
 
-    await fs.promises.unlink(`${dir}/${file}`);
+    await fs.promises.unlink(dir);
   }
 }
