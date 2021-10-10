@@ -4,8 +4,11 @@ import cors from 'cors';
 import path from 'path';
 import { errors } from 'celebrate';
 import 'express-async-errors';
+import swagger from 'swagger-ui-express';
 
 import routes from '@api/routes';
+
+import swaggerJson from '../swagger.json';
 import AppError from './errors/AppError';
 
 import './typeorm';
@@ -16,6 +19,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use('/files', express.static(path.resolve(__dirname, '..', '..', 'upload')));
+app.use('/api-docs', swagger.serve, swagger.setup(swaggerJson));
 app.use(routes);
 
 app.use(errors());
