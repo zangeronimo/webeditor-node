@@ -21,42 +21,22 @@ export default class PagesController {
     const { company } = request.user;
     const { file, title, content, active } = request.body;
 
-    try {
-      if (!title) {
-        throw new Error('title required');
-      }
-      if (!content) {
-        throw new Error('content required');
-      }
+    const createPage = container.resolve(CreatePageService);
 
-      const createPage = container.resolve(CreatePageService);
-      const page = await createPage.execute({ file, title, content, active: active ?? 1, companyId: company });
+    const page = await createPage.execute({ file, title, content, active: active ?? 1, companyId: company });
 
-      return response.status(201).json(classToClass(page));
-    } catch(err: any) {
-      return response.status(400).json({ message: err.message });
-    }
+    return response.status(201).json(classToClass(page));
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { company } = request.user;
     const { id, file, title, content, active } = request.body;
 
-    try {
-      if (!title) {
-        throw new Error('title required');
-      }
-      if (!content) {
-        throw new Error('content required');
-      }
+    const updatePage = container.resolve(UpdatePageService);
 
-      const updatePage = container.resolve(UpdatePageService);
-      const page = await updatePage.execute({ id, file, title, content, active, companyId: company });
+    const page = await updatePage.execute({ id, file, title, content, active, companyId: company });
 
-      return response.json(classToClass(page));
-    } catch(err: any) {
-      return response.status(400).json({ message: err.message });
-    }
+    return response.json(classToClass(page));
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
