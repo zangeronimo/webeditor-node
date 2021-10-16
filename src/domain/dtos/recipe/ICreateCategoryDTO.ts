@@ -1,4 +1,4 @@
-export default interface ICategoryDTO {
+export default interface ICreateCategoryDTO {
   name: string;
   active?: 0 | 1;
   levelId: string;

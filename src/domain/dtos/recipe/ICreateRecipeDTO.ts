@@ -1,4 +1,4 @@
-export default interface IRecipeDTO {
+export default interface ICreateRecipeDTO {
   slug: string;
   name: string;
   ingredients: string;
