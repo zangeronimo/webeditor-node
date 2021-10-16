@@ -8,10 +8,59 @@
           "email": "zangeronimo@gmail.com"
       }
   },
+  "components": {
+      "securitySchemes": {
+          "jwt": {
+              "type": "http",
+              "scheme": "bearer",
+              "in": "header",
+              "bearerFormat": "JWT"
+          }
+      }
+  },
   "paths": {
+      "/session": {
+        "post": {
+            "tags": ["Session"],
+            "summary": "Login",
+            "description": "Login and get Token",
+            "requestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": {
+                                "email": "zangeronimo@gmail.com",
+                                "password": "uhuu"
+                            }
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "201": {
+                    "description": "Created"
+                },
+                "400": {
+                    "description": "Email already exists"
+                }
+            }
+        }
+      },
       "/users": {
           "get": {
             "tags": ["Users"],
+            "security": [{
+                "jwt": []
+            }],
             "summary": "List all users",
             "responses": {
               "200": {
@@ -40,7 +89,10 @@
           },
           "post": {
               "tags": ["Users"],
-              "sumary": "Create a User",
+              "security": [{
+                  "jwt": []
+              }],
+              "summary": "Create an User",
               "description": "Create a new User",
               "requestBody": {
                   "content": {
@@ -53,11 +105,21 @@
                                   },
                                   "email": {
                                       "type": "string"
-                                  }
+                                  },
+                                  "password": {
+                                      "type": "string"
+                                  },
+                                  "roles": [{
+                                    "id": "string"
+                                  }]
                               },
                               "example": {
                                   "name": "User name sample",
-                                  "email": "User email sample"
+                                  "email": "User email sample",
+                                  "password": "User password sample",
+                                  "roles": [{
+                                    "id": "Role guid sample"
+                                  }]
                               }
                           }
                       }
@@ -72,6 +134,561 @@
                   }
               }
           }
+        },
+      "/users/{id}": {
+          "put": {
+              "tags": ["Users"],
+              "security": [{
+                  "jwt": []
+              }],
+              "summary": "Update an User",
+              "description": "Update an exists User",
+              "parameters": [{
+                "in": "path",
+                "name": "id",
+                "type": "string",
+                "required": "true",
+                "description": "User guid"
+              }],
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "id": {
+                                      "type": "string"
+                                  },
+                                  "name": {
+                                      "type": "string"
+                                  },
+                                  "email": {
+                                      "type": "string"
+                                  },
+                                  "password": {
+                                    "type": "string"
+                                  },
+                                  "old_password": {
+                                    "type": "string"
+                                  },
+                                  "roles": [{
+                                    "id": "string"
+                                  }]
+                              },
+                              "example": {
+                                  "id": "User guid sample",
+                                  "name": "User name sample",
+                                  "email": "User email sample",
+                                  "password": "New user password",
+                                  "old_password": "Actual user password",
+                                  "roles": [{
+                                    "id": "Role guid sample"
+                                  }]
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "Updated"
+                  },
+                  "400": {
+                      "description": "Email already exists"
+                  }
+              }
+          },
+          "delete": {
+            "tags": ["Users"],
+            "security": [{
+                "jwt": []
+            }],
+            "summary": "Delete an User",
+            "description": "Delete an exists User",
+            "parameters": [{
+              "in": "path",
+              "name": "id",
+              "type": "string",
+              "required": "true",
+              "description": "User guid"
+            }],
+            "responses": {
+                "200": {
+                    "description": "Deleted"
+                },
+                "400": {
+                    "description": "User not found"
+                },
+                "403": {
+                    "description": "Access denied"
+                }
+            }
+        }
+      },
+      "/roles": {
+          "get": {
+            "tags": ["Roles"],
+            "security": [{
+                "jwt": []
+            }],
+            "summary": "List all roles",
+            "responses": {
+              "200": {
+                  "description": "OK",
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "array",
+                              "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "name": {
+                                      "type": "string"
+                                    },
+                                    "label": {
+                                      "type": "string"
+                                    },
+                                    "module": {
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "name": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+
+            }
+          },
+          "post": {
+              "tags": ["Roles"],
+              "security": [{
+                  "jwt": []
+              }],
+              "summary": "Create a Role",
+              "description": "Create a new Role",
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "label": {
+                                    "type": "string"
+                                  },
+                                  "module": [{
+                                    "id": "string"
+                                  }]
+                              },
+                              "example": {
+                                  "name": "Role name sample",
+                                  "label": "Role label sample",
+                                  "module": [{
+                                    "id": "Module guid sample"
+                                  }]
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "201": {
+                      "description": "Created"
+                  },
+                  "400": {
+                      "description": "Name already exists"
+                  }
+              }
+          }
+        },
+      "/roles/{id}": {
+          "put": {
+              "tags": ["Roles"],
+              "security": [{
+                  "jwt": []
+              }],
+              "summary": "Update a Role",
+              "description": "Update an exists Role",
+              "parameters": [{
+                "in": "path",
+                "name": "id",
+                "type": "string",
+                "required": "true",
+                "description": "Role guid"
+              }],
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "label": {
+                                    "type": "string"
+                                  },
+                                  "module": [{
+                                    "id": "string"
+                                  }]
+                              },
+                              "example": {
+                                  "id": "Role guid sample",
+                                  "name": "Role name sample",
+                                  "label": "Role label sample",
+                                  "module": [{
+                                    "id": "Module guid sample"
+                                  }]
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "Updated"
+                  },
+                  "400": {
+                      "description": "Name already exists"
+                  }
+              }
+          },
+          "delete": {
+            "tags": ["Roles"],
+            "security": [{
+                "jwt": []
+            }],
+            "summary": "Delete a Role",
+            "description": "Delete an exists Role",
+            "parameters": [{
+              "in": "path",
+              "name": "id",
+              "type": "string",
+              "required": "true",
+              "description": "Role guid"
+            }],
+            "responses": {
+                "200": {
+                    "description": "Deleted"
+                },
+                "400": {
+                    "description": "Role not found"
+                },
+                "403": {
+                    "description": "Access denied"
+                }
+            }
+        }
+      },
+      "/modules": {
+          "get": {
+            "tags": ["Modules"],
+            "security": [{
+                "jwt": []
+            }],
+            "summary": "List all modules",
+            "responses": {
+              "200": {
+                  "description": "OK",
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "array",
+                              "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "name": {
+                                      "type": "string"
+                                    }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+
+            }
+          },
+          "post": {
+              "tags": ["Modules"],
+              "security": [{
+                  "jwt": []
+              }],
+              "summary": "Create a Module",
+              "description": "Create a new Module",
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "name": {
+                                    "type": "string"
+                                  }
+                              },
+                              "example": {
+                                  "name": "Module name sample"
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "201": {
+                      "description": "Created"
+                  },
+                  "400": {
+                      "description": "Name already exists"
+                  }
+              }
+          }
+        },
+      "/modules/{id}": {
+          "put": {
+              "tags": ["Modules"],
+              "security": [{
+                  "jwt": []
+              }],
+              "summary": "Update a Module",
+              "description": "Update an exists Module",
+              "parameters": [{
+                "in": "path",
+                "name": "id",
+                "type": "string",
+                "required": "true",
+                "description": "Module guid"
+              }],
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  }
+                              },
+                              "example": {
+                                  "id": "Module guid sample",
+                                  "name": "Module name sample"
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "Updated"
+                  },
+                  "400": {
+                      "description": "Name already exists"
+                  }
+              }
+          },
+          "delete": {
+            "tags": ["Modules"],
+            "security": [{
+                "jwt": []
+            }],
+            "summary": "Delete a Module",
+            "description": "Delete an exists Module",
+            "parameters": [{
+              "in": "path",
+              "name": "id",
+              "type": "string",
+              "required": "true",
+              "description": "Module guid"
+            }],
+            "responses": {
+                "200": {
+                    "description": "Deleted"
+                },
+                "400": {
+                    "description": "Module not found"
+                },
+                "403": {
+                    "description": "Access denied"
+                }
+            }
+        }
+      },
+      "/companies": {
+          "get": {
+            "tags": ["Companies"],
+            "security": [{
+                "jwt": []
+            }],
+            "summary": "List all companies",
+            "responses": {
+              "200": {
+                  "description": "OK",
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "array",
+                              "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "name": {
+                                      "type": "string"
+                                    },
+                                    "module": {
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "name": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+
+            }
+          },
+          "post": {
+              "tags": ["Companies"],
+              "security": [{
+                  "jwt": []
+              }],
+              "summary": "Create a company",
+              "description": "Create a new company",
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "module": [{
+                                    "id": "string"
+                                  }]
+                              },
+                              "example": {
+                                  "name": "Company name sample",
+                                  "module": [{
+                                    "id": "Module guid sample"
+                                  }]
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "201": {
+                      "description": "Created"
+                  },
+                  "400": {
+                      "description": "Name already exists"
+                  }
+              }
+          }
+        },
+      "/companies/{id}": {
+          "put": {
+              "tags": ["Companies"],
+              "security": [{
+                  "jwt": []
+              }],
+              "summary": "Update a company",
+              "description": "Update an exists company",
+              "parameters": [{
+                "in": "path",
+                "name": "id",
+                "type": "string",
+                "required": "true",
+                "description": "company guid"
+              }],
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "module": [{
+                                    "id": "string"
+                                  }]
+                              },
+                              "example": {
+                                  "id": "Company guid sample",
+                                  "name": "Company name sample",
+                                  "module": [{
+                                    "id": "Module guid sample"
+                                  }]
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "Updated"
+                  },
+                  "400": {
+                      "description": "Name already exists"
+                  }
+              }
+          },
+          "delete": {
+            "tags": ["Companies"],
+            "security": [{
+                "jwt": []
+            }],
+            "summary": "Delete a company",
+            "description": "Delete an exists company",
+            "parameters": [{
+              "in": "path",
+              "name": "id",
+              "type": "string",
+              "required": "true",
+              "description": "Company guid"
+            }],
+            "responses": {
+                "200": {
+                    "description": "Deleted"
+                },
+                "400": {
+                    "description": "Company not found"
+                },
+                "403": {
+                    "description": "Access denied"
+                }
+            }
+        }
       }
   }
 }
