@@ -55,6 +55,175 @@
             }
         }
       },
+      "/pages": {
+          "get": {
+            "tags": ["Pages"],
+            "security": [{
+                "jwt": []
+            }],
+            "summary": "List all pages",
+            "responses": {
+              "200": {
+                  "description": "OK",
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "array",
+                              "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "banner": {
+                                      "type": "string"
+                                    },
+                                    "title": {
+                                      "type": "string"
+                                    },
+                                    "content": {
+                                      "type": "string"
+                                    },
+                                    "active": {
+                                      "type": "boolean"
+                                    },
+                                    "company": {
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "name": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+
+            }
+          },
+          "post": {
+              "tags": ["Pages"],
+              "security": [{
+                  "jwt": []
+              }],
+              "summary": "Create a page",
+              "description": "Create a new page",
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "title": {
+                                      "type": "string"
+                                  },
+                                  "content": {
+                                      "type": "string"
+                                  },
+                                  "file": {
+                                      "type": "string"
+                                  }
+                              },
+                              "example": {
+                                  "title": "Page title sample",
+                                  "content": "Page content sample",
+                                  "file": "base64 file enconded"
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "201": {
+                      "description": "Created"
+                  }
+              }
+          }
+        },
+      "/pages/{id}": {
+          "put": {
+              "tags": ["Pages"],
+              "security": [{
+                  "jwt": []
+              }],
+              "summary": "Update a page",
+              "description": "Update an exists page",
+              "parameters": [{
+                "in": "path",
+                "name": "id",
+                "type": "string",
+                "required": "true",
+                "description": "Page guid"
+              }],
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "id": {
+                                      "type": "string"
+                                  },
+                                  "title": {
+                                      "type": "string"
+                                  },
+                                  "content": {
+                                      "type": "string"
+                                  },
+                                  "active": {
+                                    "type": "boolean"
+                                  },
+                                  "file": {
+                                    "type": "string"
+                                  }
+                              },
+                              "example": {
+                                  "id": "Page guid sample",
+                                  "title": "Page title sample",
+                                  "content": "Page content sample",
+                                  "active": "Page active 0 or 1",
+                                  "file": "base64 file encoded"
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "Updated"
+                  }
+              }
+          },
+          "delete": {
+            "tags": ["Pages"],
+            "security": [{
+                "jwt": []
+            }],
+            "summary": "Delete a page",
+            "description": "Delete an exists page",
+            "parameters": [{
+              "in": "path",
+              "name": "id",
+              "type": "string",
+              "required": "true",
+              "description": "Page guid"
+            }],
+            "responses": {
+                "200": {
+                    "description": "Deleted"
+                },
+                "400": {
+                    "description": "Page not found"
+                },
+                "403": {
+                    "description": "Access denied"
+                }
+            }
+        }
+      },
       "/users": {
           "get": {
             "tags": ["Users"],
