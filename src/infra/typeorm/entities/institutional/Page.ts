@@ -12,7 +12,7 @@ import {
 import Company from '../webeditor/Company';
 
 @Entity('institutional_pages')
-class User {
+class Page {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -49,4 +49,4 @@ class User {
   deletedAt: Date;
 }
 
-export default User;
+export default Page;
