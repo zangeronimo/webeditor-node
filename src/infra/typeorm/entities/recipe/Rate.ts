@@ -18,7 +18,7 @@ class Rate {
   id: string;
 
   @Column()
-  rate: string;
+  rate: number;
 
   @Column()
   comment: string;
