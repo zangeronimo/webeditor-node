@@ -4,6 +4,10 @@ import IStorageProvider from '../IStorageProvider';
 
 export default class DiskStorageProvider implements IStorageProvider {
   public async saveFile(file: string, company: string): Promise<string> {
+    if (!file) {
+      return "";
+    }
+
     const [header,base64Data] = file.split(',');
     const [,type] = header.replace(';base64', '').split('/');
     const name = `${new Date().getTime()}.${type}`;
