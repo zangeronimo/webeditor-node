@@ -1,6 +1,6 @@
-import ICategoriesRepository from "@domain/interfaces/recipe/ICategoriesRepository";
+import IImagesRepository from "@domain/interfaces/recipe/IImagesRepository";
 import AppError from "@infra/errors/AppError";
-import Category from "@infra/typeorm/entities/recipe/Category";
+import Image from "@infra/typeorm/entities/recipe/Image";
 import { inject, injectable } from "tsyringe";
 
 interface IRequest {
@@ -9,23 +9,23 @@ interface IRequest {
 }
 
 @injectable()
-class DeleteCategoryService {
+class DeleteImageService {
   constructor(
-    @inject('CategoriesRepository')
-    private categoriesRepository: ICategoriesRepository,
+    @inject('ImagesRepository')
+    private imagesRepository: IImagesRepository,
   ) { }
 
-  public async execute(model: IRequest): Promise<Category> {
-    const category = await this.categoriesRepository.findById(model.id, model.companyId);
+  public async execute(model: IRequest): Promise<Image> {
+    const image = await this.imagesRepository.findById(model.id, model.companyId);
 
-    if (!category || category.companyId !== model.companyId) {
-      throw new AppError('Category not found');
+    if (!image || image.companyId !== model.companyId) {
+      throw new AppError('Image not found');
     }
 
-    category.deletedAt = new Date();
+    image.deletedAt = new Date();
 
-    return this.categoriesRepository.save(category);
+    return this.imagesRepository.save(image);
   }
 }
 
-export default DeleteCategoryService;
+export default DeleteImageService;

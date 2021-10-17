@@ -1,35 +1,35 @@
-import ICategoriesRepository from "@domain/interfaces/recipe/ICategoriesRepository";
+import IImagesRepository from "@domain/interfaces/recipe/IImagesRepository";
 import AppError from "@infra/errors/AppError";
-import Category from "@infra/typeorm/entities/recipe/Category";
+import Image from "@infra/typeorm/entities/recipe/Image";
 import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   id: string;
-  name: string;
+  url: string;
   active: 0 | 1;
-  levelId: string;
+  recipeId: string;
   companyId: string;
 }
 
 @injectable()
-class UpdateCategoryService {
+class UpdateImageService {
   constructor(
-    @inject('CategorysRepository')
-    private categoriesRepository: ICategoriesRepository,
+    @inject('ImagesRepository')
+    private imagesRepository: IImagesRepository,
   ) { }
 
-  public async execute(model: IRequest): Promise<Category> {
-    const category = await this.categoriesRepository.findById(model.id, model.companyId);
+  public async execute(model: IRequest): Promise<Image> {
+    const image = await this.imagesRepository.findById(model.id, model.companyId);
 
-    if (!category || category.companyId !== model.companyId) {
-      throw new AppError('Category not found');
+    if (!image || image.companyId !== model.companyId) {
+      throw new AppError('Image not found');
     }
 
-    category.name = model.name;
-    category.active = model.active;
+    image.url = model.url;
+    image.active = model.active;
 
-    return this.categoriesRepository.save(category);
+    return this.imagesRepository.save(image);
   }
 }
 
-export default UpdateCategoryService;
+export default UpdateImageService;

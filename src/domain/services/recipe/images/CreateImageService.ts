@@ -1,25 +1,25 @@
-import ICategoriesRepository from "@domain/interfaces/recipe/ICategoriesRepository";
-import Category from "@infra/typeorm/entities/recipe/Category";
+import IImagesRepository from "@domain/interfaces/recipe/IImagesRepository";
+import Image from "@infra/typeorm/entities/recipe/Image";
 import { inject, injectable } from "tsyringe";
 
 interface IRequest {
-  name: string;
+  url: string;
   active: 0 | 1;
-  levelId: string;
+  recipeId: string;
   companyId: string;
 }
 
 @injectable()
-class CreateCategoryService {
+class CreateImageService {
   constructor(
-    @inject('CategoriesRepository')
-    private categoryRepository: ICategoriesRepository,
+    @inject('ImagesRepository')
+    private imagesRepository: IImagesRepository,
   ) { }
 
-  public async execute({ name, active, levelId, companyId }: IRequest): Promise<Category> {
-    const category = await this.categoryRepository.create({name, active, levelId, companyId});
-    return category;
+  public async execute({ url, active, recipeId, companyId }: IRequest): Promise<Image> {
+    const image = await this.imagesRepository.create({url, active, recipeId, companyId});
+    return image;
   }
 }
 
-export default CreateCategoryService;
+export default CreateImageService;
