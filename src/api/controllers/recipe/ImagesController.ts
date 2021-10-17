@@ -19,22 +19,22 @@ export default class ImagesController {
 
   public async create(request: Request, response: Response): Promise<Response> {
     const { company } = request.user;
-    const { url, active, recipeId } = request.body;
+    const { file, active, recipeId } = request.body;
 
     const createImage = container.resolve(CreateImageService);
 
-    const image = await createImage.execute({ url, active: active ?? 0, recipeId, companyId: company });
+    const image = await createImage.execute({ file, active: active ?? 0, recipeId, companyId: company });
 
     return response.status(201).json(classToClass(image));
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { company } = request.user;
-    const { id, url,  active, recipeId } = request.body;
+    const { id, file,  active, recipeId } = request.body;
 
     const updateImage = container.resolve(UpdateImageService);
 
-    const image = await updateImage.execute({ id, url, active, recipeId, companyId: company });
+    const image = await updateImage.execute({ id, file, active, recipeId, companyId: company });
 
     return response.json(classToClass(image));
   }

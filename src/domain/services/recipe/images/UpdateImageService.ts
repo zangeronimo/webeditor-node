@@ -1,11 +1,12 @@
 import IImagesRepository from "@domain/interfaces/recipe/IImagesRepository";
 import AppError from "@infra/errors/AppError";
+import IStorageProvider from "@infra/providers/StorageProvider/models/IStorageProvider";
 import Image from "@infra/typeorm/entities/recipe/Image";
 import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   id: string;
-  url: string;
+  file: string;
   active: 0 | 1;
   recipeId: string;
   companyId: string;
@@ -16,6 +17,9 @@ class UpdateImageService {
   constructor(
     @inject('ImagesRepository')
     private imagesRepository: IImagesRepository,
+
+    @inject('StorageProvider')
+    private storageProvider: IStorageProvider,
   ) { }
 
   public async execute(model: IRequest): Promise<Image> {
@@ -25,7 +29,11 @@ class UpdateImageService {
       throw new AppError('Image not found');
     }
 
-    image.url = model.url;
+    if (model.file) {
+      await this.storageProvider.deleteFile(image.url);
+      const imageUrl = await this.storageProvider.saveFile(model.file, model.companyId);
+      image.url = imageUrl;
+    }
     image.active = model.active;
 
     return this.imagesRepository.save(image);
