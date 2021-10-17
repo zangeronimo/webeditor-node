@@ -21,6 +21,7 @@ celebrate({
   [Segments.BODY]: {
     id: Joi.string().required(),
     name: Joi.string().required(),
+    active: Joi.number().required(),
   }
 }), ensureAuthenticated, hasPermission('RECIPELEVELS_ALTER'), levelsController.update);
 levelsRouter.delete('/:id', ensureAuthenticated, hasPermission('RECIPELEVELS_DELETE'), levelsController.delete);

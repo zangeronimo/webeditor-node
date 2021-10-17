@@ -22,6 +22,7 @@ celebrate({
     id: Joi.string().required(),
     url: Joi.string().required(),
     recipeId: Joi.string().required(),
+    active: Joi.number().required(),
   }
 }), ensureAuthenticated, hasPermission('RECIPEIMAGES_ALTER'), imagesController.update);
 imagesRouter.delete('/:id', ensureAuthenticated, hasPermission('RECIPEIMAGES_DELETE'), imagesController.delete);

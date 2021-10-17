@@ -24,6 +24,7 @@ celebrate({
     rate: Joi.number().required(),
     comment: Joi.string().required(),
     recipeId: Joi.string().required(),
+    active: Joi.number().required(),
   }
 }), ensureAuthenticated, hasPermission('RECIPERATINGS_ALTER'), ratingsController.update);
 ratingsRouter.delete('/:id', ensureAuthenticated, hasPermission('RECIPERATINGS_DELETE'), ratingsController.delete);

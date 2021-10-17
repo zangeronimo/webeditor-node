@@ -22,6 +22,7 @@ celebrate({
     id: Joi.string().required(),
     name: Joi.string().required(),
     levelId: Joi.string().required(),
+    active: Joi.number().required(),
   }
 }), ensureAuthenticated, hasPermission('RECIPECATEGORIES_ALTER'), categoriesController.update);
 categoriesRouter.delete('/:id', ensureAuthenticated, hasPermission('RECIPECATEGORIES_DELETE'), categoriesController.delete);

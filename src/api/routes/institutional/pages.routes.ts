@@ -14,7 +14,7 @@ pagesRouter.post('/',
 celebrate({
   [Segments.BODY]: {
     title: Joi.string().required(),
-    content: Joi.string().email().required(),
+    content: Joi.string().required(),
   }
 }), ensureAuthenticated, hasPermission('INSTITUTIONALPAGES_ALTER'), pagesController.create);
 pagesRouter.put('/:id',
@@ -22,7 +22,8 @@ celebrate({
   [Segments.BODY]: {
     id: Joi.string().required(),
     title: Joi.string().required(),
-    content: Joi.string().email().required(),
+    content: Joi.string().required(),
+    active: Joi.number().required(),
   }
 }), ensureAuthenticated, hasPermission('INSTITUTIONALPAGES_ALTER'), pagesController.update);
 pagesRouter.delete('/:id', ensureAuthenticated, hasPermission('INSTITUTIONALPAGES_DELETE'), pagesController.delete);

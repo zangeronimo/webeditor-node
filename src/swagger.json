@@ -55,6 +55,145 @@
             }
         }
       },
+      "/recipe/levels": {
+          "get": {
+            "tags": ["Levels"],
+            "security": [{
+                "jwt": []
+            }],
+            "summary": "List all levels",
+            "responses": {
+              "200": {
+                  "description": "OK",
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "array",
+                              "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "name": {
+                                      "type": "string"
+                                    },
+                                    "active": {
+                                      "type": "boolean"
+                                    }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+
+            }
+          },
+          "post": {
+              "tags": ["Levels"],
+              "security": [{
+                  "jwt": []
+              }],
+              "summary": "Create a level",
+              "description": "Create a new level",
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "name": {
+                                      "type": "string"
+                                  }
+                              },
+                              "example": {
+                                  "name": "Level name sample"
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "201": {
+                      "description": "Created"
+                  }
+              }
+          }
+        },
+      "/recipe/levels/{id}": {
+          "put": {
+              "tags": ["Levels"],
+              "security": [{
+                  "jwt": []
+              }],
+              "summary": "Update a level",
+              "description": "Update an exists level",
+              "parameters": [{
+                "in": "path",
+                "name": "id",
+                "type": "string",
+                "required": "true",
+                "description": "Level guid"
+              }],
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "id": {
+                                      "type": "string"
+                                  },
+                                  "name": {
+                                      "type": "string"
+                                  },
+                                  "active": {
+                                    "type": "boolean"
+                                  }
+                              },
+                              "example": {
+                                  "id": "Level guid sample",
+                                  "name": "Level name sample",
+                                  "active": "Level active 0 or 1"
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "Updated"
+                  }
+              }
+          },
+          "delete": {
+            "tags": ["Levels"],
+            "security": [{
+                "jwt": []
+            }],
+            "summary": "Delete a level",
+            "description": "Delete an exists level",
+            "parameters": [{
+              "in": "path",
+              "name": "id",
+              "type": "string",
+              "required": "true",
+              "description": "Level guid"
+            }],
+            "responses": {
+                "200": {
+                    "description": "Deleted"
+                },
+                "400": {
+                    "description": "Level not found"
+                },
+                "403": {
+                    "description": "Access denied"
+                }
+            }
+        }
+      },
       "/institutional/pages": {
           "get": {
             "tags": ["Pages"],

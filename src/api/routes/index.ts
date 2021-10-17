@@ -12,11 +12,11 @@ import sessionsRouter from './webeditor/sessions.routes';
 import usersRouter from './webeditor/users.routes';
 
 const routes = Router();
-routes.use('/recipes/levels', levelsRouter);
-routes.use('/recipes/categories', categoriesRouter);
-routes.use('/recipes/recipes', recipesRouter);
-routes.use('/recipes/images', imagesRouter);
-routes.use('/recipes/ratings', ratingsRouter);
+routes.use('/recipe/levels', levelsRouter);
+routes.use('/recipe/categories', categoriesRouter);
+routes.use('/recipe/recipes', recipesRouter);
+routes.use('/recipe/images', imagesRouter);
+routes.use('/recipe/ratings', ratingsRouter);
 
 routes.use('/institutional/pages', pagesRouter);
 
