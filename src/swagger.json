@@ -697,6 +697,159 @@
             }
         }
       },
+      "/recipe/images": {
+          "get": {
+            "tags": ["Images"],
+            "security": [{
+                "jwt": []
+            }],
+            "summary": "List all images",
+            "responses": {
+              "200": {
+                  "description": "OK",
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "array",
+                              "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "url": {
+                                      "type": "string"
+                                    },
+                                    "recipe": {
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "name": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "active": {
+                                      "type": "boolean"
+                                    }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+
+            }
+          },
+          "post": {
+              "tags": ["Images"],
+              "security": [{
+                  "jwt": []
+              }],
+              "summary": "Create an image",
+              "description": "Create a new image",
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "file": {
+                                      "type": "string"
+                                  },
+                                  "recipeId": "string"
+                              },
+                              "example": {
+                                  "file": "base64 file enconded",
+                                  "recipeId": "Recipe guid sample"
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "201": {
+                      "description": "Created"
+                  }
+              }
+          }
+        },
+      "/recipe/images/{id}": {
+          "put": {
+              "tags": ["Images"],
+              "security": [{
+                  "jwt": []
+              }],
+              "summary": "Update an image",
+              "description": "Update an exists image",
+              "parameters": [{
+                "in": "path",
+                "name": "id",
+                "type": "string",
+                "required": "true",
+                "description": "Image guid"
+              }],
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "id": {
+                                      "type": "string"
+                                  },
+                                  "file": {
+                                      "type": "string"
+                                  },
+                                  "recipeId": {
+                                    "type": "string"
+                                  },
+                                  "active": {
+                                    "type": "boolean"
+                                  }
+                              },
+                              "example": {
+                                  "id": "Rate guid sample",
+                                  "file": "base64 file enconded",
+                                  "recipeId": "Category guid sample",
+                                  "active": "Rate active 0 or 1"
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "Updated"
+                  }
+              }
+          },
+          "delete": {
+            "tags": ["Images"],
+            "security": [{
+                "jwt": []
+            }],
+            "summary": "Delete an image",
+            "description": "Delete an exists image",
+            "parameters": [{
+              "in": "path",
+              "name": "id",
+              "type": "string",
+              "required": "true",
+              "description": "Image guid"
+            }],
+            "responses": {
+                "200": {
+                    "description": "Deleted"
+                },
+                "400": {
+                    "description": "Level not found"
+                },
+                "403": {
+                    "description": "Access denied"
+                }
+            }
+        }
+      },
       "/institutional/pages": {
           "get": {
             "tags": ["Pages"],

@@ -12,7 +12,7 @@ imagesRouter.get('/', ensureAuthenticated, hasPermission('RECIPEIMAGES_VIEW'), i
 imagesRouter.post('/',
 celebrate({
   [Segments.BODY]: {
-    url: Joi.string().required(),
+    file: Joi.string().required(),
     recipeId: Joi.string().required(),
   }
 }), ensureAuthenticated, hasPermission('RECIPEIMAGES_ALTER'), imagesController.create);
@@ -20,7 +20,7 @@ imagesRouter.put('/:id',
 celebrate({
   [Segments.BODY]: {
     id: Joi.string().required(),
-    url: Joi.string().required(),
+    file: Joi.string(),
     recipeId: Joi.string().required(),
     active: Joi.number().required(),
   }
