@@ -14,6 +14,8 @@ import RolesRepository from "@infra/typeorm/repositories/webeditor/RolesReposito
 import UsersRepository from "@infra/typeorm/repositories/webeditor/UsersRepository";
 import { container } from "tsyringe";
 
+import './recipes';
+
 container.registerSingleton<IPagesRepository>(
   'PagesRepository',
   PagesRepository,
