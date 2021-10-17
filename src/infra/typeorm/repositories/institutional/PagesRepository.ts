@@ -16,7 +16,6 @@ class PagesRepository implements IPagesRepository {
         companyId,
         deletedAt: null
       },
-      relations: ['company'],
     });
     return findPages;
   }
