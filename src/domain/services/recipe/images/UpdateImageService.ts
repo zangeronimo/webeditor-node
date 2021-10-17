@@ -31,7 +31,7 @@ class UpdateImageService {
 
     if (model.file) {
       await this.storageProvider.deleteFile(image.url);
-      const imageUrl = await this.storageProvider.saveFile(model.file, model.companyId);
+      const imageUrl = await this.storageProvider.saveFile(model.file, `${model.companyId}/recipes`);
       image.url = imageUrl;
     }
     image.active = model.active;

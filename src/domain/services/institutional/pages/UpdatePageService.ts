@@ -32,7 +32,7 @@ class UpdatePageService {
 
     if (model.file) {
       await this.storageProvider.deleteFile(page.banner);
-      const bannerUrl = await this.storageProvider.saveFile(model.file, model.companyId);
+      const bannerUrl = await this.storageProvider.saveFile(model.file, `${model.companyId}/pages`);
       page.banner = bannerUrl;
     }
 

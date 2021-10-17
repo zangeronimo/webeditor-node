@@ -23,7 +23,7 @@ class CreatePageService {
   ) { }
 
   public async execute({ file, title, content, active, companyId }: IRequest): Promise<Page> {
-    const bannerUrl = await this.storageProvider.saveFile(file, companyId);
+    const bannerUrl = await this.storageProvider.saveFile(file, `${companyId}/pages`);
     const page = await this.pageRepository.create({banner: bannerUrl, title, content, active, companyId});
     return page;
   }

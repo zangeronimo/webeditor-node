@@ -21,7 +21,7 @@ class CreateImageService {
   ) { }
 
   public async execute({ file, active, recipeId, companyId }: IRequest): Promise<Image> {
-    const imageUrl = await this.storageProvider.saveFile(file, companyId);
+    const imageUrl = await this.storageProvider.saveFile(file, `${companyId}/recipes`);
     const image = await this.imagesRepository.create({url: imageUrl, active, recipeId, companyId});
     return image;
   }
