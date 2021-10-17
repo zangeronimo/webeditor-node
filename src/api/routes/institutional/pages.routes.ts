@@ -14,7 +14,7 @@ pagesRouter.post('/',
 celebrate({
   [Segments.BODY]: {
     title: Joi.string().required(),
-    conent: Joi.string().email().required(),
+    content: Joi.string().email().required(),
   }
 }), ensureAuthenticated, hasPermission('INSTITUTIONALPAGES_ALTER'), pagesController.create);
 pagesRouter.put('/:id',
