@@ -194,6 +194,509 @@
             }
         }
       },
+      "/recipe/categories": {
+          "get": {
+            "tags": ["Categories"],
+            "security": [{
+                "jwt": []
+            }],
+            "summary": "List all categories",
+            "responses": {
+              "200": {
+                  "description": "OK",
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "array",
+                              "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "name": {
+                                      "type": "string"
+                                    },
+                                    "level": {
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "name": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "active": {
+                                      "type": "boolean"
+                                    }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+
+            }
+          },
+          "post": {
+              "tags": ["Categories"],
+              "security": [{
+                  "jwt": []
+              }],
+              "summary": "Create a category",
+              "description": "Create a new category",
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "name": {
+                                      "type": "string"
+                                  },
+                                  "levelId": "string"
+                              },
+                              "example": {
+                                  "name": "Category name sample",
+                                  "levelId": "Level guid sample"
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "201": {
+                      "description": "Created"
+                  }
+              }
+          }
+        },
+      "/recipe/categories/{id}": {
+          "put": {
+              "tags": ["Categories"],
+              "security": [{
+                  "jwt": []
+              }],
+              "summary": "Update a category",
+              "description": "Update an exists category",
+              "parameters": [{
+                "in": "path",
+                "name": "id",
+                "type": "string",
+                "required": "true",
+                "description": "Category guid"
+              }],
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "id": {
+                                      "type": "string"
+                                  },
+                                  "name": {
+                                      "type": "string"
+                                  },
+                                  "levelId": {
+                                    "type": "string"
+                                  },
+                                  "active": {
+                                    "type": "boolean"
+                                  }
+                              },
+                              "example": {
+                                  "id": "Category guid sample",
+                                  "name": "Category name sample",
+                                  "levelId": "Level guid sample",
+                                  "active": "Category active 0 or 1"
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "Updated"
+                  }
+              }
+          },
+          "delete": {
+            "tags": ["Categories"],
+            "security": [{
+                "jwt": []
+            }],
+            "summary": "Delete a cateogry",
+            "description": "Delete an exists cateogry",
+            "parameters": [{
+              "in": "path",
+              "name": "id",
+              "type": "string",
+              "required": "true",
+              "description": "Category guid"
+            }],
+            "responses": {
+                "200": {
+                    "description": "Deleted"
+                },
+                "400": {
+                    "description": "Level not found"
+                },
+                "403": {
+                    "description": "Access denied"
+                }
+            }
+        }
+      },
+      "/recipe/recipes": {
+          "get": {
+            "tags": ["Recipes"],
+            "security": [{
+                "jwt": []
+            }],
+            "summary": "List all recipes",
+            "responses": {
+              "200": {
+                  "description": "OK",
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "array",
+                              "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "slug": {
+                                      "type": "string"
+                                    },
+                                    "name": {
+                                      "type": "string"
+                                    },
+                                    "ingredients": {
+                                      "type": "string"
+                                    },
+                                    "preparation": {
+                                      "type": "string"
+                                    },
+                                    "category": {
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "name": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "active": {
+                                      "type": "boolean"
+                                    }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+
+            }
+          },
+          "post": {
+              "tags": ["Recipes"],
+              "security": [{
+                  "jwt": []
+              }],
+              "summary": "Create a recipe",
+              "description": "Create a new recipe",
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "slug": {
+                                      "type": "string"
+                                  },
+                                  "name": {
+                                      "type": "string"
+                                  },
+                                  "ingredients": {
+                                      "type": "string"
+                                  },
+                                  "preparation": {
+                                      "type": "string"
+                                  },
+                                  "categoryId": "string"
+                              },
+                              "example": {
+                                  "slug": "Recipe slug sample",
+                                  "name": "Recipe name sample",
+                                  "ingredients": "Recipe ingredients sample",
+                                  "preparation": "Recipe preparation sample",
+                                  "categoryId": "Category guid sample"
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "201": {
+                      "description": "Created"
+                  }
+              }
+          }
+        },
+      "/recipe/recipes/{id}": {
+          "put": {
+              "tags": ["Recipes"],
+              "security": [{
+                  "jwt": []
+              }],
+              "summary": "Update a recipe",
+              "description": "Update an exists recipe",
+              "parameters": [{
+                "in": "path",
+                "name": "id",
+                "type": "string",
+                "required": "true",
+                "description": "Recipe guid"
+              }],
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "id": {
+                                      "type": "string"
+                                  },
+                                  "slug": {
+                                      "type": "string"
+                                  },
+                                  "name": {
+                                      "type": "string"
+                                  },
+                                  "ingredients": {
+                                      "type": "string"
+                                  },
+                                  "preparation": {
+                                      "type": "string"
+                                  },
+                                  "categoryId": {
+                                    "type": "string"
+                                  },
+                                  "active": {
+                                    "type": "boolean"
+                                  }
+                              },
+                              "example": {
+                                  "id": "Recipe guid sample",
+                                  "slug": "Recipe slug sample",
+                                  "name": "Recipe name sample",
+                                  "ingredients": "Recipe ingredients sample",
+                                  "preparation": "Recipe preparation sample",
+                                  "categoryId": "Category guid sample",
+                                  "active": "Recipe active 0 or 1"
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "Updated"
+                  }
+              }
+          },
+          "delete": {
+            "tags": ["Recipes"],
+            "security": [{
+                "jwt": []
+            }],
+            "summary": "Delete a recipe",
+            "description": "Delete an exists recipe",
+            "parameters": [{
+              "in": "path",
+              "name": "id",
+              "type": "string",
+              "required": "true",
+              "description": "Recipe guid"
+            }],
+            "responses": {
+                "200": {
+                    "description": "Deleted"
+                },
+                "400": {
+                    "description": "Level not found"
+                },
+                "403": {
+                    "description": "Access denied"
+                }
+            }
+        }
+      },
+      "/recipe/ratings": {
+          "get": {
+            "tags": ["Ratings"],
+            "security": [{
+                "jwt": []
+            }],
+            "summary": "List all ratings",
+            "responses": {
+              "200": {
+                  "description": "OK",
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "array",
+                              "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "rate": {
+                                      "type": "number"
+                                    },
+                                    "comment": {
+                                      "type": "string"
+                                    },
+                                    "recipe": {
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "name": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "active": {
+                                      "type": "boolean"
+                                    }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+
+            }
+          },
+          "post": {
+              "tags": ["Ratings"],
+              "security": [{
+                  "jwt": []
+              }],
+              "summary": "Create a rate",
+              "description": "Create a new rate",
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "rate": {
+                                      "type": "number"
+                                  },
+                                  "comment": {
+                                      "type": "string"
+                                  },
+                                  "recipeId": "string"
+                              },
+                              "example": {
+                                  "rate": "Rate sample",
+                                  "comment": "Rate comment sample",
+                                  "recipeId": "Recipe guid sample"
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "201": {
+                      "description": "Created"
+                  }
+              }
+          }
+        },
+      "/recipe/ratings/{id}": {
+          "put": {
+              "tags": ["Ratings"],
+              "security": [{
+                  "jwt": []
+              }],
+              "summary": "Update a rate",
+              "description": "Update an exists rate",
+              "parameters": [{
+                "in": "path",
+                "name": "id",
+                "type": "string",
+                "required": "true",
+                "description": "Rate guid"
+              }],
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "id": {
+                                      "type": "string"
+                                  },
+                                  "rate": {
+                                      "type": "number"
+                                  },
+                                  "comment": {
+                                      "type": "string"
+                                  },
+                                  "recipeId": {
+                                    "type": "string"
+                                  },
+                                  "active": {
+                                    "type": "boolean"
+                                  }
+                              },
+                              "example": {
+                                  "id": "Rate guid sample",
+                                  "rate": "Rate sample",
+                                  "comment": "Rate comment sample",
+                                  "recipeId": "Category guid sample",
+                                  "active": "Rate active 0 or 1"
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "Updated"
+                  }
+              }
+          },
+          "delete": {
+            "tags": ["Ratings"],
+            "security": [{
+                "jwt": []
+            }],
+            "summary": "Delete a rate",
+            "description": "Delete an exists rate",
+            "parameters": [{
+              "in": "path",
+              "name": "id",
+              "type": "string",
+              "required": "true",
+              "description": "Rate guid"
+            }],
+            "responses": {
+                "200": {
+                    "description": "Deleted"
+                },
+                "400": {
+                    "description": "Level not found"
+                },
+                "403": {
+                    "description": "Access denied"
+                }
+            }
+        }
+      },
       "/institutional/pages": {
           "get": {
             "tags": ["Pages"],
