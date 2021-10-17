@@ -1,4 +1,4 @@
-import ILevelDTO from "@domain/dtos/recipe/ILevelDTO";
+import ICreateLevelDTO from "@domain/dtos/recipe/ICreateLevelDTO";
 import ILevelsRepository from "@domain/interfaces/recipe/ILevelsRepository";
 import Level from "@infra/typeorm/entities/recipe/Level";
 import { getRepository, Repository } from "typeorm";
@@ -16,7 +16,6 @@ class LevelsRepository implements ILevelsRepository {
         companyId,
         deletedAt: null
       },
-      relations: ['company'],
     });
     return findLevels;
   }
@@ -32,7 +31,7 @@ class LevelsRepository implements ILevelsRepository {
     return findLevel;
   }
 
-  public async create(model: ILevelDTO): Promise<Level> {
+  public async create(model: ICreateLevelDTO): Promise<Level> {
     const level = this.ormRepository.create(model);
     await this.ormRepository.save(level);
 
