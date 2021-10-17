@@ -57,7 +57,7 @@
       },
       "/recipe/levels": {
           "get": {
-            "tags": ["Levels"],
+            "tags": ["Recipe Levels"],
             "security": [{
                 "jwt": []
             }],
@@ -91,7 +91,7 @@
             }
           },
           "post": {
-              "tags": ["Levels"],
+              "tags": ["Recipe Levels"],
               "security": [{
                   "jwt": []
               }],
@@ -123,7 +123,7 @@
         },
       "/recipe/levels/{id}": {
           "put": {
-              "tags": ["Levels"],
+              "tags": ["Recipe Levels"],
               "security": [{
                   "jwt": []
               }],
@@ -168,7 +168,7 @@
               }
           },
           "delete": {
-            "tags": ["Levels"],
+            "tags": ["Recipe Levels"],
             "security": [{
                 "jwt": []
             }],
@@ -196,7 +196,7 @@
       },
       "/recipe/categories": {
           "get": {
-            "tags": ["Categories"],
+            "tags": ["Recipe Categories"],
             "security": [{
                 "jwt": []
             }],
@@ -238,7 +238,7 @@
             }
           },
           "post": {
-              "tags": ["Categories"],
+              "tags": ["Recipe Categories"],
               "security": [{
                   "jwt": []
               }],
@@ -272,7 +272,7 @@
         },
       "/recipe/categories/{id}": {
           "put": {
-              "tags": ["Categories"],
+              "tags": ["Recipe Categories"],
               "security": [{
                   "jwt": []
               }],
@@ -321,7 +321,7 @@
               }
           },
           "delete": {
-            "tags": ["Categories"],
+            "tags": ["Recipe Categories"],
             "security": [{
                 "jwt": []
             }],
@@ -349,7 +349,7 @@
       },
       "/recipe/recipes": {
           "get": {
-            "tags": ["Recipes"],
+            "tags": ["Recipe Recipes"],
             "security": [{
                 "jwt": []
             }],
@@ -400,7 +400,7 @@
             }
           },
           "post": {
-              "tags": ["Recipes"],
+              "tags": ["Recipe Recipes"],
               "security": [{
                   "jwt": []
               }],
@@ -446,7 +446,7 @@
         },
       "/recipe/recipes/{id}": {
           "put": {
-              "tags": ["Recipes"],
+              "tags": ["Recipe Recipes"],
               "security": [{
                   "jwt": []
               }],
@@ -507,7 +507,7 @@
               }
           },
           "delete": {
-            "tags": ["Recipes"],
+            "tags": ["Recipe Recipes"],
             "security": [{
                 "jwt": []
             }],
@@ -535,7 +535,7 @@
       },
       "/recipe/ratings": {
           "get": {
-            "tags": ["Ratings"],
+            "tags": ["Recipe Ratings"],
             "security": [{
                 "jwt": []
             }],
@@ -580,7 +580,7 @@
             }
           },
           "post": {
-              "tags": ["Ratings"],
+              "tags": ["Recipe Ratings"],
               "security": [{
                   "jwt": []
               }],
@@ -618,7 +618,7 @@
         },
       "/recipe/ratings/{id}": {
           "put": {
-              "tags": ["Ratings"],
+              "tags": ["Recipe Ratings"],
               "security": [{
                   "jwt": []
               }],
@@ -671,7 +671,7 @@
               }
           },
           "delete": {
-            "tags": ["Ratings"],
+            "tags": ["Recipe Ratings"],
             "security": [{
                 "jwt": []
             }],
@@ -699,7 +699,7 @@
       },
       "/recipe/images": {
           "get": {
-            "tags": ["Images"],
+            "tags": ["Recipe Images"],
             "security": [{
                 "jwt": []
             }],
@@ -741,7 +741,7 @@
             }
           },
           "post": {
-              "tags": ["Images"],
+              "tags": ["Recipe Images"],
               "security": [{
                   "jwt": []
               }],
@@ -775,7 +775,7 @@
         },
       "/recipe/images/{id}": {
           "put": {
-              "tags": ["Images"],
+              "tags": ["Recipe Images"],
               "security": [{
                   "jwt": []
               }],
@@ -824,7 +824,7 @@
               }
           },
           "delete": {
-            "tags": ["Images"],
+            "tags": ["Recipe Images"],
             "security": [{
                 "jwt": []
             }],
@@ -852,7 +852,7 @@
       },
       "/institutional/pages": {
           "get": {
-            "tags": ["Pages"],
+            "tags": ["Institutional Pages"],
             "security": [{
                 "jwt": []
             }],
@@ -900,7 +900,7 @@
             }
           },
           "post": {
-              "tags": ["Pages"],
+              "tags": ["Institutional Pages"],
               "security": [{
                   "jwt": []
               }],
@@ -940,7 +940,7 @@
         },
       "/institutional/pages/{id}": {
           "put": {
-              "tags": ["Pages"],
+              "tags": ["Institutional Pages"],
               "security": [{
                   "jwt": []
               }],
@@ -993,7 +993,7 @@
               }
           },
           "delete": {
-            "tags": ["Pages"],
+            "tags": ["Institutional Pages"],
             "security": [{
                 "jwt": []
             }],
