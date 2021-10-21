@@ -43,7 +43,7 @@ class AuthenticateUserService {
     const { secret, expiresIn } = authConfig.jwt;
     const roles = user.roles.map(role => role.name);
 
-    const token = sign({ name: user.name, company: user.companyId, roles }, secret, {
+    const token = sign({ name: user.name, avatar: user.avatar, company: user.companyId, roles }, secret, {
       subject: user.id,
       expiresIn,
     });

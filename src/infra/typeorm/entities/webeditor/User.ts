@@ -29,6 +29,9 @@ class User {
   @Exclude()
   password: string;
 
+  @Column()
+  avatar: string;
+
   @Column({ name: 'webeditor_companies_id' })
   @Exclude()
   companyId: string;
