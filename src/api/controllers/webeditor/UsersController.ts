@@ -3,6 +3,7 @@ import DeleteUserService from "@domain/services/webeditor/users/DeleteUserServic
 import ShowUsersService from "@domain/services/webeditor/users/ShowUserService";
 import UpdateUserService from "@domain/services/webeditor/users/UpdateUserService";
 import AppError from "@infra/errors/AppError";
+import User from "@infra/typeorm/entities/webeditor/User";
 import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
@@ -10,12 +11,22 @@ import { container } from "tsyringe";
 export default class UsersController {
   public async getAll(request: Request, response: Response): Promise<Response> {
     const { user } = request;
+    const filter = request.query;
 
     const showUsers = container.resolve(ShowUsersService);
-
-    const users = await showUsers.execute({ company_id: user.company });
+    const users = await showUsers.execute({ company_id: user.company, filter });
 
     return response.json(classToClass(users));
+  }
+
+  public async getById(request: Request, response: Response): Promise<Response> {
+    const { user } = request;
+    const { id } = request.params;
+
+    const showUser = container.resolve(ShowUsersService);
+    const result = await showUser.execute({ company_id: user.company, filter: { id } });
+
+    return response.json(classToClass(result.shift()))
   }
 
   public async create(request: Request, response: Response): Promise<Response> {

@@ -10,6 +10,7 @@ const usersController = new UsersController();
 
 const usersRouter = Router();
 usersRouter.get('/', ensureAuthenticated, hasPermission('WEBEDITORUSER_VIEW'), usersController.getAll);
+usersRouter.get('/:id', ensureAuthenticated, hasPermission('WEBEDITORUSER_VIEW'), usersController.getById);
 usersRouter.post('/',
 celebrate({
   [Segments.BODY]: {

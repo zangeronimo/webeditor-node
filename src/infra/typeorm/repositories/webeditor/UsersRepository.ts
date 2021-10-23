@@ -1,7 +1,14 @@
 import ICreateUserDTO from "@domain/dtos/webeditor/ICreateUserDTO";
 import IUsersRepository from "@domain/interfaces/webeditor/IUsersRepository";
 import User from "@infra/typeorm/entities/webeditor/User";
-import { getRepository, Repository } from "typeorm";
+import { FindOperator, getRepository, Like, Repository } from "typeorm";
+
+export type UserFilter = {
+  id?: string;
+  name?: FindOperator<string>;
+  email?: FindOperator<string>;
+  active?: 0 | 1;
+}
 
 class UsersRepository implements IUsersRepository {
   private ormRepository: Repository<User>;
@@ -10,11 +17,20 @@ class UsersRepository implements IUsersRepository {
     this.ormRepository = getRepository(User);
   }
 
-  public async findAll(companyId: string): Promise<User[]> {
+  public async findAll(companyId: string, filter = {} as UserFilter): Promise<User[]> {
+
+    const where: UserFilter = {};
+
+    if (filter.id) where.id = filter.id;
+    if (filter.name) where.name = Like(`%${filter.name}%`);
+    if (filter.email) where.email = Like(`%${filter.email}%`);
+    if (filter.active) where.active = filter.active;
+
     const findUsers = await this.ormRepository.find({
       where: {
         companyId,
-        deletedAt: null
+        deletedAt: null,
+        ...where
       },
       relations: ['company', 'roles'],
     });
