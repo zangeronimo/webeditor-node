@@ -8,9 +8,9 @@ import ModulesController from '@api/controllers/webeditor/ModulesController';
 const modulesController = new ModulesController();
 
 const modulesRouter = Router();
-modulesRouter.get('/', ensureAuthenticated, hasPermission('WEBEDITORMODULE_VIEW'), modulesController.getAll);
-modulesRouter.post('/', ensureAuthenticated, hasPermission('WEBEDITORMODULE_ALTER'), modulesController.create);
-modulesRouter.put('/:id', ensureAuthenticated, hasPermission('WEBEDITORMODULE_ALTER'), modulesController.update);
-modulesRouter.delete('/:id', ensureAuthenticated, hasPermission('WEBEDITORMODULE_DELETE'), modulesController.delete);
+modulesRouter.get('/', ensureAuthenticated, hasPermission('ADMINMODULE_VIEW'), modulesController.getAll);
+modulesRouter.post('/', ensureAuthenticated, hasPermission('ADMINMODULE_ALTER'), modulesController.create);
+modulesRouter.put('/:id', ensureAuthenticated, hasPermission('ADMINMODULE_ALTER'), modulesController.update);
+modulesRouter.delete('/:id', ensureAuthenticated, hasPermission('ADMINMODULE_DELETE'), modulesController.delete);
 
 export default modulesRouter;

@@ -25,6 +25,9 @@ class Role {
   @Column()
   label: string;
 
+  @Column()
+  order: number;
+
   @Column({ name: 'webeditor_modules_id' })
   @Exclude()
   moduleId: string;

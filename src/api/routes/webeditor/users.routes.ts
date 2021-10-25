@@ -17,6 +17,7 @@ celebrate({
     name: Joi.string().required(),
     email: Joi.string().email().required(),
     password: Joi.string().required(),
+    roles: Joi.array(),
   }
 }), ensureAuthenticated, hasPermission('WEBEDITORUSER_ALTER'), usersController.create);
 usersRouter.put('/:id',
@@ -25,6 +26,7 @@ celebrate({
     id: Joi.string().required(),
     name: Joi.string().required(),
     email: Joi.string().email().required(),
+    roles: Joi.array(),
   }
 }), ensureAuthenticated, hasPermission('WEBEDITORUSER_ALTER'), usersController.update);
 usersRouter.delete('/:id', ensureAuthenticated, hasPermission('WEBEDITORUSER_DELETE'), usersController.delete);
