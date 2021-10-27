@@ -8,11 +8,21 @@ import { container } from "tsyringe";
 
 export default class RolesController {
   public async getAll(request: Request, response: Response): Promise<Response> {
+    const filter = request.query;
+
     const showRoles = container.resolve(ShowRoleService);
 
-    const roles = await showRoles.execute();
+    const roles = await showRoles.execute({filter});
 
     return response.json(classToClass(roles));
+  }
+  public async getById(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
+    const showRole = container.resolve(ShowRoleService);
+
+    const result = await showRole.execute({ filter: { id } });
+
+    return response.json(classToClass(result.shift()));
   }
 
   public async create(request: Request, response: Response): Promise<Response> {

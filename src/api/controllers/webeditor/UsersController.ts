@@ -3,7 +3,6 @@ import DeleteUserService from "@domain/services/webeditor/users/DeleteUserServic
 import ShowUsersService from "@domain/services/webeditor/users/ShowUserService";
 import UpdateUserService from "@domain/services/webeditor/users/UpdateUserService";
 import AppError from "@infra/errors/AppError";
-import User from "@infra/typeorm/entities/webeditor/User";
 import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
