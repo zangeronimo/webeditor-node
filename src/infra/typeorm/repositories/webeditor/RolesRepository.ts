@@ -7,6 +7,12 @@ export type RoleFilter = {
   id?: string;
   name?: FindOperator<string>;
   label?: FindOperator<string>;
+  moduleId?: string;
+}
+
+export type OrderBy = {
+  field: string;
+  order: 'ASC' | 'DESC';
 }
 
 class RolesRepository implements IRolesRepository {
@@ -16,18 +22,22 @@ class RolesRepository implements IRolesRepository {
     this.ormRepository = getRepository(Role);
   }
 
-  public async findAll(filter = {} as RoleFilter): Promise<Role[]> {
+  public async findAll(filter: RoleFilter, order: OrderBy): Promise<Role[]> {
 
     const where: RoleFilter = {};
 
     if (filter.id) where.id = filter.id;
     if (filter.name) where.name = Like(`%${filter.name}%`);
     if (filter.label) where.label = Like(`%${filter.label}%`);
+    if (filter.moduleId) where.moduleId = filter.moduleId;
 
     const findRoles = await this.ormRepository.find({
       where: {
         deletedAt: null,
         ...where
+      },
+      order: {
+        [order.field]: order.order
       },
       relations: ['module'],
     });

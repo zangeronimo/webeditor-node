@@ -1,18 +1,20 @@
 import CreateRoleService from "@domain/services/webeditor/roles/CreateRoleService";
 import DeleteRoleService from "@domain/services/webeditor/roles/DeleteRoleService";
 import ShowRoleService from "@domain/services/webeditor/roles/ShowRoleService";
+import UpdateOrderService from "@domain/services/webeditor/roles/UpdateOrderService";
 import UpdateRoleService from "@domain/services/webeditor/roles/UpdateRoleService";
+import { OrderBy, RoleFilter } from "@infra/typeorm/repositories/webeditor/RolesRepository";
 import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
 
 export default class RolesController {
   public async getAll(request: Request, response: Response): Promise<Response> {
-    const filter = request.query;
+    const { name, label, moduleId, order } = request.query;
 
     const showRoles = container.resolve(ShowRoleService);
 
-    const roles = await showRoles.execute({filter});
+    const roles = await showRoles.execute({filter: { name, label, moduleId } as RoleFilter, order: order && JSON.parse(order?.toString())});
 
     return response.json(classToClass(roles));
   }
@@ -41,6 +43,17 @@ export default class RolesController {
     const updateRole = container.resolve(UpdateRoleService);
 
     const role = await updateRole.execute({ id, name, label, module: moduleId });
+
+    return response.json(classToClass(role));
+  }
+
+  public async updateOrder(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
+    const { order } = request.body;
+
+    const updateOrder = container.resolve(UpdateOrderService);
+
+    const role = await updateOrder.execute({ id, order });
 
     return response.json(classToClass(role));
   }

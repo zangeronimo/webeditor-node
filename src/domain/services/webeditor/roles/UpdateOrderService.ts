@@ -8,9 +8,7 @@ import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   id: string;
-  name: string;
-  label: string;
-  module: string;
+  order: number;
 }
 
 @injectable()
@@ -27,16 +25,9 @@ class UpdateRoleService {
       throw new AppError('Role not found');
     }
 
-    const roleWithUpdatedName = await this.rolesRepository.findByName(model.name);
+    role.order = model.order;
 
-    if (roleWithUpdatedName && roleWithUpdatedName.id !== role.id) {
-      throw new AppError('Name already in use.');
-    }
-
-    role.name = model.name;
-    role.label = model.label;
-
-    return this.rolesRepository.save(role);
+    return await this.rolesRepository.save(role);
   }
 }
 

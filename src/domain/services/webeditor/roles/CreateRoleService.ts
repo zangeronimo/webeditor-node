@@ -26,6 +26,7 @@ class CreateRoleService {
     const role = await this.roleRepository.create({
       name,
       label,
+      order: 0,
       module,
     });
 
