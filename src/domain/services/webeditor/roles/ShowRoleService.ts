@@ -4,8 +4,14 @@ import { OrderBy, RoleFilter } from '@infra/typeorm/repositories/webeditor/Roles
 import { inject, injectable } from 'tsyringe';
 
 interface IRequest {
+  paginate?: any;
   filter?: RoleFilter;
   order?: OrderBy;
+}
+
+export interface IPaginationResponse {
+  data: Role[];
+  total: number;
 }
 
 @injectable()
@@ -15,8 +21,8 @@ class ShowRoleService {
     private rolesRepository: IRolesRepository,
   ) { }
 
-  public async execute({filter = {}, order = { field: 'order', order: 'ASC' } }: IRequest): Promise<Role[]> {
-    const roles = await this.rolesRepository.findAll(filter, order);
+  public async execute({paginate, filter = {}, order = { field: 'order', order: 'ASC' } }: IRequest): Promise<IPaginationResponse> {
+    const roles = await this.rolesRepository.findAll(paginate, filter, order);
     return roles;
   }
 }

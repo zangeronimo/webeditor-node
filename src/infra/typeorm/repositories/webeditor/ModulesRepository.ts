@@ -15,6 +15,7 @@ class ModulesRepository implements IModulesRepository {
       where: {
         deletedAt: null
       },
+      order: {'name': 'ASC'},
       relations: ['roles'],
     });
     return findModules;

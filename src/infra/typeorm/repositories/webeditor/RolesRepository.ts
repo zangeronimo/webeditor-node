@@ -1,12 +1,12 @@
 import ICreateRoleDTO from "@domain/dtos/webeditor/ICreateRoleDTO";
 import IRolesRepository from "@domain/interfaces/webeditor/IRolesRepository";
+import { IPaginationResponse } from "@domain/services/webeditor/roles/ShowRoleService";
 import Role from "@infra/typeorm/entities/webeditor/Role";
 import { FindOperator, getRepository, Like, Repository } from "typeorm";
 
 export type RoleFilter = {
   id?: string;
-  name?: FindOperator<string>;
-  label?: FindOperator<string>;
+  search?: string;
   moduleId?: string;
 }
 
@@ -22,26 +22,25 @@ class RolesRepository implements IRolesRepository {
     this.ormRepository = getRepository(Role);
   }
 
-  public async findAll(filter: RoleFilter, order: OrderBy): Promise<Role[]> {
+  public async findAll(paginate: any, filter: RoleFilter, order: OrderBy): Promise<IPaginationResponse> {
 
-    const where: RoleFilter = {};
+    const builder = this.ormRepository.createQueryBuilder('roles');
+    builder.leftJoinAndSelect('roles.module', 'module');
 
-    if (filter.id) where.id = filter.id;
-    if (filter.name) where.name = Like(`%${filter.name}%`);
-    if (filter.label) where.label = Like(`%${filter.label}%`);
-    if (filter.moduleId) where.moduleId = filter.moduleId;
+    if (filter.search)
+      builder.where("roles.name LIKE :s OR roles.label LIKE :s", {s: `%${filter.search}%`})
 
-    const findRoles = await this.ormRepository.find({
-      where: {
-        deletedAt: null,
-        ...where
-      },
-      order: {
-        [order.field]: order.order
-      },
-      relations: ['module'],
-    });
-    return findRoles;
+    if (order.field === 'module.name')
+      builder.orderBy(order.field, order.order);
+    else
+      builder.orderBy(`roles.${order.field}`, order.order);
+
+    const { page = 1, perPage = 20 } = paginate;
+    const total = await builder.getCount();
+
+    builder.offset((page - 1) * perPage).limit(perPage);
+
+    return { data: await builder.getMany(), total };
   }
 
   public async findById(id: string): Promise<Role | undefined> {
