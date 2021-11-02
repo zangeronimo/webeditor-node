@@ -1,18 +1,14 @@
 import ICreateRoleDTO from "@domain/dtos/webeditor/ICreateRoleDTO";
+import { IPaginationResponse } from "@domain/interfaces/Base";
 import IRolesRepository from "@domain/interfaces/webeditor/IRolesRepository";
-import { IPaginationResponse } from "@domain/services/webeditor/roles/ShowRoleService";
 import Role from "@infra/typeorm/entities/webeditor/Role";
-import { FindOperator, getRepository, Like, Repository } from "typeorm";
+import { getRepository, Repository } from "typeorm";
+import { OrderBy } from "../BaseTypes";
 
 export type RoleFilter = {
   id?: string;
   search?: string;
   moduleId?: string;
-}
-
-export type OrderBy = {
-  field: string;
-  order: 'ASC' | 'DESC';
 }
 
 class RolesRepository implements IRolesRepository {
@@ -22,14 +18,13 @@ class RolesRepository implements IRolesRepository {
     this.ormRepository = getRepository(Role);
   }
 
-  public async findAll(paginate: any, filter: RoleFilter, order: OrderBy): Promise<IPaginationResponse> {
+  public async findAll(paginate: any, filter: RoleFilter, order: OrderBy): Promise<IPaginationResponse<Role>> {
 
     const builder = this.ormRepository.createQueryBuilder('roles');
     builder.leftJoinAndSelect('roles.module', 'module');
 
     if (filter.search)
-      builder.where("roles.name LIKE :s OR roles.label LIKE :s", {s: `%${filter.search}%`})
-
+      builder.where("unaccent(lower(roles.name)) LIKE unaccent(:s) OR unaccent(lower(roles.label)) LIKE unaccent(:s)", {s: `%${filter.search.toLowerCase()}%`})
     if (order.field === 'module.name')
       builder.orderBy(order.field, order.order);
     else

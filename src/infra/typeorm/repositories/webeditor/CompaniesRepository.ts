@@ -1,7 +1,14 @@
 import ICreateCompanyDTO from "@domain/dtos/webeditor/ICreateCompanyDTO";
+import { IPaginationResponse } from "@domain/interfaces/Base";
 import ICompaniesRepository from "@domain/interfaces/webeditor/ICompaniesRepository";
 import Company from "@infra/typeorm/entities/webeditor/Company";
 import { getRepository, Repository } from "typeorm";
+import { OrderBy } from "../BaseTypes";
+
+export type CompanyFilter = {
+  id?: string;
+  name?: string;
+}
 
 class CompaniesRepository implements ICompaniesRepository {
   private ormRepository: Repository<Company>;
@@ -10,14 +17,20 @@ class CompaniesRepository implements ICompaniesRepository {
     this.ormRepository = getRepository(Company);
   }
 
-  public async findAll(): Promise<Company[]> {
-    const findCompanies = await this.ormRepository.find({
-      where: {
-        deletedAt: null
-      },
-      relations: ['modules'],
-    });
-    return findCompanies;
+  public async findAll(paginate: any, filter: CompanyFilter, order: OrderBy): Promise<IPaginationResponse<Company>> {
+
+    const builder = this.ormRepository.createQueryBuilder('companies');
+
+    if (filter.name)
+      builder.where("unaccent(lower(companies.name)) LIKE unaccent(:s)", {s: `%${filter.name.toLowerCase()}%`})
+
+    builder.orderBy(`companies.${order.field}`, order.order);
+
+    const { page = 1, perPage = 20 } = paginate;
+    const total = await builder.getCount();
+
+    builder.offset((page - 1) * perPage).limit(perPage);
+    return { data: await builder.getMany(), total };
   }
 
   public async findById(id: string): Promise<Company | undefined> {

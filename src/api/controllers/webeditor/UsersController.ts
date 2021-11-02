@@ -1,5 +1,6 @@
 import CreateUserService from "@domain/services/webeditor/users/CreateUserService";
 import DeleteUserService from "@domain/services/webeditor/users/DeleteUserService";
+import FindByIdUserService from "@domain/services/webeditor/users/FindByIdUserService";
 import ShowUsersService from "@domain/services/webeditor/users/ShowUserService";
 import UpdateUserService from "@domain/services/webeditor/users/UpdateUserService";
 import AppError from "@infra/errors/AppError";
@@ -22,10 +23,10 @@ export default class UsersController {
     const { user } = request;
     const { id } = request.params;
 
-    const showUser = container.resolve(ShowUsersService);
-    const result = await showUser.execute({ company_id: user.company, filter: { id } });
+    const getUser = container.resolve(FindByIdUserService);
+    const result = await getUser.execute(id, user.company);
 
-    return response.json(classToClass(result.shift()))
+    return response.json(classToClass(result))
   }
 
   public async create(request: Request, response: Response): Promise<Response> {

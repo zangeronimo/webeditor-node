@@ -1,17 +1,14 @@
+import { IPaginationResponse } from '@domain/interfaces/Base';
 import IRolesRepository from '@domain/interfaces/webeditor/IRolesRepository';
 import Role from '@infra/typeorm/entities/webeditor/Role';
-import { OrderBy, RoleFilter } from '@infra/typeorm/repositories/webeditor/RolesRepository';
+import { OrderBy } from '@infra/typeorm/repositories/BaseTypes';
+import { RoleFilter } from '@infra/typeorm/repositories/webeditor/RolesRepository';
 import { inject, injectable } from 'tsyringe';
 
 interface IRequest {
   paginate?: any;
   filter?: RoleFilter;
   order?: OrderBy;
-}
-
-export interface IPaginationResponse {
-  data: Role[];
-  total: number;
 }
 
 @injectable()
@@ -21,7 +18,7 @@ class ShowRoleService {
     private rolesRepository: IRolesRepository,
   ) { }
 
-  public async execute({paginate, filter = {}, order = { field: 'order', order: 'ASC' } }: IRequest): Promise<IPaginationResponse> {
+  public async execute({paginate, filter = {}, order = { field: 'order', order: 'ASC' } }: IRequest): Promise<IPaginationResponse<Role>> {
     const roles = await this.rolesRepository.findAll(paginate, filter, order);
     return roles;
   }

@@ -21,6 +21,16 @@ class ModulesRepository implements IModulesRepository {
     return findModules;
   }
 
+  public async findAllByCompany(company_id: string): Promise<Module[]> {
+    const builder = this.ormRepository.createQueryBuilder('modules');
+    builder.leftJoinAndSelect('modules.roles', 'roles');
+    builder.innerJoin('modules.companies', 'companies', "companies.id = :s", {s: company_id});
+    builder.where("modules.deletedAt IS NULL");
+    builder.orderBy("modules.name");
+
+    return await builder.getMany();
+  }
+
   public async findById(id: string): Promise<Module | undefined> {
     const findModule = await this.ormRepository.findOne({
       where: {

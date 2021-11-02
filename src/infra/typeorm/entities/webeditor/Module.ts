@@ -23,7 +23,7 @@ class Module {
   name: string;
 
   @ManyToMany(() => Company, (company: Company) => company.modules)
-  @JoinTable({ name: 'webeditor_companies_has_webeditor_modules', joinColumn: { name: 'webeditor_companies_id' }, inverseJoinColumn: { name: 'webeditor_modules_id' } })
+  @JoinTable({ name: 'webeditor_companies_has_webeditor_modules', joinColumn: { name: 'webeditor_modules_id' }, inverseJoinColumn: { name: 'webeditor_companies_id' } })
   companies: Company[];
 
   @AfterLoad()

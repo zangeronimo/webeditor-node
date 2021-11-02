@@ -4,17 +4,17 @@ import FindByIdRoleService from "@domain/services/webeditor/roles/FindByIdRoleSe
 import ShowRoleService from "@domain/services/webeditor/roles/ShowRoleService";
 import UpdateOrderService from "@domain/services/webeditor/roles/UpdateOrderService";
 import UpdateRoleService from "@domain/services/webeditor/roles/UpdateRoleService";
-import { OrderBy, RoleFilter } from "@infra/typeorm/repositories/webeditor/RolesRepository";
+import { RoleFilter } from "@infra/typeorm/repositories/webeditor/RolesRepository";
 import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
 
 export default class RolesController {
   public async getAll(request: Request, response: Response): Promise<Response> {
-    const { search, moduleId, order, page, perPage } = request.query;
+    const { search, moduleId, order, page } = request.query;
 
     const showRoles = container.resolve(ShowRoleService);
-    const roles = await showRoles.execute({paginate: { page, perPage }, filter: { search, moduleId } as RoleFilter, order: order && JSON.parse(order?.toString())});
+    const roles = await showRoles.execute({paginate: { page }, filter: { search, moduleId } as RoleFilter, order: order && JSON.parse(order?.toString())});
 
     return response.json(classToClass(roles));
   }

@@ -2,6 +2,7 @@ import CreateModuleService from "@domain/services/webeditor/modules/CreateModule
 import DeleteModuleService from "@domain/services/webeditor/modules/DeleteModuleService";
 import ShowModuleService from "@domain/services/webeditor/modules/ShowModuleService";
 import UpdateModuleService from "@domain/services/webeditor/modules/UpdateModuleService";
+import UserModuleService from "@domain/services/webeditor/modules/UserModuleService";
 import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
@@ -11,6 +12,14 @@ export default class ModulesController {
     const showModules = container.resolve(ShowModuleService);
 
     const modules = await showModules.execute();
+
+    return response.json(classToClass(modules));
+  }
+  public async getAllByUser(request: Request, response: Response): Promise<Response> {
+    const { user } = request;
+    const showModules = container.resolve(UserModuleService);
+
+    const modules = await showModules.execute(user.company);
 
     return response.json(classToClass(modules));
   }

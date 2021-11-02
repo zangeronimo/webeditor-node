@@ -1,19 +1,31 @@
 import CreateCompanyService from "@domain/services/webeditor/companies/CreateCompanyService";
 import DeleteCompanyService from "@domain/services/webeditor/companies/DeleteCompanyService";
+import FindByIdCompanyService from "@domain/services/webeditor/companies/FindByIdCompanyService";
 import ShowCompanyService from "@domain/services/webeditor/companies/ShowCompanyService";
 import UpdateCompanyService from "@domain/services/webeditor/companies/UpdateCompanyService";
 import AppError from "@infra/errors/AppError";
+import { CompanyFilter } from "@infra/typeorm/repositories/webeditor/CompaniesRepository";
 import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
 
 export default class CompaniesController {
   public async getAll(request: Request, response: Response): Promise<Response> {
+    const { name, order, page } = request.query;
+
     const showCompanies = container.resolve(ShowCompanyService);
 
-    const companies = await showCompanies.execute();
+    const companies = await showCompanies.execute({paginate: { page }, filter: { name } as CompanyFilter, order: order && JSON.parse(order?.toString())});
 
     return response.json(classToClass(companies));
+  }
+  public async getById(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
+
+    const findCompany = container.resolve(FindByIdCompanyService);
+    const result = await findCompany.execute(id);
+
+    return response.json(classToClass(result));
   }
 
   public async create(request: Request, response: Response): Promise<Response> {

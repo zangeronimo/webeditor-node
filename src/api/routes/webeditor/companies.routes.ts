@@ -9,6 +9,7 @@ const companiesController = new CompaniesController();
 
 const companiesRouter = Router();
 companiesRouter.get('/', ensureAuthenticated, hasPermission('ADMINCOMPANY_VIEW'), companiesController.getAll);
+companiesRouter.get('/:id', ensureAuthenticated, hasPermission('ADMINCOMPANY_VIEW'), companiesController.getById);
 companiesRouter.post('/', ensureAuthenticated, hasPermission('ADMINCOMPANY_ALTER'), companiesController.create);
 companiesRouter.put('/:id', ensureAuthenticated, hasPermission('ADMINCOMPANY_ALTER'), companiesController.update);
 companiesRouter.delete('/:id', ensureAuthenticated, hasPermission('ADMINCOMPANY_DELETE'), companiesController.delete);
