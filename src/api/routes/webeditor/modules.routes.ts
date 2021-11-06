@@ -10,8 +10,8 @@ const modulesController = new ModulesController();
 
 const modulesRouter = Router();
 modulesRouter.get('/', ensureAuthenticated, hasPermission('ADMINMODULE_VIEW'), modulesController.getAll);
-modulesRouter.get('/:id', ensureAuthenticated, hasPermission('ADMINMODULE_VIEW'), modulesController.getById);
 modulesRouter.get('/user', ensureAuthenticated, hasPermission('WEBEDITORUSER_ALTER'), modulesController.getAllByUser);
+modulesRouter.get('/:id', ensureAuthenticated, hasPermission('ADMINMODULE_VIEW'), modulesController.getById);
 modulesRouter.post('/', ensureAuthenticated, hasPermission('ADMINMODULE_ALTER'), modulesController.create);
 modulesRouter.put('/:id', ensureAuthenticated, hasPermission('ADMINMODULE_ALTER'), modulesController.update);
 modulesRouter.delete('/:id', ensureAuthenticated, hasPermission('ADMINMODULE_DELETE'), modulesController.delete);
