@@ -9,7 +9,6 @@ interface IRequest {
   id: string;
   name: string;
   email: string;
-  old_password?: string;
   password?: string;
   company: string;
   roles?: Role[];
@@ -43,17 +42,7 @@ class UpdateUserService {
 
     user.roles = model.roles ?? [];
 
-    if (model.password && !model.old_password) {
-      throw new AppError('You need to inform the old password to set a new password');
-    }
-
-    if (model.password && model.old_password) {
-      const checkOldPassword = await this.hashProvider.compareHash(model.old_password, user.password);
-
-      if (!checkOldPassword) {
-        throw new AppError('Invalid old password');
-      }
-
+    if (model.password) {
       user.password = await this.hashProvider.generateHash(model.password);
     }
 

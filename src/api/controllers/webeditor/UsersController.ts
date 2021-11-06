@@ -4,17 +4,18 @@ import FindByIdUserService from "@domain/services/webeditor/users/FindByIdUserSe
 import ShowUsersService from "@domain/services/webeditor/users/ShowUserService";
 import UpdateUserService from "@domain/services/webeditor/users/UpdateUserService";
 import AppError from "@infra/errors/AppError";
+import { UserFilter } from "@infra/typeorm/repositories/webeditor/UsersRepository";
 import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
 
 export default class UsersController {
   public async getAll(request: Request, response: Response): Promise<Response> {
+    const { name, order, page } = request.query;
     const { user } = request;
-    const filter = request.query;
 
     const showUsers = container.resolve(ShowUsersService);
-    const users = await showUsers.execute({ company_id: user.company, filter });
+    const users = await showUsers.execute({company_id: user.company, paginate: { page }, filter: { name } as UserFilter, order: order && JSON.parse(order?.toString())});
 
     return response.json(classToClass(users));
   }
@@ -42,11 +43,11 @@ export default class UsersController {
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { company } = request.user;
-    const { id, name, email, password, old_password, roles } = request.body;
+    const { id, name, email, password, roles } = request.body;
 
     const updateUser = container.resolve(UpdateUserService);
 
-    const user = await updateUser.execute({ id, name, email, password, old_password, company, roles });
+    const user = await updateUser.execute({ id, name, email, password, company, roles });
 
     return response.json(classToClass(user));
   }

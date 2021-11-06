@@ -26,6 +26,7 @@ celebrate({
     id: Joi.string().required(),
     name: Joi.string().required(),
     email: Joi.string().email().required(),
+    password: Joi.string(),
     roles: Joi.array(),
   }
 }), ensureAuthenticated, hasPermission('WEBEDITORUSER_ALTER'), usersController.update);

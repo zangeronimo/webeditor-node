@@ -1,13 +1,14 @@
 import ICreateUserDTO from "@domain/dtos/webeditor/ICreateUserDTO";
+import { IPaginationResponse } from "@domain/interfaces/Base";
 import IUsersRepository from "@domain/interfaces/webeditor/IUsersRepository";
 import User from "@infra/typeorm/entities/webeditor/User";
 import { FindOperator, getRepository, Like, Repository } from "typeorm";
+import { OrderBy } from "../BaseTypes";
 
 export type UserFilter = {
   id?: string;
-  name?: FindOperator<string>;
-  email?: FindOperator<string>;
-  active?: 0 | 1;
+  name?: string;
+  email?: string;
 }
 
 class UsersRepository implements IUsersRepository {
@@ -17,24 +18,24 @@ class UsersRepository implements IUsersRepository {
     this.ormRepository = getRepository(User);
   }
 
-  public async findAll(companyId: string, filter = {} as UserFilter): Promise<User[]> {
+  public async findAll(ompanyId: string, paginate: any, filter: UserFilter, order: OrderBy): Promise<IPaginationResponse<User>> {
 
-    const where: UserFilter = {};
+    const builder = this.ormRepository.createQueryBuilder('users');
+    builder.innerJoinAndSelect('users.company', 'company');
+    builder.leftJoinAndSelect('users.roles', 'roles');
 
-    if (filter.id) where.id = filter.id;
-    if (filter.name) where.name = Like(`%${filter.name}%`);
-    if (filter.email) where.email = Like(`%${filter.email}%`);
-    if (filter.active) where.active = filter.active;
+    if (filter.name)
+      builder.where("unaccent(lower(users.name)) LIKE unaccent(:s)", {s: `%${filter.name.toLowerCase()}%`})
+    if (filter.email)
+      builder.where("unaccent(lower(users.email)) LIKE unaccent(:s)", {s: `%${filter.email.toLowerCase()}%`})
 
-    const findUsers = await this.ormRepository.find({
-      where: {
-        companyId,
-        deletedAt: null,
-        ...where
-      },
-      relations: ['company', 'roles'],
-    });
-    return findUsers;
+    builder.orderBy(`users.${order.field}`, order.order);
+
+    const { page = 1, perPage = 20 } = paginate;
+    const total = await builder.getCount();
+
+    builder.offset((page - 1) * perPage).limit(perPage);
+    return { data: await builder.getMany(), total };
   }
 
   public async findById(id: string, companyId: string): Promise<User | undefined> {
