@@ -1,7 +1,14 @@
 import ICreateModuleDTO from "@domain/dtos/webeditor/ICreateModuleDTO";
+import { IPaginationResponse } from "@domain/interfaces/Base";
 import IModulesRepository from "@domain/interfaces/webeditor/IModulesRepository";
 import Module from "@infra/typeorm/entities/webeditor/Module";
 import { getRepository, Repository } from "typeorm";
+import { OrderBy } from "../BaseTypes";
+
+export type ModuleFilter = {
+  id?: string;
+  name?: string;
+}
 
 class ModulesRepository implements IModulesRepository {
   private ormRepository: Repository<Module>;
@@ -10,15 +17,20 @@ class ModulesRepository implements IModulesRepository {
     this.ormRepository = getRepository(Module);
   }
 
-  public async findAll(): Promise<Module[]> {
-    const findModules = await this.ormRepository.find({
-      where: {
-        deletedAt: null
-      },
-      order: {'name': 'ASC'},
-      relations: ['roles'],
-    });
-    return findModules;
+  public async findAll(paginate: any, filter: ModuleFilter, order: OrderBy): Promise<IPaginationResponse<Module>> {
+
+    const builder = this.ormRepository.createQueryBuilder('modules');
+
+    if (filter.name)
+      builder.where("unaccent(lower(modules.name)) LIKE unaccent(:s)", {s: `%${filter.name.toLowerCase()}%`})
+
+    builder.orderBy(`modules.${order.field}`, order.order);
+
+    const { page = 1, perPage = 20 } = paginate;
+    const total = await builder.getCount();
+
+    builder.offset((page - 1) * perPage).limit(perPage);
+    return { data: await builder.getMany(), total };
   }
 
   public async findAllByCompany(company_id: string): Promise<Module[]> {
