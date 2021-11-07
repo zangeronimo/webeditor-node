@@ -10,6 +10,7 @@ const pagesController = new PagesController();
 
 const pagesRouter = Router();
 pagesRouter.get('/', ensureAuthenticated, hasPermission('INSTITUTIONALPAGES_VIEW'), pagesController.getAll);
+pagesRouter.get('/:id', ensureAuthenticated, hasPermission('INSTITUTIONALPAGES_VIEW'), pagesController.getById);
 pagesRouter.post('/',
 celebrate({
   [Segments.BODY]: {

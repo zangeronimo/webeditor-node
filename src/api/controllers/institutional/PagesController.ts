@@ -1,20 +1,33 @@
 import CreatePageService from '@domain/services/institutional/pages/CreatePageService';
 import DeletePageService from '@domain/services/institutional/pages/DeletePageService';
+import FindByIdPageService from '@domain/services/institutional/pages/FindByIdPageService';
 import ShowPagesService from '@domain/services/institutional/pages/ShowPageService';
 import UpdatePageService from '@domain/services/institutional/pages/UpdatePageService';
+import { PageFilter } from '@infra/typeorm/repositories/institutional/PagesRepository';
 import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
 
 export default class PagesController {
   public async getAll(request: Request, response: Response): Promise<Response> {
+    const { title, order, page } = request.query;
     const { company } = request.user;
 
     const showPages = container.resolve(ShowPagesService);
 
-    const pages = await showPages.execute({ companyId: company });
+    const pages = await showPages.execute({company_id: company, paginate: { page }, filter: { title } as PageFilter, order: order && JSON.parse(order?.toString())});
 
     return response.json(classToClass(pages));
+  }
+
+  public async getById(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
+    const { company } = request.user;
+
+    const findPage = container.resolve(FindByIdPageService);
+    const result = await findPage.execute(id, company);
+
+    return response.json(classToClass(result));
   }
 
   public async create(request: Request, response: Response): Promise<Response> {

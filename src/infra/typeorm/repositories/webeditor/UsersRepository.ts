@@ -18,11 +18,13 @@ class UsersRepository implements IUsersRepository {
     this.ormRepository = getRepository(User);
   }
 
-  public async findAll(ompanyId: string, paginate: any, filter: UserFilter, order: OrderBy): Promise<IPaginationResponse<User>> {
+  public async findAll(companyId: string, paginate: any, filter: UserFilter, order: OrderBy): Promise<IPaginationResponse<User>> {
 
     const builder = this.ormRepository.createQueryBuilder('users');
     builder.innerJoinAndSelect('users.company', 'company');
     builder.leftJoinAndSelect('users.roles', 'roles');
+
+    builder.where('users.companyId = :s', { s: companyId});
 
     if (filter.name)
       builder.where("unaccent(lower(users.name)) LIKE unaccent(:s)", {s: `%${filter.name.toLowerCase()}%`})
