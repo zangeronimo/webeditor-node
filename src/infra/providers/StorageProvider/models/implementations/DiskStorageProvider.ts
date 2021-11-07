@@ -26,6 +26,7 @@ export default class DiskStorageProvider implements IStorageProvider {
   }
 
   public async deleteFile(file: string): Promise<void> {
+    if (!file) return;
     const removeFile = file.replace('/files/', 'upload/');
     const dir = path.resolve(removeFile);
 
