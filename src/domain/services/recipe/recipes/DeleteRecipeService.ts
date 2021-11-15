@@ -22,7 +22,9 @@ class DeleteRecipeService {
       throw new AppError('Recipe not found');
     }
 
-    recipe.deletedAt = new Date();
+    const now = new Date();
+    recipe.slug = now.getTime().toString();
+    recipe.deletedAt = now;
 
     return this.recipesRepository.save(recipe);
   }

@@ -1,7 +1,17 @@
 import ICreateRecipeDTO from "@domain/dtos/recipe/ICreateRecipeDTO";
+import { IPaginationResponse } from "@domain/interfaces/Base";
 import IRecipesRepository from "@domain/interfaces/recipe/IRecipesRepository";
 import Recipe from "@infra/typeorm/entities/recipe/Recipe";
 import { getRepository, Repository } from "typeorm";
+import { OrderBy } from "../BaseTypes";
+
+export type RecipeFilter = {
+  id?: string;
+  slug?: string;
+  name?: string;
+  categoryId?: string;
+  active?: 0 | 1;
+}
 
 class RecipesRepository implements IRecipesRepository {
   private ormRepository: Repository<Recipe>;
@@ -10,14 +20,30 @@ class RecipesRepository implements IRecipesRepository {
     this.ormRepository = getRepository(Recipe);
   }
 
-  public async findAll(companyId: string): Promise<Recipe[]> {
-    const findRecipes = await this.ormRepository.find({
-      where: {
-        companyId,
-        deletedAt: null
-      },
-    });
-    return findRecipes;
+  public async findAll(companyId: string, paginate: any, filter: RecipeFilter, order: OrderBy): Promise<IPaginationResponse<Recipe>> {
+
+    const builder = this.ormRepository.createQueryBuilder('recipes');
+    builder.innerJoinAndSelect('recipes.company', 'company');
+    builder.innerJoinAndSelect('recipes.category', 'category');
+
+    builder.where('recipes.companyId = :s', { s: companyId});
+
+    if (filter.slug)
+      builder.where("unaccent(lower(recipes.slug)) LIKE unaccent(:s)", {s: `%${filter.slug.toLowerCase()}%`})
+    if (filter.name)
+      builder.where("unaccent(lower(recipes.name)) LIKE unaccent(:s)", {s: `%${filter.name.toLowerCase()}%`})
+    if (filter.categoryId)
+      builder.where("recipes.categoryId = :s", {s: filter.categoryId});
+    if (filter.active)
+      builder.where("recipes.active = :s", {s: filter.active});
+
+    builder.orderBy(`recipes.${order.field}`, order.order);
+
+    const { page = 1, perPage = 20 } = paginate;
+    const total = await builder.getCount();
+
+    builder.offset((page - 1) * perPage).limit(perPage);
+    return { data: await builder.getMany(), total };
   }
 
   public async findById(id: string, companyId: string): Promise<Recipe | undefined> {
@@ -27,6 +53,7 @@ class RecipesRepository implements IRecipesRepository {
         companyId,
         deletedAt: null,
       },
+      relations: ['category'],
     });
     return findRecipe;
   }

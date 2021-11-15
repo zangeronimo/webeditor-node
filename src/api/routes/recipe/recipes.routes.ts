@@ -9,6 +9,7 @@ const recipesController = new RecipesController();
 
 const recipesRouter = Router();
 recipesRouter.get('/', ensureAuthenticated, hasPermission('RECIPERECIPES_VIEW'), recipesController.getAll);
+recipesRouter.get('/:id', ensureAuthenticated, hasPermission('RECIPERECIPES_VIEW'), recipesController.getById);
 recipesRouter.post('/',
 celebrate({
   [Segments.BODY]: {
