@@ -10,6 +10,7 @@ const levelsController = new LevelsController();
 
 const levelsRouter = Router();
 levelsRouter.get('/', ensureAuthenticated, hasPermission('RECIPELEVELS_VIEW'), levelsController.getAll);
+levelsRouter.get('/:id', ensureAuthenticated, hasPermission('RECIPELEVELS_VIEW'), levelsController.getById);
 levelsRouter.post('/',
 celebrate({
   [Segments.BODY]: {
