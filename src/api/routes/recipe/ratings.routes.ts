@@ -9,6 +9,7 @@ const ratingsController = new RatingsController();
 
 const ratingsRouter = Router();
 ratingsRouter.get('/', ensureAuthenticated, hasPermission('RECIPERATINGS_VIEW'), ratingsController.getAll);
+ratingsRouter.get('/:id', ensureAuthenticated, hasPermission('RECIPERATINGS_VIEW'), ratingsController.getById);
 ratingsRouter.post('/',
 celebrate({
   [Segments.BODY]: {

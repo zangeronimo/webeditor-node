@@ -1,9 +1,15 @@
+import { IPaginationResponse } from '@domain/interfaces/Base';
 import IRatingsRepository from '@domain/interfaces/recipe/IRatingsRepository';
 import Rate from '@infra/typeorm/entities/recipe/Rate';
+import { OrderBy } from '@infra/typeorm/repositories/BaseTypes';
+import { RateFilter } from '@infra/typeorm/repositories/recipe/RatingsRepository';
 import { inject, injectable } from 'tsyringe';
 
 interface IRequest {
-  companyId: string;
+  company_id: string;
+  paginate?: any;
+  filter?: RateFilter;
+  order?: OrderBy;
 }
 
 @injectable()
@@ -13,8 +19,8 @@ class ShowRateService {
     private ratingsRepository: IRatingsRepository,
   ) { }
 
-  public async execute({ companyId }: IRequest): Promise<Rate[]> {
-    const ratings = await this.ratingsRepository.findAll(companyId);
+  public async execute({ company_id, paginate, filter = {}, order = { field: 'created_at', order: 'DESC' } }: IRequest): Promise<IPaginationResponse<Rate>> {
+    const ratings = await this.ratingsRepository.findAll(company_id, paginate, filter, order);
     return ratings;
   }
 }
