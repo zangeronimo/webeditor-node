@@ -9,6 +9,7 @@ const categoriesController = new CategoriesController();
 
 const categoriesRouter = Router();
 categoriesRouter.get('/', ensureAuthenticated, hasPermission('RECIPECATEGORIES_VIEW'), categoriesController.getAll);
+categoriesRouter.get('/:id', ensureAuthenticated, hasPermission('RECIPECATEGORIES_VIEW'), categoriesController.getById);
 categoriesRouter.post('/',
 celebrate({
   [Segments.BODY]: {

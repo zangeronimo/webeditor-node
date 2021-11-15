@@ -1,20 +1,33 @@
 import CreateCategoryService from "@domain/services/recipe/categories/CreateCategoryService";
 import DeleteCategoryService from "@domain/services/recipe/categories/DeleteCategoryService";
+import FindByIdCategoryService from "@domain/services/recipe/categories/FindByIdCategoryService";
 import ShowCategoryService from "@domain/services/recipe/categories/ShowCategoryService";
 import UpdateCategoryService from "@domain/services/recipe/categories/UpdateCategoryService";
+import { CategoryFilter } from "@infra/typeorm/repositories/recipe/CategoriesRepository";
 import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
 
 export default class CategoriesController {
   public async getAll(request: Request, response: Response): Promise<Response> {
+    const { name, levelId, active, order, page } = request.query;
     const { company } = request.user;
 
     const showCategories = container.resolve(ShowCategoryService);
 
-    const categories = await showCategories.execute({ companyId: company });
+    const categories = await showCategories.execute({company_id: company, paginate: { page }, filter: { name, levelId, active } as CategoryFilter, order: order && JSON.parse(order?.toString())});
 
     return response.json(classToClass(categories));
+  }
+
+  public async getById(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
+    const { company } = request.user;
+
+    const findCategory = container.resolve(FindByIdCategoryService);
+    const result = await findCategory.execute(id, company);
+
+    return response.json(classToClass(result));
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
