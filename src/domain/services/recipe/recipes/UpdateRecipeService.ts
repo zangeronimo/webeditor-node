@@ -5,7 +5,6 @@ import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   id: string;
-  slug: string;
   name: string;
   ingredients: string;
   preparation: string;
@@ -29,7 +28,10 @@ class UpdateRecipeService {
     }
 
     recipe.name = model.name;
+    recipe.ingredients = model.ingredients;
+    recipe.preparation = model.preparation;
     recipe.active = model.active;
+    recipe.categoryId = model.categoryId;
 
     return this.recipesRepository.save(recipe);
   }
