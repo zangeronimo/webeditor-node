@@ -32,22 +32,22 @@ export default class RecipesController {
 
   public async create(request: Request, response: Response): Promise<Response> {
     const { company } = request.user;
-    const { name, ingredients, preparation, active, categoryId } = request.body;
+    const { file, name, ingredients, preparation, active, categoryId } = request.body;
 
     const createRecipe = container.resolve(CreateRecipeService);
 
-    const recipe = await createRecipe.execute({ name, ingredients, preparation, active: active ?? 0, categoryId, companyId: company });
+    const recipe = await createRecipe.execute({ file, name, ingredients, preparation, active: active ?? 0, categoryId, companyId: company });
 
     return response.status(201).json(classToClass(recipe));
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { company } = request.user;
-    const { id, name, ingredients, preparation,  active, categoryId } = request.body;
+    const { id, file, name, ingredients, preparation,  active, categoryId } = request.body;
 
     const updateRecipe = container.resolve(UpdateRecipeService);
 
-    const recipe = await updateRecipe.execute({ id, name, ingredients, preparation, active, categoryId, companyId: company });
+    const recipe = await updateRecipe.execute({ id, file, name, ingredients, preparation, active, categoryId, companyId: company });
 
     return response.json(classToClass(recipe));
   }

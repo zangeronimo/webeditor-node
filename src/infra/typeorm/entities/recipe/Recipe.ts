@@ -6,11 +6,13 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import Company from '../webeditor/Company';
 import Category from './Category';
+import Image from './Image';
 
 @Entity('recipes')
 class Recipe {
@@ -47,6 +49,9 @@ class Recipe {
   @ManyToOne(() => Company)
   @JoinColumn({ name: 'webeditor_companies_id' })
   company: Company;
+
+  @OneToMany(() => Image, (image: Image) => image.recipe)
+  images: Image[];
 
   @CreateDateColumn({ name: 'created_at' })
   @Exclude()

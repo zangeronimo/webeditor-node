@@ -53,7 +53,7 @@ class RecipesRepository implements IRecipesRepository {
         companyId,
         deletedAt: null,
       },
-      relations: ['category'],
+      relations: ['category', 'images'],
     });
     return findRecipe;
   }

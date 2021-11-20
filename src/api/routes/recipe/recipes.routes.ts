@@ -13,6 +13,7 @@ recipesRouter.get('/:id', ensureAuthenticated, hasPermission('RECIPERECIPES_VIEW
 recipesRouter.post('/',
 celebrate({
   [Segments.BODY]: {
+    file: Joi.string(),
     name: Joi.string().required(),
     ingredients: Joi.string().required(),
     preparation: Joi.string().required(),
@@ -23,6 +24,7 @@ recipesRouter.put('/:id',
 celebrate({
   [Segments.BODY]: {
     id: Joi.string().required(),
+    file: Joi.string(),
     name: Joi.string().required(),
     ingredients: Joi.string().required(),
     preparation: Joi.string().required(),
