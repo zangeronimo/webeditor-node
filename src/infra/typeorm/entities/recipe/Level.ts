@@ -6,10 +6,12 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import Company from '../webeditor/Company';
+import Category from './Category';
 
 @Entity('recipe_levels')
 class Level {
@@ -25,6 +27,9 @@ class Level {
   @Column({ name: 'webeditor_companies_id' })
   @Exclude()
   companyId: string;
+
+  @OneToMany(() => Category, (category: Category) => category.level)
+  categories: Category[];
 
   @ManyToOne(() => Company)
   @JoinColumn({ name: 'webeditor_companies_id' })

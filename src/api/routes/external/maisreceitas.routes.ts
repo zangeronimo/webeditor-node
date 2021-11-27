@@ -1,0 +1,16 @@
+import { Router } from 'express';
+import * as dotenv from 'dotenv';
+
+import MaisReceitasController from '@api/controllers/external/MaisReceitasController';
+import ensureHavePermission from '@infra/middlewares/ensureHavePermission';
+
+dotenv.config();
+const maisreceitasController = new MaisReceitasController();
+const host = process.env.MAISRECEITAS;
+const open = true;
+
+const maisreceitasRouter = Router();
+maisreceitasRouter.get('/page/:id', ensureHavePermission(host, open), maisreceitasController.getPageById);
+maisreceitasRouter.get('/levels', ensureHavePermission(host, open), maisreceitasController.getLevels);
+
+export default maisreceitasRouter;

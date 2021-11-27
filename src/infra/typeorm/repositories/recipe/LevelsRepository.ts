@@ -39,6 +39,18 @@ class LevelsRepository implements ILevelsRepository {
     return { data: await builder.getMany(), total };
   }
 
+  public async findActive(companyId: string): Promise<Level[]> {
+    const findLevel = await this.ormRepository.find({
+      where: {
+        active: 1,
+        companyId,
+        deletedAt: null,
+      },
+      relations: ['categories']
+    });
+    return findLevel;
+  }
+
   public async findById(id: string, companyId: string): Promise<Level | undefined> {
     const findLevel = await this.ormRepository.findOne({
       where: {

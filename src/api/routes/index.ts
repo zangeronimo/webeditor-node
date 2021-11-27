@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import pagesRouter from './institutional/pages.routes';
 import categoriesRouter from './recipe/categories.routes';
 import imagesRouter from './recipe/images.routes';
@@ -10,6 +11,9 @@ import modulesRouter from './webeditor/modules.routes';
 import rolesRouter from './webeditor/roles.routes';
 import sessionsRouter from './webeditor/sessions.routes';
 import usersRouter from './webeditor/users.routes';
+
+//EXTERNAL IMPORTS
+import maisreceitasRouter from './external/maisreceitas.routes';
 
 const routes = Router();
 routes.use('/recipe/levels', levelsRouter);
@@ -25,5 +29,8 @@ routes.use('/companies', companiesRouter);
 routes.use('/modules', modulesRouter);
 routes.use('/roles', rolesRouter);
 routes.use('/session', sessionsRouter);
+
+// EXTERNAL ROUTES
+routes.use('/maisreceitas', maisreceitasRouter)
 
 export default routes;
