@@ -13,6 +13,7 @@ import {
 import Company from '../webeditor/Company';
 import Category from './Category';
 import Image from './Image';
+import Rate from './Rate';
 
 @Entity('recipes')
 class Recipe {
@@ -52,6 +53,9 @@ class Recipe {
 
   @OneToMany(() => Image, (image: Image) => image.recipe)
   images: Image[];
+
+  @OneToMany(() => Rate, (rate: Rate) => rate.recipe)
+  ratings: Rate[];
 
   @CreateDateColumn({ name: 'created_at' })
   @Exclude()

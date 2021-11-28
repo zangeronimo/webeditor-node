@@ -46,6 +46,24 @@ class RecipesRepository implements IRecipesRepository {
     return { data: await builder.getMany(), total };
   }
 
+  public async findAllImg(companyId: string): Promise<Recipe[]> {
+
+    const builder = this.ormRepository.createQueryBuilder('recipes');
+    builder.innerJoinAndSelect('recipes.company', 'company');
+    builder.innerJoinAndSelect('recipes.category', 'category');
+    builder.innerJoinAndSelect('recipes.images', 'images');
+    builder.leftJoinAndSelect('recipes.ratings', 'ratings');
+
+    builder.where('recipes.companyId = :s', { s: companyId});
+    builder.where('images.active = :s', { s: 1 });
+    builder.where('ratings.active = :s', { s: 1 });
+    builder.where('recipes.active = :s', { s: 1 });
+
+    builder.orderBy('RANDOM()');
+
+    return await builder.getMany();
+  }
+
   public async findById(id: string, companyId: string): Promise<Recipe | undefined> {
     const findRecipe = await this.ormRepository.findOne({
       where: {
