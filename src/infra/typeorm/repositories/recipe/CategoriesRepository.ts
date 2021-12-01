@@ -55,6 +55,18 @@ class CategoriesRepository implements ICategoriesRepository {
     return findCategory;
   }
 
+  public async findActive(companyId: string): Promise<Category[]> {
+    const findCategory = await this.ormRepository.find({
+      where: {
+        active: 1,
+        companyId,
+        deletedAt: null,
+      },
+      relations: ['levels']
+    });
+    return findCategory;
+  }
+
   public async findByLevel(levelId: string, companyId: string): Promise<Category[]> {
     const findCategories = await this.ormRepository.find({
       where: {

@@ -15,10 +15,14 @@ export default class CreateRecipeCategories1634407269332 implements MigrationInt
               default: 'uuid_generate_v4()',
             },
             {
+              name: 'slug',
+              type: 'varchar(45)',
+              isNullable: false,
+            },
+            {
               name: 'name',
               type: 'varchar(45)',
               isNullable: false,
-              isUnique: true,
             },
             {
               name: 'recipe_levels_id',

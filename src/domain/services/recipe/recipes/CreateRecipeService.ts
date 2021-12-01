@@ -34,7 +34,7 @@ class CreateRecipeService {
 
     const imgUrl = await this.storageProvider.saveFile(file, `${companyId}/recipes`);
     if (imgUrl) {
-      await this.imagesRepository.create({ recipeId: recipe.id, url: imgUrl, companyId});
+      await this.imagesRepository.create({ recipeId: recipe.id, url: imgUrl, companyId, active});
     }
     return recipe;
   }

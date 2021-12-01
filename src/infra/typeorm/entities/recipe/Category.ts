@@ -18,6 +18,9 @@ class Category {
   id: string;
 
   @Column()
+  slug: string;
+
+  @Column()
   name: string;
 
   @Column()

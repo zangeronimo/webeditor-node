@@ -76,6 +76,18 @@ class RecipesRepository implements IRecipesRepository {
     return findRecipe;
   }
 
+  public async findAllBySlug(companyId: string, slug: string): Promise<Recipe | undefined> {
+    const findRecipe = await this.ormRepository.findOne({
+      where: {
+        slug,
+        companyId,
+        deletedAt: null,
+      },
+      relations: ['category', 'category.level', 'images'],
+    });
+    return findRecipe;
+  }
+
   public async findByCategory(categoryId: string, companyId: string): Promise<Recipe[]> {
     const findRecipes = await this.ormRepository.find({
       where: {

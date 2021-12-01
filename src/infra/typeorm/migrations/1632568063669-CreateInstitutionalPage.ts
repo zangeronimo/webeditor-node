@@ -15,6 +15,11 @@ export default class CreateInstitutionalPage1632568063669 implements MigrationIn
               default: 'uuid_generate_v4()',
             },
             {
+              name: 'slug',
+              type: 'varchar(45)',
+              isNullable: false,
+            },
+            {
               name: 'banner',
               type: 'varchar(100)',
               isNullable: true,

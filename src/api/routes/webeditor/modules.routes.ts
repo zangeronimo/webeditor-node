@@ -9,7 +9,7 @@ import ModulesController from '@api/controllers/webeditor/ModulesController';
 const modulesController = new ModulesController();
 
 const modulesRouter = Router();
-modulesRouter.get('/', ensureAuthenticated, hasPermission('ADMINMODULE_VIEW'), modulesController.getAll);
+modulesRouter.get('/', ensureAuthenticated, hasSomePermission(['ADMINMODULE_VIEW','ADMINROLE_ALTER']), modulesController.getAll);
 modulesRouter.get('/user', ensureAuthenticated, hasPermission('WEBEDITORUSER_ALTER'), modulesController.getAllByUser);
 modulesRouter.get('/:id', ensureAuthenticated, hasPermission('ADMINMODULE_VIEW'), modulesController.getById);
 modulesRouter.post('/', ensureAuthenticated, hasPermission('ADMINMODULE_ALTER'), modulesController.create);

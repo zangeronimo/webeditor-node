@@ -15,10 +15,14 @@ export default class CreateRecipeLevel1634405421621 implements MigrationInterfac
               default: 'uuid_generate_v4()',
             },
             {
+              name: 'slug',
+              type: 'varchar(45)',
+              isNullable: false,
+            },
+            {
               name: 'name',
               type: 'varchar(45)',
               isNullable: false,
-              isUnique: true,
             },
             {
               name: 'webeditor_companies_id',

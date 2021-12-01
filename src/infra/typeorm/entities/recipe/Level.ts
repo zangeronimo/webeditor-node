@@ -19,6 +19,9 @@ class Level {
   id: string;
 
   @Column()
+  slug: string;
+
+  @Column()
   name: string;
 
   @Column()

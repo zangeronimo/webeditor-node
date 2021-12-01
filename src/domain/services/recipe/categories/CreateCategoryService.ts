@@ -1,4 +1,5 @@
 import ICategoriesRepository from "@domain/interfaces/recipe/ICategoriesRepository";
+import { slugGenerate } from "@domain/utils/slugGenerate";
 import Category from "@infra/typeorm/entities/recipe/Category";
 import { inject, injectable } from "tsyringe";
 
@@ -17,7 +18,8 @@ class CreateCategoryService {
   ) { }
 
   public async execute({ name, active, levelId, companyId }: IRequest): Promise<Category> {
-    const category = await this.categoryRepository.create({name, active, levelId, companyId});
+    const slug = slugGenerate(name);
+    const category = await this.categoryRepository.create({slug, name, active, levelId, companyId});
     return category;
   }
 }

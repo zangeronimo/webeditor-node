@@ -16,9 +16,8 @@ export default class CreateRecipes1634407913542 implements MigrationInterface {
             },
             {
               name: 'slug',
-              type: 'varchar(120)',
+              type: 'varchar(80)',
               isNullable: false,
-              isUnique: true,
             },
             {
               name: 'name',

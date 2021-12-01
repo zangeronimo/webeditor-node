@@ -1,4 +1,5 @@
 import ILevelsRepository from "@domain/interfaces/recipe/ILevelsRepository";
+import { slugGenerate } from "@domain/utils/slugGenerate";
 import Level from "@infra/typeorm/entities/recipe/Level";
 import { inject, injectable } from "tsyringe";
 
@@ -16,7 +17,8 @@ class CreateLevelService {
   ) { }
 
   public async execute({ name, active, companyId }: IRequest): Promise<Level> {
-    const level = await this.levelRepository.create({name, active, companyId});
+    const slug = slugGenerate(name);
+    const level = await this.levelRepository.create({slug, name, active, companyId});
     return level;
   }
 }

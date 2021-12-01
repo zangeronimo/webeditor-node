@@ -10,7 +10,7 @@ interface IRequest {
 }
 
 @injectable()
-class ShowLevelService {
+class ShowActiveLevelService {
   constructor(
     @inject('LevelsRepository')
     private levelsRepository: ILevelsRepository,
@@ -22,4 +22,4 @@ class ShowLevelService {
   }
 }
 
-export default ShowLevelService;
+export default ShowActiveLevelService;

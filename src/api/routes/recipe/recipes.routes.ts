@@ -18,6 +18,7 @@ celebrate({
     ingredients: Joi.string().required(),
     preparation: Joi.string().required(),
     categoryId: Joi.string().required(),
+    active: Joi.number().required(),
   }
 }), ensureAuthenticated, hasPermission('RECIPERECIPES_ALTER'), recipesController.create);
 recipesRouter.put('/:id',

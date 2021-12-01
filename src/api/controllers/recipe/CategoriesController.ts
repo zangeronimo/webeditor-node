@@ -10,12 +10,12 @@ import { container } from "tsyringe";
 
 export default class CategoriesController {
   public async getAll(request: Request, response: Response): Promise<Response> {
-    const { name, levelId, active, order, page } = request.query;
+    const { name, levelId, active, order, page, perPage } = request.query;
     const { company } = request.user;
 
     const showCategories = container.resolve(ShowCategoryService);
 
-    const categories = await showCategories.execute({company_id: company, paginate: { page }, filter: { name, levelId, active } as CategoryFilter, order: order && JSON.parse(order?.toString())});
+    const categories = await showCategories.execute({company_id: company, paginate: { page, perPage }, filter: { name, levelId, active } as CategoryFilter, order: order && JSON.parse(order?.toString())});
 
     return response.json(classToClass(categories));
   }
