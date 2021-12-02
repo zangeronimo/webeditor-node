@@ -24,7 +24,7 @@ class Rate {
   comment: string;
 
   @Column()
-  active?: 0|1;
+  active?: 0|1|2;
 
   @Column({ name: 'recipes_id' })
   @Exclude()

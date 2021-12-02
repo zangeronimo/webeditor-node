@@ -22,10 +22,10 @@ class PagesRepository implements IPagesRepository {
     const builder = this.ormRepository.createQueryBuilder('pages');
     builder.innerJoinAndSelect('pages.company', 'company');
 
-    builder.where('pages.companyId = :s', { s: companyId});
+    builder.where('pages.companyId = :co', { co: companyId});
 
     if (filter.title)
-      builder.where("unaccent(lower(pages.title)) LIKE unaccent(:s)", {s: `%${filter.title.toLowerCase()}%`})
+      builder.andWhere("unaccent(lower(pages.title)) LIKE unaccent(:s1)", {s1: `%${filter.title.toLowerCase()}%`})
 
     builder.orderBy(`pages.${order.field}`, order.order);
 

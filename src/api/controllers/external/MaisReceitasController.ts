@@ -1,9 +1,12 @@
 import FindByIdPageService from '@domain/services/institutional/pages/FindByIdPageService';
 import ShowActiveCategoriesService from '@domain/services/recipe/categories/web/ShowActiveCategoriesService';
+import ShowCategoryBySlugService from '@domain/services/recipe/categories/web/ShowCategoryBySlugService';
 import ShowActiveLevelService from '@domain/services/recipe/levels/web/ShowActiveLevelService';
 import ShowRecipeService from '@domain/services/recipe/recipes/ShowRecipeService';
+import ShowCategoryImgRecipesService from '@domain/services/recipe/recipes/web/ShowCategoryImgRecipesService';
 import ShowImgRecipeService from '@domain/services/recipe/recipes/web/ShowImgRecipeService';
 import ShowRecipeBySlugService from '@domain/services/recipe/recipes/web/ShowRecipeBySlugService';
+import ShowRecipesByCategoryService from '@domain/services/recipe/recipes/web/ShowRecipesByCategoryService';
 import { RecipeFilter } from '@infra/typeorm/repositories/recipe/RecipiesRepository';
 import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
@@ -26,6 +29,16 @@ export default class MaisReceitasController {
 
     const levels = container.resolve(ShowActiveLevelService);
     const result = await levels.execute({company_id: company});
+
+    return response.json(classToClass(result));
+  }
+
+  public async getCategoryBySlug(request: Request, response: Response): Promise<Response> {
+    const { level, slug } = request.params as { level: string, slug: string };
+    const { company } = request.headers as { company: string };
+
+    const category = container.resolve(ShowCategoryBySlugService);
+    const result = await category.execute({company_id: company, level, slug});
 
     return response.json(classToClass(result));
   }
@@ -61,14 +74,35 @@ export default class MaisReceitasController {
     return response.json(classToClass(recipe));
   }
 
+  public async getRecipesByCategory(request: Request, response: Response): Promise<Response> {
+    const { category } = request.params as { category: string };
+    const { company } = request.headers as { company: string };
+
+    const showRecipes = container.resolve(ShowRecipesByCategoryService);
+
+    const recipes = await showRecipes.execute({company_id: company, category_id: category});
+
+    return response.json(classToClass(recipes));
+  }
+
   public async getImgRecipes(request: Request, response: Response): Promise<Response> {
-    const { limit } = request.query;
+    const { name, limit } = request.query as { name: string, limit: string };
     const { company } = request.headers as { company: string };
 
     const showRecipes = container.resolve(ShowImgRecipeService);
     const totalLimit = limit ? +limit : 10;
 
-    const recipes = await showRecipes.execute({company_id: company, limit: totalLimit });
+    const recipes = await showRecipes.execute({company_id: company, limit: totalLimit, name });
+
+    return response.json(classToClass(recipes));
+  }
+
+  public async getImgRecipesByCategory(request: Request, response: Response): Promise<Response> {
+    const { category } = request.params as { category: string };
+    const { company } = request.headers as { company: string };
+
+    const showRecipes = container.resolve(ShowCategoryImgRecipesService);
+    const recipes = await showRecipes.execute({company_id: company, category_id: category });
 
     return response.json(classToClass(recipes));
   }

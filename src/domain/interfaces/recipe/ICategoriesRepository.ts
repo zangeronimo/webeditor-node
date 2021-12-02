@@ -8,6 +8,7 @@ export default interface ICategoriesRepository {
   findAll(company_id: string, paginate: any, filter: CategoryFilter, order: OrderBy): Promise<IPaginationResponse<Category>>;
   findActive(company_id: string): Promise<Category[]>;
   findById(id: string, company_id: string): Promise<Category | undefined>;
+  findBySlug(company_id: string, level: string, slug: string): Promise<Category | undefined>;
   findByLevel(level_id: string, company_id: string): Promise<Category[]>;
   create(data: ICreateCategoryDTO): Promise<Category>;
   save(category: Category): Promise<Category>;

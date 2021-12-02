@@ -8,6 +8,7 @@ export default interface ILevelsRepository {
   findAll(company_id: string, paginate: any, filter: LevelFilter, order: OrderBy): Promise<IPaginationResponse<Level>>;
   findActive(company_id: string): Promise<Level[]>;
   findById(id: string, company_id: string): Promise<Level | undefined>;
+  findBySlug(slug: string, company_id: string): Promise<Level | undefined>;
   create(data: ICreateLevelDTO): Promise<Level>;
   save(level: Level): Promise<Level>;
 }

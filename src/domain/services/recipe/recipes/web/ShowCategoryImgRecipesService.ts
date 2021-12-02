@@ -4,21 +4,19 @@ import { inject, injectable } from 'tsyringe';
 
 interface IRequest {
   company_id: string;
-  limit: number;
-  name: string;
+  category_id: string;
 }
 
 @injectable()
-class ShowImgRecipeService {
+class ShowCategoryImgRecipesService {
   constructor(
     @inject('RecipesRepository')
     private recipesRepository: IRecipesRepository,
   ) { }
 
-  public async execute({ company_id, limit, name }: IRequest): Promise<Recipe[]> {
-    const recipes = await this.recipesRepository.findAllImg(company_id, name);
-    return recipes.slice(0, limit);
+  public async execute({ company_id, category_id }: IRequest): Promise<Recipe[]> {
+    return await this.recipesRepository.findAllCategoryImg(company_id, category_id);
   }
 }
 
-export default ShowImgRecipeService;
+export default ShowCategoryImgRecipesService;

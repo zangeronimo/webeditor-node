@@ -26,16 +26,16 @@ class RecipesRepository implements IRecipesRepository {
     builder.innerJoinAndSelect('recipes.company', 'company');
     builder.innerJoinAndSelect('recipes.category', 'category');
 
-    builder.where('recipes.companyId = :s', { s: companyId});
+    builder.where('recipes.companyId = :co', { co: companyId});
 
     if (filter.slug)
-      builder.where("unaccent(lower(recipes.slug)) LIKE unaccent(:s)", {s: `%${filter.slug.toLowerCase()}%`})
+      builder.andWhere("unaccent(lower(recipes.slug)) LIKE unaccent(:rs)", {rs: `%${filter.slug.toLowerCase()}%`})
     if (filter.name)
-      builder.where("unaccent(lower(recipes.name)) LIKE unaccent(:s)", {s: `%${filter.name.toLowerCase()}%`})
+      builder.andWhere("unaccent(lower(recipes.name)) LIKE unaccent(:rn)", {rn: `%${filter.name.toLowerCase()}%`})
     if (filter.categoryId)
-      builder.where("recipes.categoryId = :s", {s: filter.categoryId});
+      builder.andWhere("recipes.categoryId = :rc", {rc: filter.categoryId});
     if (filter.active)
-      builder.where("recipes.active = :s", {s: filter.active});
+      builder.andWhere("recipes.active = :ra", {ra: filter.active});
 
     builder.orderBy(`recipes.${order.field}`, order.order);
 
@@ -46,7 +46,7 @@ class RecipesRepository implements IRecipesRepository {
     return { data: await builder.getMany(), total };
   }
 
-  public async findAllImg(companyId: string): Promise<Recipe[]> {
+  public async findAllImg(companyId: string, name = ''): Promise<Recipe[]> {
 
     const builder = this.ormRepository.createQueryBuilder('recipes');
     builder.innerJoinAndSelect('recipes.company', 'company');
@@ -54,12 +54,30 @@ class RecipesRepository implements IRecipesRepository {
     builder.innerJoinAndSelect('recipes.images', 'images');
     builder.leftJoinAndSelect('recipes.ratings', 'ratings');
 
-    builder.where('recipes.companyId = :s', { s: companyId});
-    builder.where('images.active = :s', { s: 1 });
-    builder.where('ratings.active = :s', { s: 1 });
-    builder.where('recipes.active = :s', { s: 1 });
+    if (name)
+    builder.where("unaccent(lower(recipes.name)) LIKE unaccent(:rn)", {rn: `%${name.toLowerCase()}%`})
+
+    builder.andWhere('recipes.companyId = :co', { co: companyId});
+    builder.andWhere('images.active = :s1', { s1: 1 });
+    builder.andWhere('recipes.active = :s3', { s3: 1 });
 
     builder.orderBy('RANDOM()');
+
+    return await builder.getMany();
+  }
+
+  public async findAllCategoryImg(companyId: string, categoryId: string): Promise<Recipe[]> {
+
+    const builder = this.ormRepository.createQueryBuilder('recipes');
+    builder.innerJoinAndSelect('recipes.company', 'company');
+    builder.innerJoinAndSelect('recipes.category', 'category');
+    builder.innerJoinAndSelect('recipes.images', 'images');
+    builder.leftJoinAndSelect('recipes.ratings', 'ratings');
+
+    builder.where('company.id = :co', { co: companyId });
+    builder.andWhere('category.id = :ca', { ca: categoryId });
+    builder.andWhere('images.active = :s1', { s1: 1 });
+    builder.andWhere('recipes.active = :s2', { s2: 1 });
 
     return await builder.getMany();
   }
@@ -95,6 +113,7 @@ class RecipesRepository implements IRecipesRepository {
         companyId,
         deletedAt: null,
       },
+      relations: ['ratings'],
     });
     return findRecipes;
   }

@@ -23,12 +23,12 @@ class LevelsRepository implements ILevelsRepository {
     const builder = this.ormRepository.createQueryBuilder('levels');
     builder.innerJoinAndSelect('levels.company', 'company');
 
-    builder.where('levels.companyId = :s', { s: companyId});
+    builder.where('levels.companyId = :co', { co: companyId});
 
     if (filter.name)
-      builder.where("unaccent(lower(levels.name)) LIKE unaccent(:s)", {s: `%${filter.name.toLowerCase()}%`})
+      builder.andWhere("unaccent(lower(levels.name)) LIKE unaccent(:s1)", {s1: `%${filter.name.toLowerCase()}%`})
     if (filter.active)
-      builder.where("levels.active = :s", {s: filter.active});
+      builder.andWhere("levels.active = :s2", {s2: filter.active});
 
     builder.orderBy(`levels.${order.field}`, order.order);
 
@@ -55,6 +55,17 @@ class LevelsRepository implements ILevelsRepository {
     const findLevel = await this.ormRepository.findOne({
       where: {
         id,
+        companyId,
+        deletedAt: null,
+      },
+    });
+    return findLevel;
+  }
+
+  public async findBySlug(slug: string, companyId: string): Promise<Level | undefined> {
+    const findLevel = await this.ormRepository.findOne({
+      where: {
+        slug,
         companyId,
         deletedAt: null,
       },

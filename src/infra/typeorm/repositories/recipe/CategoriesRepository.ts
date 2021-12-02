@@ -25,14 +25,14 @@ class CategoriesRepository implements ICategoriesRepository {
     builder.innerJoinAndSelect('categories.company', 'company');
     builder.innerJoinAndSelect('categories.level', 'level');
 
-    builder.where('categories.companyId = :s', { s: companyId});
+    builder.where('categories.companyId = :co', { co: companyId});
 
     if (filter.name)
-      builder.where("unaccent(lower(categories.name)) LIKE unaccent(:s)", {s: `%${filter.name.toLowerCase()}%`})
+      builder.andWhere("unaccent(lower(categories.name)) LIKE unaccent(:s1)", {s1: `%${filter.name.toLowerCase()}%`})
     if (filter.levelId)
-      builder.where("categories.levelId = :s", {s: filter.levelId});
+      builder.andWhere("categories.levelId = :s2", {s2: filter.levelId});
     if (filter.active)
-      builder.where("categories.active = :s", {s: filter.active});
+      builder.andWhere("categories.active = :s3", {s3: filter.active});
 
     builder.orderBy(`categories.${order.field}`, order.order);
 
@@ -47,6 +47,19 @@ class CategoriesRepository implements ICategoriesRepository {
     const findCategory = await this.ormRepository.findOne({
       where: {
         id,
+        companyId,
+        deletedAt: null,
+      },
+      relations: ['level'],
+    });
+    return findCategory;
+  }
+
+  public async findBySlug(companyId: string, levelId: string, slug: string): Promise<Category | undefined> {
+    const findCategory = await this.ormRepository.findOne({
+      where: {
+        slug,
+        levelId,
         companyId,
         deletedAt: null,
       },

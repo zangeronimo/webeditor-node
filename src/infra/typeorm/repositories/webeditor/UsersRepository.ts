@@ -24,12 +24,12 @@ class UsersRepository implements IUsersRepository {
     builder.innerJoinAndSelect('users.company', 'company');
     builder.leftJoinAndSelect('users.roles', 'roles');
 
-    builder.where('users.companyId = :s', { s: companyId});
+    builder.where('users.companyId = :co', { co: companyId});
 
     if (filter.name)
-      builder.where("unaccent(lower(users.name)) LIKE unaccent(:s)", {s: `%${filter.name.toLowerCase()}%`})
+      builder.andWhere("unaccent(lower(users.name)) LIKE unaccent(:s1)", {s1: `%${filter.name.toLowerCase()}%`})
     if (filter.email)
-      builder.where("unaccent(lower(users.email)) LIKE unaccent(:s)", {s: `%${filter.email.toLowerCase()}%`})
+      builder.andWhere("unaccent(lower(users.email)) LIKE unaccent(:s2)", {s2: `%${filter.email.toLowerCase()}%`})
 
     builder.orderBy(`users.${order.field}`, order.order);
 

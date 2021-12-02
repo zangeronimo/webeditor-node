@@ -25,14 +25,14 @@ class RatingsRepository implements IRatingsRepository {
     builder.innerJoinAndSelect('ratings.company', 'company');
     builder.innerJoinAndSelect('ratings.recipe', 'recipe');
 
-    builder.where('ratings.companyId = :s', { s: companyId});
+    builder.where('ratings.companyId = :co', { co: companyId});
 
     if (filter.rate)
-      builder.where("ratings.rate = :s", {s: filter.rate});
+      builder.andWhere("ratings.rate = :s1", {s1: filter.rate});
     if (filter.recipeId)
-      builder.where("ratings.recipeId = :s", {s: filter.recipeId});
+      builder.andWhere("ratings.recipeId = :s2", {s2: filter.recipeId});
     if (filter.active)
-      builder.where("ratings.active = :s", {s: filter.active});
+      builder.andWhere("ratings.active = :s3", {s3: filter.active});
 
     builder.orderBy(`ratings.${order.field}`, order.order);
 
