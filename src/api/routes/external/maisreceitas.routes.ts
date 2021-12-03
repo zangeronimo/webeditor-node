@@ -7,7 +7,7 @@ import ensureHavePermission from '@infra/middlewares/ensureHavePermission';
 dotenv.config();
 const maisreceitasController = new MaisReceitasController();
 const host = process.env.MAISRECEITAS;
-const open = !!process.env.MAISRECEITAS_OPENAPI;
+const open = process.env.MAISRECEITAS_OPENAPI === 'true' ? true : false;
 
 const maisreceitasRouter = Router();
 maisreceitasRouter.get('/page/:id', ensureHavePermission(host, open), maisreceitasController.getPageById);
