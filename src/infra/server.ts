@@ -19,7 +19,7 @@ const app = express();
 app.use(cors({
  origin: ['http://localhost:3000']
 }));
-app.use(express.json());
+app.use(express.json({limit: '50mb'}));
 app.use('/files', express.static(path.resolve(__dirname, '..', '..', 'upload')));
 app.use('/api-docs', swagger.serve, swagger.setup(swaggerJson));
 app.use(routes);
