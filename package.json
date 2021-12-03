@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "test": "jest",
+    "start": "node dist/infra/server.js",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
     "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/infra/server.ts",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
@@ -41,7 +42,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "celebrate": "^15.0.0",
-    "class-transformer": "^0.4.0",
+    "class-transformer": "0.4.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",

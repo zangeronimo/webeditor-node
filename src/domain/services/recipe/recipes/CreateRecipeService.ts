@@ -1,6 +1,7 @@
 import IImagesRepository from "@domain/interfaces/recipe/IImagesRepository";
 import IRecipesRepository from "@domain/interfaces/recipe/IRecipesRepository";
 import { slugGenerate } from "@domain/utils/slugGenerate";
+import AppError from "@infra/errors/AppError";
 import IStorageProvider from "@infra/providers/StorageProvider/models/IStorageProvider";
 import Recipe from "@infra/typeorm/entities/recipe/Recipe";
 import { inject, injectable } from "tsyringe";
@@ -30,6 +31,12 @@ class CreateRecipeService {
 
   public async execute({ file, name, ingredients, preparation, active, categoryId, companyId }: IRequest): Promise<Recipe> {
     const slug = slugGenerate(name);
+
+    const existsRecipe = await this.recipesRepository.findAllBySlug(companyId, slug);
+    if (!!existsRecipe) {
+      throw new AppError('Ops, já existe uma receita com esse nome.');
+    }
+
     const recipe = await this.recipesRepository.create({slug, name, ingredients, preparation, active, categoryId, companyId});
 
     const imgUrl = await this.storageProvider.saveFile(file, `${companyId}/recipes`);
