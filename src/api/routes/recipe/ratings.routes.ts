@@ -13,9 +13,9 @@ ratingsRouter.get('/:id', ensureAuthenticated, hasPermission('RECIPERATINGS_VIEW
 ratingsRouter.post('/',
 celebrate({
   [Segments.BODY]: {
-    name: Joi.string().required(),
+    name: Joi.string(),
     rate: Joi.number().required(),
-    comment: Joi.string().required(),
+    comment: Joi.string(),
     recipeId: Joi.string().required(),
   }
 }), ensureAuthenticated, hasPermission('RECIPERATINGS_ALTER'), ratingsController.create);
@@ -23,9 +23,9 @@ ratingsRouter.put('/:id',
 celebrate({
   [Segments.BODY]: {
     id: Joi.string().required(),
-    name: Joi.string().required(),
+    name: Joi.string(),
     rate: Joi.number().required(),
-    comment: Joi.string().required(),
+    comment: Joi.string(),
     recipeId: Joi.string().required(),
     active: Joi.number().required(),
   }
