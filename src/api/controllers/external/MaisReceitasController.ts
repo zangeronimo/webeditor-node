@@ -2,6 +2,8 @@ import FindByIdPageService from '@domain/services/institutional/pages/FindByIdPa
 import ShowActiveCategoriesService from '@domain/services/recipe/categories/web/ShowActiveCategoriesService';
 import ShowCategoryBySlugService from '@domain/services/recipe/categories/web/ShowCategoryBySlugService';
 import ShowActiveLevelService from '@domain/services/recipe/levels/web/ShowActiveLevelService';
+import CreateRateService from '@domain/services/recipe/ratings/CreateRateService';
+import ShowAllRatingsActiveByRecipeService from '@domain/services/recipe/ratings/web/ShowAllRatingsActiveByRecipeService';
 import ShowRecipeService from '@domain/services/recipe/recipes/ShowRecipeService';
 import ShowCategoryImgRecipesService from '@domain/services/recipe/recipes/web/ShowCategoryImgRecipesService';
 import ShowImgRecipeService from '@domain/services/recipe/recipes/web/ShowImgRecipeService';
@@ -105,5 +107,27 @@ export default class MaisReceitasController {
     const recipes = await showRecipes.execute({company_id: company, category_id: category });
 
     return response.json(classToClass(recipes));
+  }
+
+  public async getAllRatingsActiveByRecipe(request: Request, response: Response): Promise<Response> {
+    const { recipe } = request.params as { recipe: string };
+    const { company } = request.headers as { company: string };
+
+    const showRatings = container.resolve(ShowAllRatingsActiveByRecipeService);
+
+    const ratings = await showRatings.execute(recipe, company);
+
+    return response.json(classToClass(ratings));
+  }
+
+  public async addRate(request: Request, response: Response): Promise<Response> {
+    const { company } = request.headers as { company: string };
+    const { name, rate, comment, recipeId } = request.body;
+
+    const createRate = container.resolve(CreateRateService);
+
+    const rateCreated = await createRate.execute({ name, rate, comment, active: 2, recipeId, companyId: company });
+
+    return response.status(201).json(classToClass(rateCreated));
   }
 }

@@ -19,5 +19,8 @@ maisreceitasRouter.get('/recipes/img', ensureHavePermission(host, open), maisrec
 maisreceitasRouter.get('/recipes/img/:category', ensureHavePermission(host, open), maisreceitasController.getImgRecipesByCategory);
 maisreceitasRouter.get('/recipes/:slug', ensureHavePermission(host, open), maisreceitasController.getRecipeBySlug);
 maisreceitasRouter.get('/recipes/category/:category', ensureHavePermission(host, open), maisreceitasController.getRecipesByCategory);
+maisreceitasRouter.get('/ratings/:recipe', ensureHavePermission(host, open), maisreceitasController.getAllRatingsActiveByRecipe);
+maisreceitasRouter.post('/ratings', ensureHavePermission(host, open), maisreceitasController.addRate);
+
 
 export default maisreceitasRouter;

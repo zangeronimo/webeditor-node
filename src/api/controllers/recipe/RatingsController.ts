@@ -32,22 +32,22 @@ export default class RatingsController {
 
   public async create(request: Request, response: Response): Promise<Response> {
     const { company } = request.user;
-    const { rate, comment, recipeId } = request.body;
+    const { name, rate, comment, recipeId } = request.body;
 
     const createRate = container.resolve(CreateRateService);
 
-    const rateCreated = await createRate.execute({ rate, comment, active: 2, recipeId, companyId: company });
+    const rateCreated = await createRate.execute({ name, rate, comment, active: 2, recipeId, companyId: company });
 
     return response.status(201).json(classToClass(rateCreated));
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { company } = request.user;
-    const { id, rate, comment,  active, recipeId } = request.body;
+    const { id, name, rate, comment,  active, recipeId } = request.body;
 
     const updateRate = container.resolve(UpdateRateService);
 
-    const rateUpdated = await updateRate.execute({ id, rate, comment, active, recipeId, companyId: company });
+    const rateUpdated = await updateRate.execute({ id, name, rate, comment, active, recipeId, companyId: company });
 
     return response.json(classToClass(rateUpdated));
   }

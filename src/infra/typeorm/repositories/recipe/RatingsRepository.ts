@@ -55,6 +55,18 @@ class RatingsRepository implements IRatingsRepository {
     return findRate;
   }
 
+  public async findAllActiveByRecipe(recipeId: string, companyId: string): Promise<Rate[]> {
+    const findRatings = await this.ormRepository.find({
+      where: {
+        recipeId,
+        companyId,
+        active: 1,
+        deletedAt: null,
+      },
+    });
+    return findRatings;
+  }
+
   public async findByRecipe(recipeId: string, companyId: string): Promise<Rate[]> {
     const findRatings = await this.ormRepository.find({
       where: {
