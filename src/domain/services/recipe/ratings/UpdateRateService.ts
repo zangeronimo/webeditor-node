@@ -5,6 +5,7 @@ import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   id: string;
+  name: string;
   rate: number;
   comment: string;
   active: 0 | 1;
@@ -26,6 +27,7 @@ class UpdateRateService {
       throw new AppError('Rate not found');
     }
 
+    rate.name = model.name;
     rate.rate = model.rate;
     rate.comment = model.comment;
     rate.active = model.active;

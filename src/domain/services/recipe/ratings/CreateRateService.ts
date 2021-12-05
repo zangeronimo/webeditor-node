@@ -3,6 +3,7 @@ import Rate from "@infra/typeorm/entities/recipe/Rate";
 import { inject, injectable } from "tsyringe";
 
 interface IRequest {
+  name: string;
   rate: number;
   comment: string;
   active: 0 | 1 | 2;
@@ -17,8 +18,8 @@ class CreateRateService {
     private ratingsRepository: IRatingsRepository,
   ) { }
 
-  public async execute({ rate, comment, active, recipeId, companyId }: IRequest): Promise<Rate> {
-    const rateCreated = await this.ratingsRepository.create({rate, comment, active, recipeId, companyId});
+  public async execute({ name, rate, comment, active, recipeId, companyId }: IRequest): Promise<Rate> {
+    const rateCreated = await this.ratingsRepository.create({name, rate, comment, active, recipeId, companyId});
     return rateCreated;
   }
 }

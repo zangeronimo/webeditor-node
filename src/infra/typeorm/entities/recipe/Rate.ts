@@ -21,6 +21,9 @@ class Rate {
   rate: number;
 
   @Column()
+  name: string;
+
+  @Column()
   comment: string;
 
   @Column()

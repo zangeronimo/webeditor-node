@@ -13,6 +13,7 @@ ratingsRouter.get('/:id', ensureAuthenticated, hasPermission('RECIPERATINGS_VIEW
 ratingsRouter.post('/',
 celebrate({
   [Segments.BODY]: {
+    name: Joi.string().required(),
     rate: Joi.number().required(),
     comment: Joi.string().required(),
     recipeId: Joi.string().required(),
@@ -22,6 +23,7 @@ ratingsRouter.put('/:id',
 celebrate({
   [Segments.BODY]: {
     id: Joi.string().required(),
+    name: Joi.string().required(),
     rate: Joi.number().required(),
     comment: Joi.string().required(),
     recipeId: Joi.string().required(),
