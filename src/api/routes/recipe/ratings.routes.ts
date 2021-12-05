@@ -4,6 +4,7 @@ import ensureAuthenticated from '@infra/middlewares/ensureAuthenticated';
 import hasPermission from '@infra/middlewares/hasPermission';
 import { celebrate, Joi, Segments } from 'celebrate';
 import RatingsController from '@api/controllers/recipe/RatingsController';
+import { IsNull } from 'typeorm';
 
 const ratingsController = new RatingsController();
 
@@ -13,9 +14,9 @@ ratingsRouter.get('/:id', ensureAuthenticated, hasPermission('RECIPERATINGS_VIEW
 ratingsRouter.post('/',
 celebrate({
   [Segments.BODY]: {
-    name: Joi.string(),
+    name: Joi.any(),
     rate: Joi.number().required(),
-    comment: Joi.string(),
+    comment: Joi.any(),
     recipeId: Joi.string().required(),
   }
 }), ensureAuthenticated, hasPermission('RECIPERATINGS_ALTER'), ratingsController.create);
@@ -23,9 +24,9 @@ ratingsRouter.put('/:id',
 celebrate({
   [Segments.BODY]: {
     id: Joi.string().required(),
-    name: Joi.string(),
+    name: Joi.any(),
     rate: Joi.number().required(),
-    comment: Joi.string(),
+    comment: Joi.any(),
     recipeId: Joi.string().required(),
     active: Joi.number().required(),
   }
