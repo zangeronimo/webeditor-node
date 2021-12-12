@@ -5,7 +5,7 @@ import ProductsRepository from "@infra/typeorm/repositories/mkt/ProductsReposito
 import { container } from "tsyringe";
 
 container.registerSingleton<ICategoriesRepository>(
-  'CategoriesRepository',
+  'MktCategoriesRepository',
   CategoriesRepository,
 );
 

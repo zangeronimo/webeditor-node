@@ -9,7 +9,7 @@ interface IRequest {
 @injectable()
 class ShowActiveCategoriesService {
   constructor(
-    @inject('CategoriesRepository')
+    @inject('MktCategoriesRepository')
     private categoriesRepository: ICategoriesRepository,
   ) { }
 

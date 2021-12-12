@@ -22,5 +22,7 @@ maisreceitasRouter.get('/recipes/category/:category', ensureHavePermission(host,
 maisreceitasRouter.get('/ratings/:recipe', ensureHavePermission(host, open), maisreceitasController.getAllRatingsActiveByRecipe);
 maisreceitasRouter.post('/ratings', ensureHavePermission(host, open), maisreceitasController.addRate);
 
+maisreceitasRouter.get('/marketing/product/:slug', ensureHavePermission(host, open), maisreceitasController.getProductBySlug);
+maisreceitasRouter.get('/marketing/categories', ensureHavePermission(host, open), maisreceitasController.getMktCategories);
 
 export default maisreceitasRouter;

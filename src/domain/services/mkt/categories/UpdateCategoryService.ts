@@ -13,7 +13,7 @@ interface IRequest {
 @injectable()
 class UpdateCategoryService {
   constructor(
-    @inject('CategoriesRepository')
+    @inject('MkttegoriesRepository')
     private categoriesRepository: ICategoriesRepository,
   ) { }
 

@@ -1,5 +1,6 @@
 import FindByIdPageService from '@domain/services/institutional/pages/FindByIdPageService';
 import ShowActiveCategoriesService from '@domain/services/recipe/categories/web/ShowActiveCategoriesService';
+import ShowActiveMktCategoriesService from '@domain/services/mkt/categories/web/ShowActiveCategoriesService';
 import ShowCategoryBySlugService from '@domain/services/recipe/categories/web/ShowCategoryBySlugService';
 import ShowActiveLevelService from '@domain/services/recipe/levels/web/ShowActiveLevelService';
 import CreateRateService from '@domain/services/recipe/ratings/CreateRateService';
@@ -13,6 +14,7 @@ import { RecipeFilter } from '@infra/typeorm/repositories/recipe/RecipiesReposit
 import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
+import ShowProductBySlugService from '@domain/services/mkt/products/web/ShowProductBySlugService';
 
 export default class MaisReceitasController {
 
@@ -129,5 +131,24 @@ export default class MaisReceitasController {
     const rateCreated = await createRate.execute({ name, rate, comment, active: 2, recipeId, companyId: company });
 
     return response.status(201).json(classToClass(rateCreated));
+  }
+
+  public async getMktCategories(request: Request, response: Response): Promise<Response> {
+    const { company } = request.headers as { company: string };
+
+    const categories = container.resolve(ShowActiveMktCategoriesService);
+    const result = await categories.execute({company_id: company});
+
+    return response.json(classToClass(result));
+  }
+
+  public async getProductBySlug(request: Request, response: Response): Promise<Response> {
+    const { slug } = request.params as { slug: string };
+    const { company } = request.headers as { company: string };
+
+    const showProduct = container.resolve(ShowProductBySlugService);
+    const product = await showProduct.execute({company_id: company, slug});
+
+    return response.json(classToClass(product));
   }
 }

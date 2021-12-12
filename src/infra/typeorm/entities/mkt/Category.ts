@@ -6,10 +6,12 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import Company from '../webeditor/Company';
+import Product from './Product';
 
 @Entity('mkt_categories')
 class Category {
@@ -32,6 +34,9 @@ class Category {
   @ManyToOne(() => Company)
   @JoinColumn({ name: 'webeditor_companies_id' })
   company: Company;
+
+  @OneToMany(() => Product, (product: Product) => product.category)
+  products: Product[];
 
   @CreateDateColumn({ name: 'created_at' })
   @Exclude()

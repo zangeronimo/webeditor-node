@@ -11,7 +11,7 @@ interface IRequest {
 @injectable()
 class DeleteCategoryService {
   constructor(
-    @inject('CategoriesRepository')
+    @inject('MktCategoriesRepository')
     private categoriesRepository: ICategoriesRepository,
   ) { }
 

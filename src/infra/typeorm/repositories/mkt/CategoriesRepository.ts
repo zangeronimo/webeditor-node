@@ -68,6 +68,7 @@ class CategoriesRepository implements ICategoriesRepository {
         companyId,
         deletedAt: null,
       },
+      relations: ['products'],
     });
     return findCategory;
   }

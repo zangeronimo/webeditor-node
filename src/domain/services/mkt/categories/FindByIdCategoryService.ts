@@ -5,7 +5,7 @@ import { inject, injectable } from 'tsyringe';
 @injectable()
 class FindByIdCategoryService {
   constructor(
-    @inject('CategoriesRepository')
+    @inject('MktCategoriesRepository')
     private categoriesRepository: ICategoriesRepository,
   ) { }
 
