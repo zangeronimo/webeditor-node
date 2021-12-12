@@ -15,6 +15,7 @@ import UsersRepository from "@infra/typeorm/repositories/webeditor/UsersReposito
 import { container } from "tsyringe";
 
 import './recipes';
+import './mkts';
 
 container.registerSingleton<IPagesRepository>(
   'PagesRepository',

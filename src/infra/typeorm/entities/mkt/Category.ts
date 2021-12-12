@@ -11,8 +11,8 @@ import {
 } from 'typeorm';
 import Company from '../webeditor/Company';
 
-@Entity('institutional_pages')
-class Page {
+@Entity('mkt_categories')
+class Category {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -20,13 +20,7 @@ class Page {
   slug: string;
 
   @Column()
-  banner: string;
-
-  @Column()
-  title: string;
-
-  @Column()
-  content: string;
+  name: string;
 
   @Column()
   active?: 0|1;
@@ -52,4 +46,4 @@ class Page {
   deletedAt: Date;
 }
 
-export default Page;
+export default Category;

@@ -6,13 +6,15 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import Company from '../webeditor/Company';
+import Category from './Category';
 
-@Entity('institutional_pages')
-class Page {
+@Entity('mkt_products')
+class Recipe {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -31,9 +33,17 @@ class Page {
   @Column()
   active?: 0|1;
 
+  @Column({ name: 'mkt_categories_id' })
+  @Exclude()
+  categoryId: string;
+
   @Column({ name: 'webeditor_companies_id' })
   @Exclude()
   companyId: string;
+
+  @ManyToOne(() => Category)
+  @JoinColumn({ name: 'mkt_categories_id' })
+  category: Category;
 
   @ManyToOne(() => Company)
   @JoinColumn({ name: 'webeditor_companies_id' })
@@ -52,4 +62,4 @@ class Page {
   deletedAt: Date;
 }
 
-export default Page;
+export default Recipe;
