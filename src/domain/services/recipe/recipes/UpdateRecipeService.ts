@@ -40,7 +40,7 @@ class UpdateRecipeService {
     recipe.ingredients = model.ingredients;
     recipe.preparation = model.preparation;
     recipe.active = model.active;
-    recipe.categoryId = model.categoryId;
+    recipe.category.id = model.categoryId;
 
     const updatedRecipe =  await this.recipesRepository.save(recipe);
 
