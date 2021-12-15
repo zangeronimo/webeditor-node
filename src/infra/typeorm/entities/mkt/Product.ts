@@ -31,6 +31,9 @@ class Recipe {
   content: string;
 
   @Column()
+  url: string;
+
+  @Column()
   active?: 0|1;
 
   @Column({ name: 'mkt_categories_id' })

@@ -16,6 +16,7 @@ celebrate({
     file: Joi.string(),
     title: Joi.string().required(),
     content: Joi.string().required(),
+    url: Joi.string().required(),
     categoryId: Joi.string().required(),
     active: Joi.number().required(),
   }
@@ -27,6 +28,7 @@ celebrate({
     file: Joi.string(),
     title: Joi.string().required(),
     content: Joi.string().required(),
+    url: Joi.string().required(),
     categoryId: Joi.string().required(),
     active: Joi.number().required(),
   }

@@ -32,22 +32,22 @@ export default class ProductsController {
 
   public async create(request: Request, response: Response): Promise<Response> {
     const { company } = request.user;
-    const { file, title, content, active, categoryId } = request.body;
+    const { file, title, url, content, active, categoryId } = request.body;
 
     const createProduct = container.resolve(CreateProductService);
 
-    const product = await createProduct.execute({ file, title, content, active: active ?? 0, categoryId, companyId: company });
+    const product = await createProduct.execute({ file, title, content, url, active: active ?? 0, categoryId, companyId: company });
 
     return response.status(201).json(classToClass(product));
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { company } = request.user;
-    const { id, file, title, content,  active, categoryId } = request.body;
+    const { id, file, title, content, url, active, categoryId } = request.body;
 
     const updateProduct = container.resolve(UpdateProductService);
 
-    const product = await updateProduct.execute({ id, file, title, content, active, categoryId, companyId: company });
+    const product = await updateProduct.execute({ id, file, title, content, url, active, categoryId, companyId: company });
 
     return response.json(classToClass(product));
   }

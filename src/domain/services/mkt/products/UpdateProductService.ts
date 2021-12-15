@@ -9,6 +9,7 @@ interface IRequest {
   file: string;
   title: string;
   content: string;
+  url: string;
   active: 0 | 1;
   categoryId: string;
   companyId: string;
@@ -37,6 +38,7 @@ class UpdateProductService {
 
     product.title = model.title;
     product.content = model.content;
+    product.url = model.url;
     product.active = model.active;
     product.categoryId = model.categoryId;
 
