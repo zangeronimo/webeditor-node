@@ -40,7 +40,7 @@ class UpdateProductService {
     product.content = model.content;
     product.url = model.url;
     product.active = model.active;
-    product.categoryId = model.categoryId;
+    product.category.id = model.categoryId;
 
     const updatedProduct =  await this.productsRepository.save(product);
 
