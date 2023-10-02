@@ -3,7 +3,6 @@ import ICompaniesRepository from '@domain/interfaces/webeditor/ICompaniesReposit
 import Company from '@infra/typeorm/entities/webeditor/Company';
 import { OrderBy } from '@infra/typeorm/repositories/BaseTypes';
 import { CompanyFilter } from '@infra/typeorm/repositories/webeditor/CompaniesRepository';
-import { inject, injectable } from 'tsyringe';
 
 interface IRequest {
   paginate?: any;
@@ -11,10 +10,8 @@ interface IRequest {
   order?: OrderBy;
 }
 
-@injectable()
 class ShowCompanyService {
   constructor(
-    @inject('CompaniesRepository')
     private companiesRepository: ICompaniesRepository,
   ) { }
 

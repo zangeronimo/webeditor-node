@@ -2,7 +2,6 @@ import ICompaniesRepository from "@domain/interfaces/webeditor/ICompaniesReposit
 import AppError from "@infra/errors/AppError";
 import Company from "@infra/typeorm/entities/webeditor/Company";
 import Module from "@infra/typeorm/entities/webeditor/Module";
-import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   id: string;
@@ -10,10 +9,8 @@ interface IRequest {
   modules?: Module[];
 }
 
-@injectable()
 class UpdateCompanyService {
   constructor(
-    @inject('CompaniesRepository')
     private companiesRepository: ICompaniesRepository,
   ) { }
 

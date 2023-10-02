@@ -3,7 +3,6 @@ import ICategoriesRepository from '@domain/interfaces/mkt/ICategoriesRepository'
 import Category from '@infra/typeorm/entities/mkt/Category';
 import { OrderBy } from '@infra/typeorm/repositories/BaseTypes';
 import { CategoryFilter } from '@infra/typeorm/repositories/mkt/CategoriesRepository';
-import { inject, injectable } from 'tsyringe';
 
 interface IRequest {
   company_id: string;
@@ -12,10 +11,8 @@ interface IRequest {
   order?: OrderBy;
 }
 
-@injectable()
 class ShowCategoryService {
   constructor(
-    @inject('MktCategoriesRepository')
     private categoriesRepository: ICategoriesRepository,
   ) { }
 

@@ -3,7 +3,6 @@ import IPagesRepository from '@domain/interfaces/institutional/IPagesRepository'
 import Page from '@infra/typeorm/entities/institutional/Page';
 import { OrderBy } from '@infra/typeorm/repositories/BaseTypes';
 import { PageFilter } from '@infra/typeorm/repositories/institutional/PagesRepository';
-import { inject, injectable } from 'tsyringe';
 
 interface IRequest {
   company_id: string;
@@ -12,10 +11,8 @@ interface IRequest {
   order?: OrderBy;
 }
 
-@injectable()
 class ShowPageService {
   constructor(
-    @inject('PagesRepository')
     private pagesRepository: IPagesRepository,
   ) { }
 

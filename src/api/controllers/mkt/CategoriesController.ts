@@ -6,60 +6,59 @@ import UpdateCategoryService from "@domain/services/mkt/categories/UpdateCategor
 import { CategoryFilter } from "@infra/typeorm/repositories/mkt/CategoriesRepository";
 import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
-import { container } from "tsyringe";
 
 export default class CategoriesController {
   public async getAll(request: Request, response: Response): Promise<Response> {
     const { name, active, order, page, perPage } = request.query;
     const { company } = request.user;
 
-    const showCategories = container.resolve(ShowCategoryService);
+    // const showCategories = container.resolve(ShowCategoryService);
 
-    const categories = await showCategories.execute({company_id: company, paginate: { page, perPage }, filter: { name, active } as CategoryFilter, order: order && JSON.parse(order?.toString())});
+    // const categories = await showCategories.execute({company_id: company, paginate: { page, perPage }, filter: { name, active } as CategoryFilter, order: order && JSON.parse(order?.toString())});
 
-    return response.json(classToClass(categories));
+    return response.json(classToClass(null));
   }
 
   public async getById(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
     const { company } = request.user;
 
-    const findCategory = container.resolve(FindByIdCategoryService);
-    const result = await findCategory.execute(id, company);
+    // const findCategory = container.resolve(FindByIdCategoryService);
+    // const result = await findCategory.execute(id, company);
 
-    return response.json(classToClass(result));
+    return response.json(classToClass(null));
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
     const { company } = request.user;
     const { name, active } = request.body;
 
-    const createCategory = container.resolve(CreateCategoryService);
+    // const createCategory = container.resolve(CreateCategoryService);
 
-    const category = await createCategory.execute({ name, active: active ?? 1, companyId: company });
+    // const category = await createCategory.execute({ name, active: active ?? 1, companyId: company });
 
-    return response.status(201).json(classToClass(category));
+    return response.status(201).json(classToClass(null));
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { company } = request.user;
     const { id, name, active } = request.body;
 
-    const updateCategory = container.resolve(UpdateCategoryService);
+    // const updateCategory = container.resolve(UpdateCategoryService);
 
-    const category = await updateCategory.execute({ id, name, active, companyId: company });
+    // const category = await updateCategory.execute({ id, name, active, companyId: company });
 
-    return response.json(classToClass(category));
+    return response.json(classToClass(null));
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
     const { company } = request.user;
     const { id } = request.params;
 
-    const deleteCategory = container.resolve(DeleteCategoryService);
+    // const deleteCategory = container.resolve(DeleteCategoryService);
 
-    const category = await deleteCategory.execute({ id, companyId: company });
+    // const category = await deleteCategory.execute({ id, companyId: company });
 
-    return response.json(classToClass(category));
+    return response.json(classToClass(null));
   }
 }

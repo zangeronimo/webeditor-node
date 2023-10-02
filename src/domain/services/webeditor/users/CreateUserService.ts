@@ -2,7 +2,6 @@ import IUsersRepository from "@domain/interfaces/webeditor/IUsersRepository";
 import AppError from "@infra/errors/AppError";
 import IHashProvider from "@infra/providers/HashProvider/models/IHashProvider";
 import User from "@infra/typeorm/entities/webeditor/User";
-import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   name: string;
@@ -12,13 +11,9 @@ interface IRequest {
   roles: [{ id: string }]
 }
 
-@injectable()
 class CreateUserService {
   constructor(
-    @inject('UsersRepository')
     private userRepository: IUsersRepository,
-
-    @inject('HashProvider')
     private hashProvider: IHashProvider,
   ) { }
 

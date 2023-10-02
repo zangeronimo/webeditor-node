@@ -12,7 +12,6 @@ import swaggerJson from '../swagger.json';
 import AppError from './errors/AppError';
 
 import './typeorm';
-import './container';
 
 const app = express();
 

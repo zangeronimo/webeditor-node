@@ -2,7 +2,6 @@ import IProductsRepository from "@domain/interfaces/mkt/IProductsRepository";
 import AppError from "@infra/errors/AppError";
 import IStorageProvider from "@infra/providers/StorageProvider/models/IStorageProvider";
 import Product from "@infra/typeorm/entities/mkt/Product";
-import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   id: string;
@@ -15,13 +14,9 @@ interface IRequest {
   companyId: string;
 }
 
-@injectable()
 class UpdateProductService {
   constructor(
-    @inject('ProductsRepository')
     private productsRepository: IProductsRepository,
-
-    @inject('StorageProvider')
     private storageProvider: IStorageProvider,
   ) { }
 

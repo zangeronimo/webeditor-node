@@ -3,7 +3,6 @@ import IRecipesRepository from '@domain/interfaces/recipe/IRecipesRepository';
 import Recipe from '@infra/typeorm/entities/recipe/Recipe';
 import { OrderBy } from '@infra/typeorm/repositories/BaseTypes';
 import { RecipeFilter } from '@infra/typeorm/repositories/recipe/RecipiesRepository';
-import { inject, injectable } from 'tsyringe';
 
 interface IRequest {
   company_id: string;
@@ -12,10 +11,8 @@ interface IRequest {
   order?: OrderBy;
 }
 
-@injectable()
 class ShowRecipeService {
   constructor(
-    @inject('RecipesRepository')
     private recipesRepository: IRecipesRepository,
   ) { }
 

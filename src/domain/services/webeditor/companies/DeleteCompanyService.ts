@@ -1,16 +1,13 @@
 import ICompaniesRepository from "@domain/interfaces/webeditor/ICompaniesRepository";
 import AppError from "@infra/errors/AppError";
 import Company from "@infra/typeorm/entities/webeditor/Company";
-import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   id: string;
 }
 
-@injectable()
 class DeleteCompanyService {
   constructor(
-    @inject('CompaniesRepository')
     private companiesRepository: ICompaniesRepository,
   ) { }
 

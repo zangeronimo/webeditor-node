@@ -1,11 +1,8 @@
 import ICategoriesRepository from '@domain/interfaces/mkt/ICategoriesRepository';
 import Category from '@infra/typeorm/entities/mkt/Category';
-import { inject, injectable } from 'tsyringe';
 
-@injectable()
 class FindByIdCategoryService {
   constructor(
-    @inject('MktCategoriesRepository')
     private categoriesRepository: ICategoriesRepository,
   ) { }
 

@@ -1,4 +1,3 @@
-import { Exclude } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -26,14 +25,12 @@ class User {
   email: string;
 
   @Column()
-  @Exclude()
   password: string;
 
   @Column()
   avatar: string;
 
   @Column({ name: 'webeditor_companies_id' })
-  @Exclude()
   companyId: string;
 
   @ManyToOne(() => Company)
@@ -45,15 +42,12 @@ class User {
   roles: Role[];
 
   @CreateDateColumn({ name: 'created_at' })
-  @Exclude()
   createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at' })
-  @Exclude()
   updatedAt: Date;
 
   @DeleteDateColumn({ name: 'deleted_at' })
-  @Exclude()
   deletedAt: Date;
 }
 

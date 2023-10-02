@@ -1,15 +1,12 @@
 import IImagesRepository from '@domain/interfaces/recipe/IImagesRepository';
 import Image from '@infra/typeorm/entities/recipe/Image';
-import { inject, injectable } from 'tsyringe';
 
 interface IRequest {
   companyId: string;
 }
 
-@injectable()
 class ShowImageService {
   constructor(
-    @inject('ImagesRepository')
     private imagesRepository: IImagesRepository,
   ) { }
 

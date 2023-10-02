@@ -1,17 +1,14 @@
 import IRatingsRepository from "@domain/interfaces/recipe/IRatingsRepository";
 import AppError from "@infra/errors/AppError";
 import Rate from "@infra/typeorm/entities/recipe/Rate";
-import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   id: string;
   companyId: string;
 }
 
-@injectable()
 class DeleteRateService {
   constructor(
-    @inject('RatingsRepository')
     private ratingsRepository: IRatingsRepository,
   ) { }
 

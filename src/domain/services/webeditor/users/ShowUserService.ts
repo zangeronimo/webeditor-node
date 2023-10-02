@@ -3,7 +3,6 @@ import IUsersRepository from '@domain/interfaces/webeditor/IUsersRepository';
 import User from '@infra/typeorm/entities/webeditor/User';
 import { OrderBy } from '@infra/typeorm/repositories/BaseTypes';
 import { UserFilter } from '@infra/typeorm/repositories/webeditor/UsersRepository';
-import { inject, injectable } from 'tsyringe';
 
 interface IRequest {
   company_id: string;
@@ -12,10 +11,8 @@ interface IRequest {
   order?: OrderBy;
 }
 
-@injectable()
 class ShowUserService {
   constructor(
-    @inject('UsersRepository')
     private usersRepository: IUsersRepository,
   ) { }
 

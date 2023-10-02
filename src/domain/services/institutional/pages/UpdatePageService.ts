@@ -2,7 +2,6 @@ import IPagesRepository from "@domain/interfaces/institutional/IPagesRepository"
 import AppError from "@infra/errors/AppError";
 import IStorageProvider from "@infra/providers/StorageProvider/models/IStorageProvider";
 import Page from "@infra/typeorm/entities/institutional/Page";
-import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   id: string;
@@ -13,13 +12,9 @@ interface IRequest {
   companyId: string;
 }
 
-@injectable()
 class UpdatePageService {
   constructor(
-    @inject('PagesRepository')
     private pagesRepository: IPagesRepository,
-
-    @inject('StorageProvider')
     private storageProvider: IStorageProvider,
   ) { }
 

@@ -4,7 +4,6 @@ import AppError from "@infra/errors/AppError";
 import IHashProvider from "@infra/providers/HashProvider/models/IHashProvider";
 import Role from "@infra/typeorm/entities/webeditor/Role";
 import User from "@infra/typeorm/entities/webeditor/User";
-import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   id: string;
@@ -13,10 +12,8 @@ interface IRequest {
   module: string;
 }
 
-@injectable()
 class UpdateRoleService {
   constructor(
-    @inject('RolesRepository')
     private rolesRepository: IRolesRepository,
   ) { }
 

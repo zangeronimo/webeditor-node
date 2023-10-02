@@ -1,7 +1,6 @@
 import ILevelsRepository from "@domain/interfaces/recipe/ILevelsRepository";
 import { slugGenerate } from "@domain/utils/slugGenerate";
 import Level from "@infra/typeorm/entities/recipe/Level";
-import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   name: string;
@@ -9,10 +8,8 @@ interface IRequest {
   companyId: string;
 }
 
-@injectable()
 class CreateLevelService {
   constructor(
-    @inject('LevelsRepository')
     private levelRepository: ILevelsRepository,
   ) { }
 

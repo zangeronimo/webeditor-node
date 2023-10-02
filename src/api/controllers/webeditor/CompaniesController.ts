@@ -7,45 +7,44 @@ import AppError from "@infra/errors/AppError";
 import { CompanyFilter } from "@infra/typeorm/repositories/webeditor/CompaniesRepository";
 import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
-import { container } from "tsyringe";
 
 export default class CompaniesController {
   public async getAll(request: Request, response: Response): Promise<Response> {
     const { name, order, page } = request.query;
 
-    const showCompanies = container.resolve(ShowCompanyService);
+    // const showCompanies = container.resolve(ShowCompanyService);
 
-    const companies = await showCompanies.execute({paginate: { page }, filter: { name } as CompanyFilter, order: order && JSON.parse(order?.toString())});
+    // const companies = await showCompanies.execute({paginate: { page }, filter: { name } as CompanyFilter, order: order && JSON.parse(order?.toString())});
 
-    return response.json(classToClass(companies));
+    return response.json(classToClass(null));
   }
   public async getById(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
 
-    const findCompany = container.resolve(FindByIdCompanyService);
-    const result = await findCompany.execute(id);
+    // const findCompany = container.resolve(FindByIdCompanyService);
+    // const result = await findCompany.execute(id);
 
-    return response.json(classToClass(result));
+    return response.json(classToClass(null));
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
     const { name, modules } = request.body;
 
-    const createCompany = container.resolve(CreateCompanyService);
+    // const createCompany = container.resolve(CreateCompanyService);
 
-    const company = await createCompany.execute({ name, modules });
+    // const company = await createCompany.execute({ name, modules });
 
-    return response.status(201).json(classToClass(company));
+    return response.status(201).json(classToClass(null));
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { id, name, modules } = request.body;
 
-    const updateCompany = container.resolve(UpdateCompanyService);
+    // const updateCompany = container.resolve(UpdateCompanyService);
 
-    const company = await updateCompany.execute({ id, name, modules });
+    // const company = await updateCompany.execute({ id, name, modules });
 
-    return response.json(classToClass(company));
+    return response.json(classToClass(null));
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
@@ -56,10 +55,10 @@ export default class CompaniesController {
       throw new AppError("You don't have permission to delete your own company");
     }
 
-    const deleteCompany = container.resolve(DeleteCompanyService);
+    // const deleteCompany = container.resolve(DeleteCompanyService);
 
-    const result = await deleteCompany.execute({ id });
+    // const result = await deleteCompany.execute({ id });
 
-    return response.json(classToClass(result));
+    return response.json(classToClass(null));
   }
 }

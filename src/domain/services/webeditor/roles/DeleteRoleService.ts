@@ -1,16 +1,13 @@
 import IRolesRepository from "@domain/interfaces/webeditor/IRolesRepository";
 import AppError from "@infra/errors/AppError";
 import Role from "@infra/typeorm/entities/webeditor/Role";
-import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   id: string;
 }
 
-@injectable()
 class DeleteRoleService {
   constructor(
-    @inject('RolesRepository')
     private rolesRepository: IRolesRepository,
   ) { }
 

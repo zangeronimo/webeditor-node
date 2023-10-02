@@ -1,11 +1,8 @@
 import IPagesRepository from '@domain/interfaces/institutional/IPagesRepository';
 import Page from '@infra/typeorm/entities/institutional/Page';
-import { inject, injectable } from 'tsyringe';
 
-@injectable()
 class FindByIdPageService {
   constructor(
-    @inject('PagesRepository')
     private pagesRepository: IPagesRepository,
   ) { }
 

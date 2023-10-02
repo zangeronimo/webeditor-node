@@ -1,17 +1,14 @@
 import IProductsRepository from "@domain/interfaces/mkt/IProductsRepository";
 import AppError from "@infra/errors/AppError";
 import Product from "@infra/typeorm/entities/mkt/Product";
-import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   id: string;
   companyId: string;
 }
 
-@injectable()
 class DeleteProductService {
   constructor(
-    @inject('ProductsRepository')
     private productsRepository: IProductsRepository,
   ) { }
 

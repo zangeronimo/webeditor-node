@@ -1,15 +1,12 @@
 import ICategoriesRepository from '@domain/interfaces/mkt/ICategoriesRepository';
 import Category from '@infra/typeorm/entities/mkt/Category';
-import { inject, injectable } from 'tsyringe';
 
 interface IRequest {
   company_id: string;
 }
 
-@injectable()
 class ShowActiveCategoriesService {
   constructor(
-    @inject('MktCategoriesRepository')
     private categoriesRepository: ICategoriesRepository,
   ) { }
 

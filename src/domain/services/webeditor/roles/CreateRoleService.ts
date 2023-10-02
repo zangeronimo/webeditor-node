@@ -1,7 +1,6 @@
 import IRolesRepository from "@domain/interfaces/webeditor/IRolesRepository";
 import AppError from "@infra/errors/AppError";
 import Role from "@infra/typeorm/entities/webeditor/Role";
-import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   name: string;
@@ -9,10 +8,8 @@ interface IRequest {
   module: { id: string };
 }
 
-@injectable()
 class CreateRoleService {
   constructor(
-    @inject('RolesRepository')
     private roleRepository: IRolesRepository,
   ) { }
 

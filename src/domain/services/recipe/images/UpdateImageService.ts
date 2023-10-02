@@ -2,7 +2,6 @@ import IImagesRepository from "@domain/interfaces/recipe/IImagesRepository";
 import AppError from "@infra/errors/AppError";
 import IStorageProvider from "@infra/providers/StorageProvider/models/IStorageProvider";
 import Image from "@infra/typeorm/entities/recipe/Image";
-import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   id: string;
@@ -12,13 +11,9 @@ interface IRequest {
   companyId: string;
 }
 
-@injectable()
 class UpdateImageService {
   constructor(
-    @inject('ImagesRepository')
     private imagesRepository: IImagesRepository,
-
-    @inject('StorageProvider')
     private storageProvider: IStorageProvider,
   ) { }
 

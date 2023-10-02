@@ -1,6 +1,5 @@
 import IRatingsRepository from "@domain/interfaces/recipe/IRatingsRepository";
 import Rate from "@infra/typeorm/entities/recipe/Rate";
-import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   name: string;
@@ -11,10 +10,8 @@ interface IRequest {
   companyId: string;
 }
 
-@injectable()
 class CreateRateService {
   constructor(
-    @inject('RatingsRepository')
     private ratingsRepository: IRatingsRepository,
   ) { }
 

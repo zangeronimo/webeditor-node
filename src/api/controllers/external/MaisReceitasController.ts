@@ -13,7 +13,6 @@ import ShowRecipesByCategoryService from '@domain/services/recipe/recipes/web/Sh
 import { RecipeFilter } from '@infra/typeorm/repositories/recipe/RecipiesRepository';
 import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
-import { container } from "tsyringe";
 import ShowProductBySlugService from '@domain/services/mkt/products/web/ShowProductBySlugService';
 
 export default class MaisReceitasController {
@@ -22,133 +21,133 @@ export default class MaisReceitasController {
     const { id } = request.params;
     const { company } = request.headers as { company: string };
 
-    const findPage = container.resolve(FindByIdPageService);
-    const result = await findPage.execute(id, company);
+    // const findPage = container.resolve(FindByIdPageService);
+    // const result = await findPage.execute(id, company);
 
-    return response.json(classToClass(result));
+    return response.json(classToClass(null));
   }
 
   public async getLevels(request: Request, response: Response): Promise<Response> {
     const { company } = request.headers as { company: string };
 
-    const levels = container.resolve(ShowActiveLevelService);
-    const result = await levels.execute({company_id: company});
+    // const levels = container.resolve(ShowActiveLevelService);
+    // const result = await levels.execute({company_id: company});
 
-    return response.json(classToClass(result));
+    return response.json(classToClass(null));
   }
 
   public async getCategoryBySlug(request: Request, response: Response): Promise<Response> {
     const { level, slug } = request.params as { level: string, slug: string };
     const { company } = request.headers as { company: string };
 
-    const category = container.resolve(ShowCategoryBySlugService);
-    const result = await category.execute({company_id: company, level, slug});
+    // const category = container.resolve(ShowCategoryBySlugService);
+    // const result = await category.execute({company_id: company, level, slug});
 
-    return response.json(classToClass(result));
+    return response.json(classToClass(null));
   }
 
   public async getCategories(request: Request, response: Response): Promise<Response> {
     const { company } = request.headers as { company: string };
 
-    const categories = container.resolve(ShowActiveCategoriesService);
-    const result = await categories.execute({company_id: company});
+    // const categories = container.resolve(ShowActiveCategoriesService);
+    // const result = await categories.execute({company_id: company});
 
-    return response.json(classToClass(result));
+    return response.json(classToClass(null));
   }
 
   public async getRecipes(request: Request, response: Response): Promise<Response> {
     const { name, slug, categoryId, active, order, page, perPage } = request.query;
     const { company } = request.headers as { company: string };
 
-    const showRecipes = container.resolve(ShowRecipeService);
+    // const showRecipes = container.resolve(ShowRecipeService);
 
-    const recipes = await showRecipes.execute({company_id: company, paginate: { page, perPage }, filter: { slug, name, categoryId, active } as RecipeFilter, order: order && JSON.parse(order?.toString())});
+    // const recipes = await showRecipes.execute({company_id: company, paginate: { page, perPage }, filter: { slug, name, categoryId, active } as RecipeFilter, order: order && JSON.parse(order?.toString())});
 
-    return response.json(classToClass(recipes));
+    return response.json(classToClass(null));
   }
 
   public async getRecipeBySlug(request: Request, response: Response): Promise<Response> {
     const { slug } = request.params as { slug: string };
     const { company } = request.headers as { company: string };
 
-    const showRecipe = container.resolve(ShowRecipeBySlugService);
+    // const showRecipe = container.resolve(ShowRecipeBySlugService);
 
-    const recipe = await showRecipe.execute({company_id: company, slug});
+    // const recipe = await showRecipe.execute({company_id: company, slug});
 
-    return response.json(classToClass(recipe));
+    return response.json(classToClass(null));
   }
 
   public async getRecipesByCategory(request: Request, response: Response): Promise<Response> {
     const { category } = request.params as { category: string };
     const { company } = request.headers as { company: string };
 
-    const showRecipes = container.resolve(ShowRecipesByCategoryService);
+    // const showRecipes = container.resolve(ShowRecipesByCategoryService);
 
-    const recipes = await showRecipes.execute({company_id: company, category_id: category});
+    // const recipes = await showRecipes.execute({company_id: company, category_id: category});
 
-    return response.json(classToClass(recipes));
+    return response.json(classToClass(null));
   }
 
   public async getImgRecipes(request: Request, response: Response): Promise<Response> {
     const { name, limit } = request.query as { name: string, limit: string };
     const { company } = request.headers as { company: string };
 
-    const showRecipes = container.resolve(ShowImgRecipeService);
-    const totalLimit = limit ? +limit : 10;
+    // const showRecipes = container.resolve(ShowImgRecipeService);
+    // const totalLimit = limit ? +limit : 10;
 
-    const recipes = await showRecipes.execute({company_id: company, limit: totalLimit, name });
+    // const recipes = await showRecipes.execute({company_id: company, limit: totalLimit, name });
 
-    return response.json(classToClass(recipes));
+    return response.json(classToClass(null));
   }
 
   public async getImgRecipesByCategory(request: Request, response: Response): Promise<Response> {
     const { category } = request.params as { category: string };
     const { company } = request.headers as { company: string };
 
-    const showRecipes = container.resolve(ShowCategoryImgRecipesService);
-    const recipes = await showRecipes.execute({company_id: company, category_id: category });
+    // const showRecipes = container.resolve(ShowCategoryImgRecipesService);
+    // const recipes = await showRecipes.execute({company_id: company, category_id: category });
 
-    return response.json(classToClass(recipes));
+    return response.json(classToClass(null));
   }
 
   public async getAllRatingsActiveByRecipe(request: Request, response: Response): Promise<Response> {
     const { recipe } = request.params as { recipe: string };
     const { company } = request.headers as { company: string };
 
-    const showRatings = container.resolve(ShowAllRatingsActiveByRecipeService);
+    // const showRatings = container.resolve(ShowAllRatingsActiveByRecipeService);
 
-    const ratings = await showRatings.execute(recipe, company);
+    // const ratings = await showRatings.execute(recipe, company);
 
-    return response.json(classToClass(ratings));
+    return response.json(classToClass(null));
   }
 
   public async addRate(request: Request, response: Response): Promise<Response> {
     const { company } = request.headers as { company: string };
     const { name, rate, comment, recipeId } = request.body;
 
-    const createRate = container.resolve(CreateRateService);
+    // const createRate = container.resolve(CreateRateService);
 
-    const rateCreated = await createRate.execute({ name, rate, comment, active: 2, recipeId, companyId: company });
+    // const rateCreated = await createRate.execute({ name, rate, comment, active: 2, recipeId, companyId: company });
 
-    return response.status(201).json(classToClass(rateCreated));
+    return response.status(201).json(classToClass(null));
   }
 
   public async getMktCategories(request: Request, response: Response): Promise<Response> {
     const { company } = request.headers as { company: string };
 
-    const categories = container.resolve(ShowActiveMktCategoriesService);
-    const result = await categories.execute({company_id: company});
+    // const categories = container.resolve(ShowActiveMktCategoriesService);
+    // const result = await categories.execute({company_id: company});
 
-    return response.json(classToClass(result));
+    return response.json(classToClass(null));
   }
 
   public async getProductBySlug(request: Request, response: Response): Promise<Response> {
     const { slug } = request.params as { slug: string };
     const { company } = request.headers as { company: string };
 
-    const showProduct = container.resolve(ShowProductBySlugService);
-    const product = await showProduct.execute({company_id: company, slug});
+    // const showProduct = container.resolve(ShowProductBySlugService);
+    // const product = await showProduct.execute({company_id: company, slug});
 
-    return response.json(classToClass(product));
+    return response.json(classToClass(null));
   }
 }

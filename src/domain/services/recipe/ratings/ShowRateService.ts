@@ -3,7 +3,6 @@ import IRatingsRepository from '@domain/interfaces/recipe/IRatingsRepository';
 import Rate from '@infra/typeorm/entities/recipe/Rate';
 import { OrderBy } from '@infra/typeorm/repositories/BaseTypes';
 import { RateFilter } from '@infra/typeorm/repositories/recipe/RatingsRepository';
-import { inject, injectable } from 'tsyringe';
 
 interface IRequest {
   company_id: string;
@@ -12,10 +11,8 @@ interface IRequest {
   order?: OrderBy;
 }
 
-@injectable()
 class ShowRateService {
   constructor(
-    @inject('RatingsRepository')
     private ratingsRepository: IRatingsRepository,
   ) { }
 

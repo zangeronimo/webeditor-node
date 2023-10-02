@@ -1,17 +1,14 @@
 import IImagesRepository from "@domain/interfaces/recipe/IImagesRepository";
 import AppError from "@infra/errors/AppError";
 import Image from "@infra/typeorm/entities/recipe/Image";
-import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   id: string;
   companyId: string;
 }
 
-@injectable()
 class DeleteImageService {
   constructor(
-    @inject('ImagesRepository')
     private imagesRepository: IImagesRepository,
   ) { }
 

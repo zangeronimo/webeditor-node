@@ -1,7 +1,6 @@
 import ICategoriesRepository from "@domain/interfaces/mkt/ICategoriesRepository";
 import { slugGenerate } from "@domain/utils/slugGenerate";
 import Category from "@infra/typeorm/entities/mkt/Category";
-import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   name: string;
@@ -9,10 +8,8 @@ interface IRequest {
   companyId: string;
 }
 
-@injectable()
 class CreateCategoryService {
   constructor(
-    @inject('MktCategoriesRepository')
     private categoryRepository: ICategoriesRepository,
   ) { }
 

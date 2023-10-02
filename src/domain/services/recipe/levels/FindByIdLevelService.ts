@@ -1,11 +1,8 @@
 import ILevelsRepository from '@domain/interfaces/recipe/ILevelsRepository';
 import Level from '@infra/typeorm/entities/recipe/Level';
-import { inject, injectable } from 'tsyringe';
 
-@injectable()
 class FindByIdLevelService {
   constructor(
-    @inject('LevelsRepository')
     private levelsRepository: ILevelsRepository,
   ) { }
 

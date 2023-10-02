@@ -3,7 +3,6 @@ import ILevelsRepository from '@domain/interfaces/recipe/ILevelsRepository';
 import Level from '@infra/typeorm/entities/recipe/Level';
 import { OrderBy } from '@infra/typeorm/repositories/BaseTypes';
 import { LevelFilter } from '@infra/typeorm/repositories/recipe/LevelsRepository';
-import { inject, injectable } from 'tsyringe';
 
 interface IRequest {
   company_id: string;
@@ -12,10 +11,8 @@ interface IRequest {
   order?: OrderBy;
 }
 
-@injectable()
 class ShowLevelService {
   constructor(
-    @inject('LevelsRepository')
     private levelsRepository: ILevelsRepository,
   ) { }
 

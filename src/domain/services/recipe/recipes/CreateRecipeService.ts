@@ -4,7 +4,6 @@ import { slugGenerate } from "@domain/utils/slugGenerate";
 import AppError from "@infra/errors/AppError";
 import IStorageProvider from "@infra/providers/StorageProvider/models/IStorageProvider";
 import Recipe from "@infra/typeorm/entities/recipe/Recipe";
-import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   file: string;
@@ -16,16 +15,10 @@ interface IRequest {
   companyId: string;
 }
 
-@injectable()
 class CreateRecipeService {
   constructor(
-    @inject('RecipesRepository')
     private recipesRepository: IRecipesRepository,
-
-    @inject('ImagesRepository')
     private imagesRepository: IImagesRepository,
-
-    @inject('StorageProvider')
     private storageProvider: IStorageProvider,
   ) { }
 

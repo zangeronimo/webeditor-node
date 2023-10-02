@@ -1,17 +1,14 @@
 import IPagesRepository from "@domain/interfaces/institutional/IPagesRepository";
 import AppError from "@infra/errors/AppError";
 import Page from "@infra/typeorm/entities/institutional/Page";
-import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   id: string;
   companyId: string;
 }
 
-@injectable()
 class DeletePageService {
   constructor(
-    @inject('PagesRepository')
     private pagesRepository: IPagesRepository,
   ) { }
 

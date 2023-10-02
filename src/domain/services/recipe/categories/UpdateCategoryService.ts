@@ -1,7 +1,6 @@
 import ICategoriesRepository from "@domain/interfaces/recipe/ICategoriesRepository";
 import AppError from "@infra/errors/AppError";
 import Category from "@infra/typeorm/entities/recipe/Category";
-import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   id: string;
@@ -11,10 +10,8 @@ interface IRequest {
   companyId: string;
 }
 
-@injectable()
 class UpdateCategoryService {
   constructor(
-    @inject('CategoriesRepository')
     private categoriesRepository: ICategoriesRepository,
   ) { }
 

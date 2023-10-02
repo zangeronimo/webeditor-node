@@ -2,7 +2,6 @@ import ICategoriesRepository from '@domain/interfaces/recipe/ICategoriesReposito
 import ILevelsRepository from '@domain/interfaces/recipe/ILevelsRepository';
 import AppError from '@infra/errors/AppError';
 import Category from '@infra/typeorm/entities/recipe/Category';
-import { inject, injectable } from 'tsyringe';
 
 interface IRequest {
   company_id: string;
@@ -10,13 +9,9 @@ interface IRequest {
   slug: string;
 }
 
-@injectable()
 class ShowCategoryBySlug {
   constructor(
-    @inject('CategoriesRepository')
     private categoriesRepository: ICategoriesRepository,
-
-    @inject('LevelsRepository')
     private levelsRepository: ILevelsRepository,
   ) { }
 

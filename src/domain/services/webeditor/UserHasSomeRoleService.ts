@@ -1,5 +1,4 @@
 import IUsersRepository from '@domain/interfaces/webeditor/IUsersRepository';
-import { inject, injectable } from 'tsyringe';
 
 interface IRequest {
   id: string;
@@ -7,10 +6,8 @@ interface IRequest {
   roles: string[];
 }
 
-@injectable()
 class UserHasSomeRoleService {
   constructor(
-    @inject('UsersRepository')
     private usersRepository: IUsersRepository,
   ) { }
 

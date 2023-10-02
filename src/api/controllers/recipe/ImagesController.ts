@@ -4,49 +4,48 @@ import ShowImageService from "@domain/services/recipe/images/ShowImageService";
 import UpdateImageService from "@domain/services/recipe/images/UpdateImageService";
 import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
-import { container } from "tsyringe";
 
 export default class ImagesController {
   public async getAll(request: Request, response: Response): Promise<Response> {
     const { company } = request.user;
 
-    const showImages = container.resolve(ShowImageService);
+    // const showImages = container.resolve(ShowImageService);
 
-    const images = await showImages.execute({ companyId: company });
+    // const images = await showImages.execute({ companyId: company });
 
-    return response.json(classToClass(images));
+    return response.json(classToClass(null));
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
     const { company } = request.user;
     const { file, active, recipeId } = request.body;
 
-    const createImage = container.resolve(CreateImageService);
+    // const createImage = container.resolve(CreateImageService);
 
-    const image = await createImage.execute({ file, active: active ?? 0, recipeId, companyId: company });
+    // const image = await createImage.execute({ file, active: active ?? 0, recipeId, companyId: company });
 
-    return response.status(201).json(classToClass(image));
+    return response.status(201).json(classToClass(null));
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { company } = request.user;
     const { id, file,  active, recipeId } = request.body;
 
-    const updateImage = container.resolve(UpdateImageService);
+    // const updateImage = container.resolve(UpdateImageService);
 
-    const image = await updateImage.execute({ id, file, active, recipeId, companyId: company });
+    // const image = await updateImage.execute({ id, file, active, recipeId, companyId: company });
 
-    return response.json(classToClass(image));
+    return response.json(classToClass(null));
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
     const { company } = request.user;
     const { id } = request.params;
 
-    const deleteImage = container.resolve(DeleteImageService);
+    // const deleteImage = container.resolve(DeleteImageService);
 
-    const image = await deleteImage.execute({ id, companyId: company });
+    // const image = await deleteImage.execute({ id, companyId: company });
 
-    return response.json(classToClass(image));
+    return response.json(classToClass(null));
   }
 }

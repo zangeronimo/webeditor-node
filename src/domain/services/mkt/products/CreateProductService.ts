@@ -3,7 +3,6 @@ import { slugGenerate } from "@domain/utils/slugGenerate";
 import AppError from "@infra/errors/AppError";
 import IStorageProvider from "@infra/providers/StorageProvider/models/IStorageProvider";
 import Product from "@infra/typeorm/entities/mkt/Product";
-import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   file: string;
@@ -15,13 +14,9 @@ interface IRequest {
   companyId: string;
 }
 
-@injectable()
 class CreateProductService {
   constructor(
-    @inject('ProductsRepository')
     private productsRepository: IProductsRepository,
-
-    @inject('StorageProvider')
     private storageProvider: IStorageProvider,
   ) { }
 
