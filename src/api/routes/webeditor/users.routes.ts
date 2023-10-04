@@ -11,6 +11,7 @@ import { celebrate, Segments, Joi } from 'celebrate';
 import CreateUserService from '@domain/services/webeditor/users/CreateUserService';
 import IHashProvider from '@infra/providers/HashProvider/models/IHashProvider';
 import UpdateUserService from '@domain/services/webeditor/users/UpdateUserService';
+import DeleteUserService from '@domain/services/webeditor/users/DeleteUserService';
 
 export class UserRoutes {
   static Create(userRepository: IUsersRepository, hashProvider: IHashProvider) {
@@ -20,7 +21,8 @@ export class UserRoutes {
     const findUserService = new FindByIdUserService(userRepository);
     const createUserService = new CreateUserService(userRepository, hashProvider);
     const updateUserService = new UpdateUserService(userRepository, hashProvider)
-    const usersController = new UsersController(showUserService, findUserService, createUserService, updateUserService);
+    const deleteUserService = new DeleteUserService(userRepository)
+    const usersController = new UsersController(showUserService, findUserService, createUserService, updateUserService, deleteUserService);
 
     usersRouter.get('/', ensureAuthenticated, hasPermission(userHasRoleService, 'WEBEDITORUSER_VIEW'), usersController.getAll);
     usersRouter.get('/:id', ensureAuthenticated, hasPermission(userHasRoleService, 'WEBEDITORUSER_VIEW'), usersController.getById);
@@ -43,11 +45,7 @@ export class UserRoutes {
         roles: Joi.array(),
       }
     }), ensureAuthenticated, hasPermission(userHasRoleService, 'WEBEDITORUSER_ALTER'), usersController.update);
-
+    usersRouter.delete('/:id', ensureAuthenticated, hasPermission(userHasRoleService, 'WEBEDITORUSER_DELETE'), usersController.delete);
     return usersRouter;
   }
 }
-
-// usersRouter.delete('/:id', ensureAuthenticated, hasPermission('WEBEDITORUSER_DELETE'), usersController.delete);
-
-// export default usersRouter;

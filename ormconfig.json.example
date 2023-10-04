@@ -7,6 +7,7 @@
     "username": "webeditor",
     "password": "virtual",
     "database": "webeditor_node",
+    "logging": false,
     "entities": [
       "./src/infra/typeorm/entities/**/*.ts"
     ],

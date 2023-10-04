@@ -1,4 +1,5 @@
 import { ICreateUserService } from "@domain/interfaces/services/webeditor/ICreateUserService";
+import { IDeleteUserService } from "@domain/interfaces/services/webeditor/IDeleteUserService";
 import { IFindUserByIdService } from "@domain/interfaces/services/webeditor/IFindUserByIdService";
 import { IShowUsersService } from "@domain/interfaces/services/webeditor/IShowUsersService";
 import { IUpdateUserService } from "@domain/interfaces/services/webeditor/IUpdateUserService";
@@ -12,7 +13,8 @@ export class UsersController {
     readonly showUsersService: IShowUsersService, 
     readonly findUserService: IFindUserByIdService,
     readonly createUserService: ICreateUserService,
-    readonly updateUserService: IUpdateUserService) { }
+    readonly updateUserService: IUpdateUserService,
+    readonly deleteUserService: IDeleteUserService) { }
 
   public getAll = async(request: Request, response: Response): Promise<Response> => {
     const { name, order, page } = request.query;
@@ -42,18 +44,14 @@ export class UsersController {
     return response.json(classToClass(user));
   }
 
-  public async delete(request: Request, response: Response): Promise<Response> {
+  public delete = async(request: Request, response: Response): Promise<Response> => {
     const { id: userId, company } = request.user;
     const { id } = request.params;
 
     if (id === userId) {
       throw new AppError("You don't have permission to delete yourself");
     }
-
-    // const deleteUser = container.resolve(DeleteUserService);
-
-    // const user = await deleteUser.execute({ id, company });
-
-    return response.json(classToClass(null));
+    const user = await this.deleteUserService.execute(id, company);
+    return response.json(classToClass(user));
   }
 }
