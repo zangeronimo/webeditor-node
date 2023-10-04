@@ -1,14 +1,15 @@
 import { Request, Response } from "express";
 
-import AuthenticateUserService from "@domain/services/webeditor/AuthenticateUserService";
+import { IAuthenticateUserService } from "@domain/interfaces/services/webeditor/IAuthenticateUserService";
+import { AuthenticateUserModel } from "@domain/models/webeditor/AuthenticateUserModel";
 
-export default class SessionsController {
-  public async create(request: Request, response: Response): Promise<Response> {
+export class SessionsController {
+  constructor(readonly authenticateUserService: IAuthenticateUserService) { }
+
+  public create = async(request: Request, response: Response): Promise<Response> => {
     const { email, password } = request.body;
-    // const authenticateUser = container.resolve(AuthenticateUserService);
+    const token = await this.authenticateUserService.execute(new AuthenticateUserModel(email, password));
 
-    // const { token } = await authenticateUser.execute({ email, password });
-
-    return response.json({ token: '' });
+    return response.json(token);
   }
 }

@@ -1,3 +1,7 @@
 import { createConnections } from 'typeorm';
 
-createConnections();
+export class TypeOrm {
+    public static async Connect() {
+        return await createConnections();
+    } 
+}

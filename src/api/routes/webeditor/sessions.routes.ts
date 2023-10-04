@@ -1,20 +1,30 @@
+import { Joi, Segments, celebrate } from "celebrate";
 import { Router } from "express";
-import { celebrate, Segments, Joi } from "celebrate";
 
-import SessionsController from "@api/controllers/webeditor/SessionsController";
+import { SessionsController } from "@api/controllers/webeditor/SessionsController";
+import IUsersRepository from "@domain/interfaces/webeditor/IUsersRepository";
+import AuthenticateUserService from "@domain/services/webeditor/AuthenticateUserService";
+import IHashProvider from "@infra/providers/HashProvider/models/IHashProvider";
 
-const sessionsRouter = Router();
-const sessionsController = new SessionsController();
+export class SessionRoutes {
+  static Create(hashProvider: IHashProvider, userRepository: IUsersRepository) {    
+    const sessionsRouter = Router();
+    const authenticateUserService = new AuthenticateUserService(userRepository, hashProvider);
+    const sessionsController = new SessionsController(authenticateUserService);
 
-sessionsRouter.post(
-  '/',
-  celebrate({
-    [Segments.BODY]: {
-      email: Joi.string().email().required(),
-      password: Joi.string().required(),
-    }
-  }),
-  sessionsController.create
-);
+    sessionsRouter.post(
+      '/',
+      celebrate({
+        [Segments.BODY]: {
+          email: Joi.string().email().required(),
+          password: Joi.string().required(),
+        }
+      }),
+      sessionsController.create
+    );
 
-export default sessionsRouter;
+    return sessionsRouter;
+  }
+}
+
+

@@ -1,43 +1,36 @@
-import CreateUserService from "@domain/services/webeditor/users/CreateUserService";
-import DeleteUserService from "@domain/services/webeditor/users/DeleteUserService";
-import FindByIdUserService from "@domain/services/webeditor/users/FindByIdUserService";
-import ShowUsersService from "@domain/services/webeditor/users/ShowUserService";
-import UpdateUserService from "@domain/services/webeditor/users/UpdateUserService";
+import { ICreateUserService } from "@domain/interfaces/services/webeditor/ICreateUserService";
+import { IFindUserByIdService } from "@domain/interfaces/services/webeditor/IFindUserByIdService";
+import { IShowUsersService } from "@domain/interfaces/services/webeditor/IShowUsersService";
 import AppError from "@infra/errors/AppError";
 import { UserFilter } from "@infra/typeorm/repositories/webeditor/UsersRepository";
 import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
 
-export default class UsersController {
-  public async getAll(request: Request, response: Response): Promise<Response> {
+export class UsersController {
+  constructor(
+    readonly showUsersService: IShowUsersService, 
+    readonly findUserService: IFindUserByIdService,
+    readonly createUserService: ICreateUserService) { }
+
+  public getAll = async(request: Request, response: Response): Promise<Response> => {
     const { name, order, page } = request.query;
     const { user } = request;
-
-    // const showUsers = container.resolve(ShowUsersService);
-    // const users = await showUsers.execute({company_id: user.company, paginate: { page }, filter: { name } as UserFilter, order: order && JSON.parse(order?.toString())});
-
-    return response.json(classToClass(null));
+    const users = await this.showUsersService.execute({companyId: user.company, paginate: { page }, filter: { name } as UserFilter, order: order && JSON.parse(order?.toString())});
+    return response.json(classToClass(users));
   }
 
-  public async getById(request: Request, response: Response): Promise<Response> {
+  public getById = async(request: Request, response: Response): Promise<Response> => {
     const { user } = request;
     const { id } = request.params;
-
-    // const getUser = container.resolve(FindByIdUserService);
-    // const result = await getUser.execute(id, user.company);
-
-    return response.json(classToClass(null))
+    const result = await this.findUserService.execute(id, user.company);
+    return response.json(classToClass(result))
   }
 
-  public async create(request: Request, response: Response): Promise<Response> {
+  public create = async(request: Request, response: Response): Promise<Response> => {
     const { company } = request.user;
     const { name, email, password, roles } = request.body;
-
-    // const createUser = container.resolve(CreateUserService);
-
-    // const user = await createUser.execute({ name, email, password, companyId: company, roles });
-
-    return response.status(201).json(classToClass(null));
+    const user = await this.createUserService.execute({ name, email, password, companyId: company, roles });
+    return response.status(201).json(classToClass(user));
   }
 
   public async update(request: Request, response: Response): Promise<Response> {

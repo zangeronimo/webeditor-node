@@ -5,7 +5,7 @@ import { UserFilter } from "@infra/typeorm/repositories/webeditor/UsersRepositor
 import { IPaginationResponse } from "../Base";
 
 export default interface IUsersRepository {
-  findAll(company_id: string, paginate: any, filter: UserFilter, order: OrderBy): Promise<IPaginationResponse<User>>;
+  findAll(company_id: string, paginate: any, filter?: UserFilter, order?: OrderBy): Promise<IPaginationResponse<User>>;
   findById(id: string, company_id: string): Promise<User | undefined>;
   findByEmail(email: string): Promise<User | undefined>;
   create(data: ICreateUserDTO): Promise<User>;

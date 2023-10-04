@@ -1,18 +1,14 @@
+import { IUserHasRoleService } from '@domain/interfaces/services/webeditor/IUserHasRoleService';
 import IUsersRepository from '@domain/interfaces/webeditor/IUsersRepository';
+import { UserHasRoleModel } from '@domain/models/webeditor/UserHasRoleModel';
 
-interface IRequest {
-  id: string;
-  company_id: string;
-  role: string;
-}
-
-class UserHasRoleService {
+class UserHasRoleService implements IUserHasRoleService {
   constructor(
     private usersRepository: IUsersRepository,
   ) { }
 
-  public async execute({ id, company_id, role }: IRequest): Promise<Boolean> {
-    const user = await this.usersRepository.findById(id, company_id);
+  public async execute({ id, companyId, role }: UserHasRoleModel): Promise<boolean> {
+    const user = await this.usersRepository.findById(id, companyId);
 
     if (!user) return false;
 

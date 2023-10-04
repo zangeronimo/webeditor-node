@@ -1,33 +1,21 @@
 import IUsersRepository from '@domain/interfaces/webeditor/IUsersRepository';
 import AppError from '@infra/errors/AppError';
-import { inject, injectable } from 'tsyringe';
 
 import authConfig from '@api/config/auth';
 import { sign } from 'jsonwebtoken';
 import IHashProvider from '@infra/providers/HashProvider/models/IHashProvider';
+import { IAuthenticateUserService } from '@domain/interfaces/services/webeditor/IAuthenticateUserService';
+import { AuthenticateUserModel } from '@domain/models/webeditor/AuthenticateUserModel';
+import { AuthenticateUserDto } from '@domain/dtos/webeditor/AuthenticateUserDto';
 
-interface IRequest {
-  email: string;
-  password: string;
-}
-
-interface IResponse {
-  token: string;
-}
-
-@injectable()
-class AuthenticateUserService {
+class AuthenticateUserService implements IAuthenticateUserService {
   constructor(
-    @inject('UsersRepository')
     private usersRepository: IUsersRepository,
-
-    @inject('HashProvider')
     private hashProvider: IHashProvider,
   ) { }
 
-  public async execute({ email, password }: IRequest): Promise<IResponse> {
+  public async execute({ email, password }: AuthenticateUserModel): Promise<AuthenticateUserDto> {
     const user = await this.usersRepository.findByEmail(email);
-
     if (!user) {
       throw new AppError('Incorrect email/password combination.', 401);
     }
@@ -47,7 +35,7 @@ class AuthenticateUserService {
       subject: user.id,
       expiresIn,
     });
-    return { token };
+    return new AuthenticateUserDto(token);
   }
 }
 
