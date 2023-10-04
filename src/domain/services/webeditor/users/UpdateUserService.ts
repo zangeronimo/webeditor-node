@@ -1,28 +1,20 @@
+import { IUpdateUserService } from "@domain/interfaces/services/webeditor/IUpdateUserService";
 import IUsersRepository from "@domain/interfaces/webeditor/IUsersRepository";
+import { UpdateUserModel } from "@domain/models/webeditor/UpdateUserModel";
 import AppError from "@infra/errors/AppError";
 import IHashProvider from "@infra/providers/HashProvider/models/IHashProvider";
 import Role from "@infra/typeorm/entities/webeditor/Role";
 import User from "@infra/typeorm/entities/webeditor/User";
-
-interface IRequest {
-  id: string;
-  name: string;
-  email: string;
-  password?: string;
-  company: string;
-  roles?: Role[];
-}
-
-class UpdateUserService {
+class UpdateUserService implements IUpdateUserService{
   constructor(
     private usersRepository: IUsersRepository,
     private hashProvider: IHashProvider,
   ) { }
 
-  public async execute(model: IRequest): Promise<User> {
-    const user = await this.usersRepository.findById(model.id, model.company);
+  public async execute(model: UpdateUserModel): Promise<User> {
+    const user = await this.usersRepository.findById(model.id, model.companyId);
 
-    if (!user || user.companyId !== model.company) {
+    if (!user || user.companyId !== model.companyId) {
       throw new AppError('User not found');
     }
 
@@ -34,7 +26,6 @@ class UpdateUserService {
 
     user.name = model.name;
     user.email = model.email;
-
     user.roles = model.roles ?? [];
 
     if (model.password) {

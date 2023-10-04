@@ -1,6 +1,7 @@
 import { ICreateUserService } from "@domain/interfaces/services/webeditor/ICreateUserService";
 import { IFindUserByIdService } from "@domain/interfaces/services/webeditor/IFindUserByIdService";
 import { IShowUsersService } from "@domain/interfaces/services/webeditor/IShowUsersService";
+import { IUpdateUserService } from "@domain/interfaces/services/webeditor/IUpdateUserService";
 import AppError from "@infra/errors/AppError";
 import { UserFilter } from "@infra/typeorm/repositories/webeditor/UsersRepository";
 import { classToClass } from "class-transformer";
@@ -10,7 +11,8 @@ export class UsersController {
   constructor(
     readonly showUsersService: IShowUsersService, 
     readonly findUserService: IFindUserByIdService,
-    readonly createUserService: ICreateUserService) { }
+    readonly createUserService: ICreateUserService,
+    readonly updateUserService: IUpdateUserService) { }
 
   public getAll = async(request: Request, response: Response): Promise<Response> => {
     const { name, order, page } = request.query;
@@ -33,15 +35,11 @@ export class UsersController {
     return response.status(201).json(classToClass(user));
   }
 
-  public async update(request: Request, response: Response): Promise<Response> {
+  public update = async(request: Request, response: Response): Promise<Response> => {
     const { company } = request.user;
     const { id, name, email, password, roles } = request.body;
-
-    // const updateUser = container.resolve(UpdateUserService);
-
-    // const user = await updateUser.execute({ id, name, email, password, company, roles });
-
-    return response.json(classToClass(null));
+    const user = await this.updateUserService.execute({ id, name, email, password, companyId: company, roles });
+    return response.json(classToClass(user));
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {

@@ -32,12 +32,12 @@ class UsersRepository implements IUsersRepository {
       builder.andWhere("unaccent(lower(users.email)) LIKE unaccent(:s2)", {s2: `%${filter.email.toLowerCase()}%`})
 
     builder.orderBy(`users.${order.field}`, order.order);
-
-    const { page = 1, perPage = 20 } = paginate;
+    let { page = 1, perPage = 20 } = paginate;
+    page = page === "0" ? 1 : page
     const total = await builder.getCount();
-
-    builder.offset((page - 1) * perPage).limit(perPage);
-    return { data: await builder.getMany(), total };
+    builder.take(perPage).skip((page - 1) * perPage);
+    const users = await builder.getMany()
+    return { data: users, total };
   }
 
   public async findById(id: string, companyId: string): Promise<User | undefined> {
